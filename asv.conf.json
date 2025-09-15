@@ -2,7 +2,7 @@
   "version": 1,
   "project": "newton",
   "project_url": "https://github.com/newton-physics/newton",
-  "repo": ".",
+  "repo": "https://github.com/newton-physics/newton",
   "branches": ["main"],
   "dvcs": "git",
   "environment_type": "virtualenv",
