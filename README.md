@@ -1,3 +1,5 @@
+[![Publish ASV Dashboard](https://github.com/newton-physics/newton-asv/actions/workflows/asv-gh-pages.yml/badge.svg)](https://github.com/newton-physics/newton-asv/actions/workflows/asv-gh-pages.yml)
+
 # Newton Benchmarks Dashboard
 
 This repository aggregates and publishes the benchmark results for the [Newton](https://github.com/newton-physics/newton) physics engine.
