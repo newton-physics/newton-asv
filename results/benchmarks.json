@@ -110,7 +110,7 @@
                 "256"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:120",
+        "setup_cache_key": "setup.bench_model:125",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "a7473dc081fbb914ac4fa9f1e7e5be2821d5847ec89f7cb912c05555ece87d4d"
@@ -137,7 +137,7 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:120",
+        "setup_cache_key": "setup.bench_model:125",
         "type": "time",
         "unit": "seconds",
         "version": "c443a475fe79ddf05a471ff6dd41b6902a1dca7225884afad7ab732c240e7119",
