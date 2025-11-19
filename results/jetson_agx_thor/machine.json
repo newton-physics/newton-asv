@@ -1,0 +1,10 @@
+{
+    "arch": "aarch64",
+    "cpu": "",
+    "gpu": "NVIDIA Thor",
+    "machine": "jetson_agx_thor",
+    "num_cpu": "14",
+    "os": "Ubuntu 24.04.3 LTS",
+    "ram": "122 GB",
+    "version": 1
+}
