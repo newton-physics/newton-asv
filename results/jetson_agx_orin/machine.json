@@ -2,7 +2,7 @@
     "arch": "aarch64",
     "cpu": "",
     "gpu": "Orin (nvgpu)",
-    "machine": "jetson_agx_orin",
+    "machine": "newton-benchmark-machine-074ca39a",
     "num_cpu": "8",
     "os": "Ubuntu 24.04.3 LTS",
     "ram": "61 GB",
