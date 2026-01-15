@@ -94,7 +94,7 @@
         "warmup_time": 0
     },
     "setup.bench_model.FastInitializeModel.peakmem_initialize_model_cpu": {
-        "code": "class FastInitializeModel:\n    def peakmem_initialize_model_cpu(self, robot, num_worlds):\n        gc.collect()\n    \n        with wp.ScopedDevice(\"cpu\"):\n            builder = Example.create_model_builder(robot, num_worlds, randomize=True, seed=123)\n    \n            # finalize model\n            model = builder.finalize()\n    \n        del model\n\n    def setup_cache(self):\n        # Load a small model to cache the kernels\n        builder = Example.create_model_builder(\"cartpole\", 1, randomize=False, seed=123)\n        model = builder.finalize(device=\"cpu\")\n        del model",
+        "code": "class FastInitializeModel:\n    def peakmem_initialize_model_cpu(self, robot, num_worlds):\n        gc.collect()\n    \n        with wp.ScopedDevice(\"cpu\"):\n            builder = Example.create_model_builder(robot, num_worlds, randomize=True, seed=123)\n    \n            # finalize model\n            model = builder.finalize()\n    \n        del model\n\n    def setup_cache(self):\n        # Load a small model to cache the kernels\n        for robot in self.params[0]:\n            builder = Example.create_model_builder(robot, 1, randomize=False, seed=123)\n            model = builder.finalize(device=\"cpu\")\n            del model\n            del builder",
         "name": "setup.bench_model.FastInitializeModel.peakmem_initialize_model_cpu",
         "param_names": [
             "robot",
@@ -113,10 +113,10 @@
         "setup_cache_key": "setup.bench_model:125",
         "type": "peakmemory",
         "unit": "bytes",
-        "version": "a7473dc081fbb914ac4fa9f1e7e5be2821d5847ec89f7cb912c05555ece87d4d"
+        "version": "27442c181e1ed8ac16c6cf2cdba2e06b04ed98f319b287d1c31cae587b352eb3"
     },
     "setup.bench_model.FastInitializeModel.time_initialize_model": {
-        "code": "class FastInitializeModel:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_model(self, robot, num_worlds):\n        builder = Example.create_model_builder(robot, num_worlds, randomize=True, seed=123)\n    \n        # finalize model\n        _model = builder.finalize()\n        wp.synchronize_device()\n\n    def setup_cache(self):\n        # Load a small model to cache the kernels\n        builder = Example.create_model_builder(\"cartpole\", 1, randomize=False, seed=123)\n        model = builder.finalize(device=\"cpu\")\n        del model",
+        "code": "class FastInitializeModel:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_model(self, robot, num_worlds):\n        builder = Example.create_model_builder(robot, num_worlds, randomize=True, seed=123)\n    \n        # finalize model\n        _model = builder.finalize()\n        wp.synchronize_device()\n\n    def setup_cache(self):\n        # Load a small model to cache the kernels\n        for robot in self.params[0]:\n            builder = Example.create_model_builder(robot, 1, randomize=False, seed=123)\n            model = builder.finalize(device=\"cpu\")\n            del model\n            del builder",
         "min_run_count": 1,
         "name": "setup.bench_model.FastInitializeModel.time_initialize_model",
         "number": 1,
@@ -140,7 +140,7 @@
         "setup_cache_key": "setup.bench_model:125",
         "type": "time",
         "unit": "seconds",
-        "version": "c443a475fe79ddf05a471ff6dd41b6902a1dca7225884afad7ab732c240e7119",
+        "version": "4a37efc34b9e8d64a37f778ed2f2874065a56dd0f2a0798b16e5f6cafdc4bf88",
         "warmup_time": -1
     },
     "setup.bench_model.FastInitializeSolver.time_initialize_solver": {
