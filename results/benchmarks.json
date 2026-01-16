@@ -292,6 +292,21 @@
         "version": "29d871d361f5e50619ca9ee4af8ee5f22def523c03a5aa19b0365c23ecb5dd28",
         "warmup_time": -1
     },
+    "simulation.bench_cable.FastExampleCablePile.time_simulate": {
+        "code": "class FastExampleCablePile:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        self.example = ExampleCablePile(ViewerNull(num_frames=self.num_frames))\n        wp.synchronize_device()",
+        "min_run_count": 2,
+        "name": "simulation.bench_cable.FastExampleCablePile.time_simulate",
+        "number": 1,
+        "param_names": [],
+        "params": [],
+        "repeat": 2,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "e260055b3cc91e01feb28cdb0ea0be9d4213890d0e86785a0496fe16e5001d93",
+        "warmup_time": -1
+    },
     "simulation.bench_cloth.FastExampleClothManipulation.time_simulate": {
         "code": "class FastExampleClothManipulation:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        self.example = ExampleClothManipulation(ViewerNull(num_frames=self.num_frames))",
         "min_run_count": 2,
