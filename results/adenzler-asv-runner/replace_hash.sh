@@ -11,7 +11,7 @@ BENCHMARKS["compilation.bench_example_load.SlowExampleClothTwist.time_load"]="29
 BENCHMARKS["compilation.bench_example_load.SlowExampleRobotAnymal.time_load"]="30b4e830fd859608ff412e9052e49492eb804327e44f3cbedf4183876c171021"
 BENCHMARKS["compilation.bench_example_load.SlowExampleRobotCartpole.time_load"]="71e2c9a9b0957497094f25a0b4dff3546059e17c249880ccff2c5a3dc09debf7"
 BENCHMARKS["compilation.bench_example_load.SlowExampleRobotHumanoid.time_load"]="3d838883c58af639755f7dcfa6d7b6f603f4faefa35577421e70a41be5877518"
-BENCHMARKS["setup.bench_model.FastInitializeModel.peakmem_initialize_model_cpu"]="a7473dc081fbb914ac4fa9f1e7e5be2821d5847ec89f7cb912c05555ece87d4d"
+BENCHMARKS["setup.bench_model.FastInitializeModel.peakmem_initialize_model_cpu"]="27442c181e1ed8ac16c6cf2cdba2e06b04ed98f319b287d1c31cae587b352eb3"
 BENCHMARKS["setup.bench_model.FastInitializeModel.time_initialize_model"]="c443a475fe79ddf05a471ff6dd41b6902a1dca7225884afad7ab732c240e7119"
 BENCHMARKS["setup.bench_model.FastInitializeSolver.time_initialize_solver"]="b2d1b17d4e4a010a2441d0d10b9b209c4884c57db6d16b718c8c9b5127f838a1"
 BENCHMARKS["setup.bench_model.FastInitializeViewerGL.time_initialize_renderer"]="d9add5c09316bc748c3e612cc16cbd7f095ec18b01a1b27b1ea8e239cab0b94a"
@@ -35,6 +35,8 @@ BENCHMARKS["simulation.bench_quadruped_xpbd.FastExampleQuadrupedXPBD.time_simula
 BENCHMARKS["simulation.bench_selection.FastExampleSelectionCartpoleMuJoCo.time_simulate"]="adc93f1285ec796ed3088445a10636624dd2a89b99b5c90bcbb42add8c9087df"
 BENCHMARKS["simulation.bench_viewer.FastViewerGL.time_rendering_frame"]="a7320c2bfd979f20a9efbe3c6bcb6cbe8daf027c03fbeea90667301702873854"
 BENCHMARKS["simulation.bench_viewer.KpiViewerGL.time_rendering_frame"]="9705f69f1cdc6900bdaef46555562d3ad19312423237a52028f380687c7c359d"
+BENCHMARKS["simulation.bench_sensor_tiled_camera.SensorTiledCameraBenchmark.time_rendering_pixel"]="db6e545007dff185d4d73a89ad888197bfef72cc3d7afbda2e757e18dd0c797b"
+BENCHMARKS["simulation.bench_sensor_tiled_camera.SensorTiledCameraBenchmark.time_rendering_tiled"]="89c041db2e6d633fe775ee5a3cd438c5babb643e7a99baba48227ad0f4a071cf"
 
 # Loop over benchmarks and get their hashes
 for BENCHMARK_NAME in "${!BENCHMARKS[@]}"; do
@@ -57,5 +59,6 @@ for BENCHMARK_NAME in "${!BENCHMARKS[@]}"; do
   echo ""
 
   # Find and replace in all JSON files
-  find "$DIRECTORY" -name "*.json" -type f -exec perl -i -pe "s/(\"$ESCAPED_BENCHMARK\": .*?), \"[a-f0-9]{64}\"/\$1, \"$NEW_HASH\"/" {} \;
+  find "$DIRECTORY" -name "*.json" -type f -exec perl -0777 -pi -e 's/("'"$ESCAPED_BENCHMARK"'": .*?)"[a-f0-9]{64}"/$1"'"$NEW_HASH"'"/xgs' {} \;
+  #find "$DIRECTORY" -name "*.json" -type f -exec perl -i -pe "s/(\"$ESCAPED_BENCHMARK\": .*?), \"[a-f0-9]{64}\"/\$1, \"$NEW_HASH\"/" {} \;
 done
