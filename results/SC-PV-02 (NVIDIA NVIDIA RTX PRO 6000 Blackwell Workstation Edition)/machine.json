@@ -1,0 +1,10 @@
+{
+    "arch": "x86_64",
+    "cpu": "Intel(R) Core(TM) Ultra 9 285K (24 physical cores, 24 logical)",
+    "gpu": "NVIDIA NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+    "machine": "SC-PV-02 (NVIDIA NVIDIA RTX PRO 6000 Blackwell Workstation Edition)",
+    "num_cpu": "24",
+    "os": "Linux 6.8.0-1025-oem version #25-Ubuntu SMP PREEMPT_DYNAMIC Wed Mar 26 10:41:42 UTC 2025",
+    "ram": "62GB",
+    "version": 1
+}
