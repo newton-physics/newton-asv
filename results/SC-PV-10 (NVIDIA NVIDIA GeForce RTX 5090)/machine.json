@@ -2,7 +2,7 @@
     "arch": "x86_64",
     "cpu": "Intel(R) Core(TM) Ultra 9 285K (24 physical cores, 24 logical)",
     "gpu": "NVIDIA NVIDIA GeForce RTX 5090",
-    "machine": "SC-PV-10 (NVIDIA NVIDIA GeForce RTX 5090)",
+    "machine": "newton-benchmark-machine-7581d8f4",
     "num_cpu": "24",
     "os": "Linux 6.8.0-1032-oem version #32-Ubuntu SMP PREEMPT_DYNAMIC Wed Jul 16 12:51:16 UTC 2025",
     "ram": "62GB",
