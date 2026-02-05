@@ -35,8 +35,8 @@ BENCHMARKS["simulation.bench_quadruped_xpbd.FastExampleQuadrupedXPBD.time_simula
 BENCHMARKS["simulation.bench_selection.FastExampleSelectionCartpoleMuJoCo.time_simulate"]="adc93f1285ec796ed3088445a10636624dd2a89b99b5c90bcbb42add8c9087df"
 BENCHMARKS["simulation.bench_viewer.FastViewerGL.time_rendering_frame"]="a7320c2bfd979f20a9efbe3c6bcb6cbe8daf027c03fbeea90667301702873854"
 BENCHMARKS["simulation.bench_viewer.KpiViewerGL.time_rendering_frame"]="9705f69f1cdc6900bdaef46555562d3ad19312423237a52028f380687c7c359d"
-BENCHMARKS["simulation.bench_sensor_tiled_camera.SensorTiledCameraBenchmark.time_rendering_pixel"]="db6e545007dff185d4d73a89ad888197bfef72cc3d7afbda2e757e18dd0c797b"
-BENCHMARKS["simulation.bench_sensor_tiled_camera.SensorTiledCameraBenchmark.time_rendering_tiled"]="89c041db2e6d633fe775ee5a3cd438c5babb643e7a99baba48227ad0f4a071cf"
+BENCHMARKS["simulation.bench_sensor_tiled_camera.SensorTiledCameraBenchmark.time_rendering_pixel"]="83ab77de27ef7880915a777128862adf6a05c6f4eb1f9a25d7df4bad7655a1a5"
+BENCHMARKS["simulation.bench_sensor_tiled_camera.SensorTiledCameraBenchmark.time_rendering_tiled"]="1005dd500ec5821f7496e1ad99242ce6458b5f8907e2439b0ee07b76709ce515"
 
 # Loop over benchmarks and get their hashes
 for BENCHMARK_NAME in "${!BENCHMARKS[@]}"; do
