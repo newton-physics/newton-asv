@@ -1,0 +1,9 @@
+{
+    "arch": "x86_64",
+    "cpu": "AMD EPYC-Milan Processor",
+    "machine": "adenzler-horde-L40S",
+    "num_cpu": "32",
+    "os": "Linux 5.15.0-131-generic",
+    "ram": "65836440",
+    "version": 1
+}
