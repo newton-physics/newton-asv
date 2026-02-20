@@ -338,6 +338,38 @@
         "version": "01dfa4b62b6e71ea72ece4c0c2371d26b1ba72a8ef8c94a900d8e40be3907293",
         "warmup_time": -1
     },
+    "simulation.bench_contacts.FastExampleContactHydroWorkingDefaults.time_simulate": {
+        "code": "class FastExampleContactHydroWorkingDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_hydro\",\n            ]\n        )\n        self.num_frames = 20\n        self.example = example_cls(\n            viewer=ViewerNull(num_frames=self.num_frames),\n            world_count=20,\n            num_per_world=1,\n            scene=\"nut_bolt\",\n            solver=\"mujoco\",\n            test_mode=False,\n        )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_GEARS_FOLDER)",
+        "min_run_count": 2,
+        "name": "simulation.bench_contacts.FastExampleContactHydroWorkingDefaults.time_simulate",
+        "number": 1,
+        "param_names": [],
+        "params": [],
+        "repeat": 2,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "setup_cache_key": "simulation.bench_contacts:96",
+        "type": "time",
+        "unit": "seconds",
+        "version": "6158d187b22c47fcf78118159785fc13a931bcf83dfedee595b09111099e656c",
+        "warmup_time": -1
+    },
+    "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate": {
+        "code": "class FastExampleContactSdfDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_sdf\",\n            ]\n        )\n        self.num_frames = 20\n        self.example = example_cls(\n            viewer=ViewerNull(num_frames=self.num_frames),\n            world_count=100,\n            num_per_world=1,\n            scene=\"nut_bolt\",\n            solver=\"mujoco\",\n            test_mode=False,\n        )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_GEARS_FOLDER)",
+        "min_run_count": 2,
+        "name": "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate",
+        "number": 1,
+        "param_names": [],
+        "params": [],
+        "repeat": 2,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "setup_cache_key": "simulation.bench_contacts:63",
+        "type": "time",
+        "unit": "seconds",
+        "version": "04f841929f505d5e44ada951c17e465fa460263de825dad7702c8c0e14c9d4ae",
+        "warmup_time": -1
+    },
     "simulation.bench_mujoco.FastAllegro.time_simulate": {
         "code": "class _FastBenchmark:\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        if not hasattr(self, \"builder\") or self.builder is None:\n            self.builder = Example.create_model_builder(\n                self.robot, self.world_count, randomize=self.random_init, seed=123\n            )\n    \n        self.example = Example(\n            stage_path=None,\n            robot=self.robot,\n            randomize=self.random_init,\n            headless=True,\n            actuation=\"None\",\n            use_cuda_graph=True,\n            builder=self.builder,\n            environment=self.environment,\n        )\n    \n        wp.synchronize_device()\n    \n        # Recapture the graph with control application included\n        cuda_graph_comp = wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())\n        if not cuda_graph_comp:\n            raise SkipNotImplemented\n        else:\n            state = wp.rand_init(self.example.seed)\n            with wp.ScopedCapture() as capture:\n                wp.launch(\n                    apply_random_control,\n                    dim=(self.example.model.joint_dof_count,),\n                    inputs=[state],\n                    outputs=[self.example.control.joint_target_pos],\n                )\n                self.example.simulate()\n            self.graph = capture.graph\n    \n        wp.synchronize_device()",
         "min_run_count": 2,
