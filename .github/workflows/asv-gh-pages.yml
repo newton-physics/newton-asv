@@ -28,5 +28,19 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
 
-      - name: Generate ASV gh-pages
-        run: asv gh-pages --rewrite
+      - name: Publish last month of results
+        run: asv publish '--since="1 month ago" main'
+
+      # Need to generate manually to work with the command above
+      - name: Deploy to gh-pages
+        run: |
+          mv html /tmp/asv-html
+          git fetch origin gh-pages:gh-pages || true
+          git checkout --orphan gh-pages-tmp
+          git rm -rf .
+          rm -rf newton env html results .github
+          cp -r /tmp/asv-html/* .
+          touch .nojekyll
+          git add -A
+          git commit -m "Generated from sources"
+          git push origin HEAD:gh-pages --force
