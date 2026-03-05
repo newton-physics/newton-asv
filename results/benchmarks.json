@@ -339,7 +339,7 @@
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactHydroWorkingDefaults.time_simulate": {
-        "code": "class FastExampleContactHydroWorkingDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_hydro\",\n            ]\n        )\n        self.num_frames = 20\n        self.example = example_cls(\n            viewer=ViewerNull(num_frames=self.num_frames),\n            world_count=20,\n            num_per_world=1,\n            scene=\"nut_bolt\",\n            solver=\"mujoco\",\n            test_mode=False,\n        )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_GEARS_FOLDER)",
+        "code": "class FastExampleContactHydroWorkingDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_hydro\",\n            ]\n        )\n        self.num_frames = 20\n        self.example = example_cls(\n            viewer=ViewerNull(num_frames=self.num_frames),\n            world_count=20,\n            num_per_world=1,\n            solver=\"mujoco\",\n            test_mode=False,\n        )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactHydroWorkingDefaults.time_simulate",
         "number": 1,
@@ -348,14 +348,14 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:96",
+        "setup_cache_key": "simulation.bench_contacts:93",
         "type": "time",
         "unit": "seconds",
-        "version": "6158d187b22c47fcf78118159785fc13a931bcf83dfedee595b09111099e656c",
+        "version": "1a74622ba63878668f6c5d77094f35c4f818c495bd130a965b7238c29cf63bcd",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate": {
-        "code": "class FastExampleContactSdfDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_sdf\",\n            ]\n        )\n        self.num_frames = 20\n        self.example = example_cls(\n            viewer=ViewerNull(num_frames=self.num_frames),\n            world_count=100,\n            num_per_world=1,\n            scene=\"nut_bolt\",\n            solver=\"mujoco\",\n            test_mode=False,\n        )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_GEARS_FOLDER)",
+        "code": "class FastExampleContactSdfDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_sdf\",\n            ]\n        )\n        self.num_frames = 20\n        self.example = example_cls(\n            viewer=ViewerNull(num_frames=self.num_frames),\n            world_count=100,\n            num_per_world=1,\n            solver=\"mujoco\",\n            test_mode=False,\n        )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate",
         "number": 1,
@@ -364,10 +364,10 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:63",
+        "setup_cache_key": "simulation.bench_contacts:62",
         "type": "time",
         "unit": "seconds",
-        "version": "04f841929f505d5e44ada951c17e465fa460263de825dad7702c8c0e14c9d4ae",
+        "version": "595986b659a58335575c8a3f6454199282f6beb7d6f0c68181c65c8d4da15e79",
         "warmup_time": -1
     },
     "simulation.bench_mujoco.FastAllegro.time_simulate": {
