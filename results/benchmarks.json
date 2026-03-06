@@ -278,7 +278,7 @@
         "warmup_time": -1
     },
     "simulation.bench_anymal.FastExampleAnymalPretrained.time_simulate": {
-        "code": "class FastExampleAnymalPretrained:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 50\n        self.example = Example(viewer=newton.viewer.ViewerNull(num_frames=self.num_frames))",
+        "code": "class FastExampleAnymalPretrained:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 50\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = Example(newton.viewer.ViewerNull(num_frames=self.num_frames), args)",
         "min_run_count": 2,
         "name": "simulation.bench_anymal.FastExampleAnymalPretrained.time_simulate",
         "number": 1,
@@ -289,11 +289,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "29d871d361f5e50619ca9ee4af8ee5f22def523c03a5aa19b0365c23ecb5dd28",
+        "version": "75c29742e27150b74bf2fb9266a43bc095106bfc7a54ed4028f5275c88311b78",
         "warmup_time": -1
     },
     "simulation.bench_cable.FastExampleCablePile.time_simulate": {
-        "code": "class FastExampleCablePile:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        self.example = ExampleCablePile(ViewerNull(num_frames=self.num_frames))\n        wp.synchronize_device()",
+        "code": "class FastExampleCablePile:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleCablePile(ViewerNull(num_frames=self.num_frames), args)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_cable.FastExampleCablePile.time_simulate",
         "number": 1,
@@ -304,11 +304,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "e260055b3cc91e01feb28cdb0ea0be9d4213890d0e86785a0496fe16e5001d93",
+        "version": "6bb980a7c23aac4938375cc136c10fae422fdb9204b4f94170f3a94a15e85e0b",
         "warmup_time": -1
     },
     "simulation.bench_cloth.FastExampleClothManipulation.time_simulate": {
-        "code": "class FastExampleClothManipulation:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        self.example = ExampleClothManipulation(ViewerNull(num_frames=self.num_frames))",
+        "code": "class FastExampleClothManipulation:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleClothManipulation(ViewerNull(num_frames=self.num_frames), args)",
         "min_run_count": 2,
         "name": "simulation.bench_cloth.FastExampleClothManipulation.time_simulate",
         "number": 1,
@@ -320,11 +320,11 @@
         "timeout": 300,
         "type": "time",
         "unit": "seconds",
-        "version": "b3ceadbc55945ff4c6130a4fbcec6e455edc4e3085dd62f0e02103dbd33101ad",
+        "version": "1369873c0a88c16d3821097693638b7a5a3586fdfb9a79f8664f39368d529c73",
         "warmup_time": -1
     },
     "simulation.bench_cloth.FastExampleClothTwist.time_simulate": {
-        "code": "class FastExampleClothTwist:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 100\n        self.example = ExampleClothTwist(ViewerNull(num_frames=self.num_frames))",
+        "code": "class FastExampleClothTwist:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 100\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleClothTwist(ViewerNull(num_frames=self.num_frames), args)",
         "min_run_count": 2,
         "name": "simulation.bench_cloth.FastExampleClothTwist.time_simulate",
         "number": 1,
@@ -335,11 +335,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "01dfa4b62b6e71ea72ece4c0c2371d26b1ba72a8ef8c94a900d8e40be3907293",
+        "version": "4550069ca84ba0bd50f608a46dad4a7d29ab17d08b7bed62ceea9f55e1c73ee0",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactHydroWorkingDefaults.time_simulate": {
-        "code": "class FastExampleContactHydroWorkingDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_hydro\",\n            ]\n        )\n        self.num_frames = 20\n        self.example = example_cls(\n            viewer=ViewerNull(num_frames=self.num_frames),\n            world_count=20,\n            num_per_world=1,\n            solver=\"mujoco\",\n            test_mode=False,\n        )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
+        "code": "class FastExampleContactHydroWorkingDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_hydro\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                world_count=20,\n                num_per_world=1,\n                scene=\"nut_bolt\",\n                solver=\"mujoco\",\n                test_mode=False,\n            )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactHydroWorkingDefaults.time_simulate",
         "number": 1,
@@ -348,14 +348,14 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:93",
+        "setup_cache_key": "simulation.bench_contacts:99",
         "type": "time",
         "unit": "seconds",
-        "version": "1a74622ba63878668f6c5d77094f35c4f818c495bd130a965b7238c29cf63bcd",
+        "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate": {
-        "code": "class FastExampleContactSdfDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_sdf\",\n            ]\n        )\n        self.num_frames = 20\n        self.example = example_cls(\n            viewer=ViewerNull(num_frames=self.num_frames),\n            world_count=100,\n            num_per_world=1,\n            solver=\"mujoco\",\n            test_mode=False,\n        )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
+        "code": "class FastExampleContactSdfDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_sdf\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                world_count=100,\n                num_per_world=1,\n                scene=\"nut_bolt\",\n                solver=\"mujoco\",\n                test_mode=False,\n            )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate",
         "number": 1,
@@ -364,10 +364,10 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:62",
+        "setup_cache_key": "simulation.bench_contacts:63",
         "type": "time",
         "unit": "seconds",
-        "version": "595986b659a58335575c8a3f6454199282f6beb7d6f0c68181c65c8d4da15e79",
+        "version": "75fa33f2d98e88de35f707645ccb9f5c5366ca83ed131b9f85b51bc872a30f16",
         "warmup_time": -1
     },
     "simulation.bench_mujoco.FastAllegro.time_simulate": {
@@ -584,7 +584,7 @@
         "version": "fe70e157fca3a62483a36774d09261958a0fedbf90954bc3cd3db4f230fa368d"
     },
     "simulation.bench_quadruped_xpbd.FastExampleQuadrupedXPBD.time_simulate": {
-        "code": "class FastExampleQuadrupedXPBD:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 1000\n        self.example = Example(newton.viewer.ViewerNull(num_frames=self.num_frames), 200)",
+        "code": "class FastExampleQuadrupedXPBD:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 1000\n        if hasattr(newton.examples, \"default_args\") and hasattr(Example, \"create_parser\"):\n            args = newton.examples.default_args(Example.create_parser())\n            args.world_count = 200\n            self.example = Example(newton.viewer.ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = Example(newton.viewer.ViewerNull(num_frames=self.num_frames), 200)",
         "min_run_count": 2,
         "name": "simulation.bench_quadruped_xpbd.FastExampleQuadrupedXPBD.time_simulate",
         "number": 1,
@@ -595,11 +595,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "8527e31e794cfba679aafd4d750232df62492b0b836ab15cdad57ab6c92db2dc",
+        "version": "50d0cd3276e6b4626370aa795870defa62f275117a504676f0ca58280e23d9ac",
         "warmup_time": -1
     },
     "simulation.bench_selection.FastExampleSelectionCartpoleMuJoCo.time_simulate": {
-        "code": "class FastExampleSelectionCartpoleMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 200\n        self.example = Example(\n            viewer=newton.viewer.ViewerNull(num_frames=self.num_frames), world_count=16, verbose=False\n        )",
+        "code": "class FastExampleSelectionCartpoleMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 200\n        if hasattr(newton.examples, \"default_args\") and hasattr(Example, \"create_parser\"):\n            args = newton.examples.default_args(Example.create_parser())\n            self.example = Example(newton.viewer.ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = Example(\n                viewer=newton.viewer.ViewerNull(num_frames=self.num_frames), world_count=16, verbose=False\n            )",
         "min_run_count": 2,
         "name": "simulation.bench_selection.FastExampleSelectionCartpoleMuJoCo.time_simulate",
         "number": 1,
@@ -610,7 +610,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "bf251c9421a2283e5252a8d1ad0dbd619b84bed1cb1cf7d440edc25a8dbb1b07",
+        "version": "1d5ae94d0fbd9942b54483081a9ad25b2e28122d1c6749b38c297816aa125377",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.SensorTiledCameraBenchmark.time_rendering_pixel": {
