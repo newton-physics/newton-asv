@@ -354,6 +354,21 @@
         "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
         "warmup_time": -1
     },
+    "simulation.bench_contacts.FastExampleContactPyramidDefaults.time_simulate": {
+        "code": "class FastExampleContactPyramidDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_pyramid\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                solver=\"xpbd\",\n                test_mode=False,\n            )",
+        "min_run_count": 2,
+        "name": "simulation.bench_contacts.FastExampleContactPyramidDefaults.time_simulate",
+        "number": 1,
+        "param_names": [],
+        "params": [],
+        "repeat": 2,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "5b2a5503945a50c99a14b5e5ff6eeba0b8ec8251d67bf4de83b53e82fd7b5388",
+        "warmup_time": -1
+    },
     "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate": {
         "code": "class FastExampleContactSdfDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_sdf\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                world_count=100,\n                num_per_world=1,\n                scene=\"nut_bolt\",\n                solver=\"mujoco\",\n                test_mode=False,\n            )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
