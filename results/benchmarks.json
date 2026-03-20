@@ -94,7 +94,7 @@
                 "256"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:125",
+        "setup_cache_key": "setup.bench_model:113",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "642ffc84509c186e6530cb17a6441701287ee3dac455b6d51624f5ce68535404"
@@ -121,7 +121,7 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:125",
+        "setup_cache_key": "setup.bench_model:113",
         "type": "time",
         "unit": "seconds",
         "version": "8a2f444deb1bc9001cb7014bff52e797ef385358333ee5091e02f65ee018e2a5",
@@ -332,7 +332,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:100",
+        "setup_cache_key": "simulation.bench_contacts:88",
         "type": "time",
         "unit": "seconds",
         "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
@@ -363,7 +363,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:64",
+        "setup_cache_key": "simulation.bench_contacts:52",
         "type": "time",
         "unit": "seconds",
         "version": "75fa33f2d98e88de35f707645ccb9f5c5366ca83ed131b9f85b51bc872a30f16",
