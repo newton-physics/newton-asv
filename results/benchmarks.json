@@ -277,7 +277,7 @@
         "warmup_time": -1
     },
     "simulation.bench_cable.FastExampleCablePile.time_simulate": {
-        "code": "class FastExampleCablePile:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleCablePile(ViewerNull(num_frames=self.num_frames), args)\n        wp.synchronize_device()",
+        "code": "class FastExampleCablePile:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        viewer = ViewerNull(num_frames=self.num_frames)\n        if _supports_cable_pile_size_args():\n            self.example = ExampleCablePile(viewer, args, layers=4, lanes_per_layer=10)\n        else:\n            self.example = ExampleCablePile(viewer, args)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_cable.FastExampleCablePile.time_simulate",
         "number": 1,
@@ -288,7 +288,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "6bb980a7c23aac4938375cc136c10fae422fdb9204b4f94170f3a94a15e85e0b",
+        "version": "38579de24aa1852dd217c842dc29042fe4671b747fb616437af39fb2e8604988",
         "warmup_time": -1
     },
     "simulation.bench_cloth.FastExampleClothManipulation.time_simulate": {
