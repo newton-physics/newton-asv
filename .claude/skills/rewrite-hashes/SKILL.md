@@ -15,7 +15,7 @@ Prerequisite: at least one post-change automation run has landed, so `results/be
 
 Merging history claims "same workload, numbers comparable". Verify per benchmark:
 
-1. What changed? `git -C ~/git/newton log -p <range> -- asv/` for the benchmark file AND the example it wraps (check imports in newton's `asv/benchmarks/`).
+1. What changed? `git -C <newton> log -p <range> -- asv/` for the benchmark file AND the example it wraps (check imports in newton's `asv/benchmarks/`), where `<newton>` is a local checkout of github.com/newton-physics/newton.
 2. Is there a step at the series boundary? (`series.py` from the check-regressions skill)
 
 - Timing-irrelevant change (rename, comments, untimed setup) and no boundary step → **merge** (procedures below).
