@@ -17,20 +17,23 @@ import json
 import os
 import statistics
 
-# Known oscillators: (benchmark substring, env substring or None). See SKILL.md.
-BIMODAL = [
-    ("setup.bench_model.FastInitialize", None),
-    ("setup.bench_model.KpiInitialize", None),
-    ("simulation.bench_viewer.FastViewerGL", None),
-    ("simulation.bench_cpu.CpuIKFranka", "py3.12"),
-    ("simulation.bench_heightfield.HeightfieldCollision", None),
-]
 SILENT_FLAG_DAYS = 3    # active machine with no data for longer -> flag
 RETIRED_AFTER_DAYS = 60  # no data for longer -> considered retired, not flagged
 
 
-def is_bimodal(name, env):
-    return any(s in name and (e is None or e in env) for s, e in BIMODAL)
+def is_oscillating(history):
+    """True if a chronological series alternates between levels rather than
+    stepping once. A real step crosses the midline once (twice if it recovered);
+    bimodal noise crosses it repeatedly."""
+    if len(history) < 6:
+        return False
+    lo, hi = min(history), max(history)
+    if lo <= 0 or hi / lo < 1.05:
+        return False
+    mid = (lo + hi) / 2
+    sides = [v > mid for v in history]
+    transitions = sum(a != b for a, b in zip(sides, sides[1:]))
+    return transitions >= 3
 
 
 def load_runs(root):
@@ -191,12 +194,13 @@ def main():
             if ratio >= args.threshold or ratio <= 1 / args.threshold:
                 spread = max(bvals) / min(bvals) if min(bvals) > 0 else float("inf")
                 report.append((ratio, mdir, env, k, bmed, rmed,
-                               len(bvals), len(rvals), spread))
+                               len(bvals), len(rvals), spread,
+                               is_oscillating(bvals + rvals)))
     report.sort(key=lambda r: -r[0])
-    for ratio, mdir, env, (name, params), bmed, rmed, nb, nr, spread in report:
+    for ratio, mdir, env, (name, params), bmed, rmed, nb, nr, spread, osc in report:
         tags = ""
-        if is_bimodal(name, env):
-            tags += " BIMODAL"
+        if osc:
+            tags += " OSCILLATING"
         if spread > 1.3:
             tags += " NOISY"
         p = f" [{params}]" if params else ""

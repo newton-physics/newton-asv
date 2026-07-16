@@ -16,7 +16,7 @@ Requires a newton checkout (default `~/git/newton`) to map snapshots to commits.
 Run scripts from the repo root.
 
 1. **Sweep + health**: `python3 .claude/skills/check-regressions/scripts/check_regressions.py` (see `--help`). Reports machine freshness, series-continuity issues (disappeared benchmarks, version-hash mismatches), and median-vs-baseline flags.
-2. **Triage each flag**: `python3 .claude/skills/check-regressions/scripts/series.py <benchmark-substring> [param-filter]` — full per-machine series with snapshot hashes. Dismiss BIMODAL-tagged flags unless the step is sustained ≥2 snapshots AND consistent across machines. A regression that recovered inside the window is still a finding — report it as resolved-by.
+2. **Triage each flag**: `python3 .claude/skills/check-regressions/scripts/series.py <benchmark-substring> [param-filter]` — full per-machine series with snapshot hashes. Judge noise from the data, not from a fixed list: an OSCILLATING tag means the series alternates between levels instead of stepping once — dismiss when the full series confirms recent values sit inside the historical envelope (oscillation can be env-specific: the same benchmark may be bimodal on py3.12 and flat on py3.13, and single-shot compile-time benchmarks jitter ±15%). A real step transitions once — or twice if it recovered, which is still a finding: report it as resolved-by.
 3. **Bracket the culprit**: snapshots are sparse — the culprit is in `(last-good, first-bad]`. Machines benchmark *different* snapshots: intersect the brackets from every machine/env before enumerating (Jetsons often ran an intermediate snapshot that pins a single commit). Then `git -C ~/git/newton log --oneline --first-parent LASTGOOD..FIRSTBAD`.
 4. **Classify every confirmed step — improvements too**:
    - **workload change**: `git -C ~/git/newton log A..B -- asv/` is non-empty, or the example the benchmark wraps changed (check the benchmark's imports in newton's `asv/benchmarks/`). A step from these is a redefinition, not a perf change; it may need a hash-rewrite decision.
@@ -34,21 +34,14 @@ The three flag sections are REQUIRED even when empty ("none"):
 - **Findings**: per finding — benchmark, machines + magnitude, bracket (snapshot hashes), classification, suspect commit/PR, status (persisting | resolved-by X).
 - **Dismissed flags**: one line each — what the sweep flagged and why you dismissed it.
 
-## Known noise & machine facts (as of 2026-07)
+## Machine facts
 
-| Pattern | Behavior |
-|---|---|
-| `setup.bench_model.{Fast,Kpi}Initialize*` | bimodal, oscillates run-to-run |
-| `FastViewerGL.time_rendering_frame` | bimodal |
-| `CpuIKFranka` py3.12 only | modes ~0.26/0.31; py3.13 stable |
-| `HeightfieldCollision.time_simulate` | bimodal ~0.067/0.10, both modes within one run |
-| `SlowExample*.time_load` | single-shot compile time, ±15% jitter |
-
-SC-PV machines: py3.13 = Windows, py3.12 = Linux; the dashboard groups by `params.machine`. Retired dirs (>60 days silent, auto-excluded): `adenzler-asv-runner`, `ershi-asv*`. `SC-PV-SPARK-PS-07` (GB10) has a single run from 2026-06-24 — report its freshness flag but note it never came online properly.
+SC-PV machines: py3.13 = Windows, py3.12 = Linux; the dashboard groups by `params.machine`. Directories >60 days silent are treated as retired and auto-excluded by the sweep.
 
 ## Common mistakes
 
 - Bracketing from a single machine's snapshot sequence → a 30-commit suspect list where cross-machine intersection pins 1.
+- Dismissing or confirming a flag from its tags alone — OSCILLATING/NOISY are hints computed on a short window; the full series decides.
 - Reporting a large improvement without classifying it — a 10× step is usually a harness/workload change (e.g. graph capture added to examples), not free perf.
 - Treating a benchmark rename or new scene as a regression/improvement.
 - Trusting a single post-step data point — wait for a second snapshot before closing.
