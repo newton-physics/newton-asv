@@ -13,14 +13,20 @@ Prerequisite: at least one post-change automation run has landed, so `results/be
 
 ## Decision gate — before touching anything
 
-Merging history claims "same workload, numbers comparable". Verify per benchmark:
+Establish the facts per benchmark:
 
 1. What changed? `git -C <newton> log -p <range> -- asv/` for the benchmark file AND the example it wraps (check imports in newton's `asv/benchmarks/`), where `<newton>` is a local checkout of github.com/newton-physics/newton.
-2. Is there a step at the series boundary? (`series.py` from the check-regressions skill)
+2. Is there a step at the series boundary? (`series.py` from the check-regressions skill — note the magnitude per machine.)
 
-- Timing-irrelevant change (rename, comments, untimed setup) and no boundary step → **merge** (procedures below).
-- Workload / timed region / scene changed, or a boundary step exists → **do NOT merge**: remove or don't add the entry in replace_hash.sh, with a comment documenting the exclusion. Precedent: tiled-camera #3480 (new scene — old series deliberately ends 2026-07-14).
-- Unsure → ask the user. A wrong merge bakes a fake step into the dashboard permanently; the old series stays recoverable either way, but nobody notices a quiet bad merge.
+Timing-irrelevant change (pure rename, comments, untimed setup) with no boundary step → **merge** (procedures below).
+
+Anything else — workload, timed region, or scene changed, or a boundary step exists — is a product decision with no clean rule: continuous history is often worth more than strict comparability, so "the setup changed" does **not** imply "don't merge". Never decide this yourself. Present the evidence (what changed, step magnitude per machine) and ask the user, offering:
+
+- **Merge**: history stays continuous; the change appears as a known, documented step in the series. Often right when it's still "the same benchmark", measured somewhat differently.
+- **Don't merge**: old series ends, new baseline starts; drop/skip the replace_hash.sh entry with a comment documenting the exclusion (precedent: tiled-camera #3480, new scene).
+- **Defer**: leave as-is until more post-change data exists to judge the step.
+
+Raw old data stays in the result files either way; whichever way it goes, record the decision in the commit message and a script comment so it isn't re-litigated.
 
 Never add a benchmark to replace_hash.sh just because an audit finds it "missing" — absence may be a deliberate exclusion, and the reflex once silently rewrote 109 result files across a timed-region change.
 
