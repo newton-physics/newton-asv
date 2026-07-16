@@ -34,10 +34,6 @@ The three flag sections are REQUIRED even when empty ("none"):
 - **Findings**: per finding — benchmark, machines + magnitude, bracket (snapshot hashes), classification, suspect commit/PR, status (persisting | resolved-by X).
 - **Dismissed flags**: one line each — what the sweep flagged and why you dismissed it.
 
-## Machine facts
-
-SC-PV machines: py3.13 = Windows, py3.12 = Linux; the dashboard groups by `params.machine`. Directories >60 days silent are treated as retired and auto-excluded by the sweep.
-
 ## Common mistakes
 
 - Bracketing from a single machine's snapshot sequence → a 30-commit suspect list where cross-machine intersection pins 1.
