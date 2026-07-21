@@ -439,7 +439,7 @@
         "warmup_time": -1
     },
     "simulation.bench_heightfield.HeightfieldCollision.time_simulate": {
-        "code": "class HeightfieldCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _frame in range(self.num_frames):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        cuda_graph_comp = wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())\n        if not cuda_graph_comp:\n            raise SkipNotImplemented\n    \n        self.num_frames = 50\n        self.model = _build_heightfield_scene(num_bodies=200, nrow=100, ncol=100)\n        self.solver = newton.solvers.SolverXPBD(self.model, iterations=10)\n        self.contacts = self.model.contacts()\n        self.state_0 = self.model.state()\n        self.state_1 = self.model.state()\n        self.control = self.model.control()\n        self.sim_substeps = 10\n        self.sim_dt = (1.0 / 100.0) / self.sim_substeps\n    \n        wp.synchronize_device()\n    \n        with wp.ScopedCapture() as capture:\n            for _sub in range(self.sim_substeps):\n                self.state_0.clear_forces()\n                self.model.collide(self.state_0, self.contacts)\n                self.solver.step(self.state_0, self.state_1, self.control, self.contacts, self.sim_dt)\n                self.state_0, self.state_1 = self.state_1, self.state_0\n        self.graph = capture.graph\n    \n        wp.synchronize_device()",
+        "code": "class HeightfieldCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _frame in range(self.num_frames):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        cuda_graph_comp = wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())\n        if not cuda_graph_comp:\n            raise SkipNotImplemented\n    \n        self.num_frames = 50\n        self.model = _build_heightfield_scene(num_bodies=200, nrow=100, ncol=100)\n        self.solver = newton.solvers.SolverXPBD(self.model, iterations=10)\n        self.collision_pipeline = newton.CollisionPipeline(self.model)\n        self.contacts = self.collision_pipeline.contacts()\n        self.state_0 = self.model.state()\n        self.state_1 = self.model.state()\n        self.control = self.model.control()\n        self.sim_substeps = 10\n        self.sim_dt = (1.0 / 100.0) / self.sim_substeps\n    \n        wp.synchronize_device()\n    \n        with wp.ScopedCapture() as capture:\n            for _sub in range(self.sim_substeps):\n                self.state_0.clear_forces()\n                self.collision_pipeline.collide(self.state_0, self.contacts)\n                self.solver.step(self.state_0, self.state_1, self.control, self.contacts, self.sim_dt)\n                self.state_0, self.state_1 = self.state_1, self.state_0\n        self.graph = capture.graph\n    \n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_heightfield.HeightfieldCollision.time_simulate",
         "number": 1,
@@ -450,7 +450,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "6d62f8706ec6d05d0274666772150be21a893c0a6f051f33c06bb1f8b3c817b6",
+        "version": "8e299acd5d4ec1c57041096396508170a9e8e52acd78cf3a3efb16387d047b33",
         "warmup_time": -1
     },
     "simulation.bench_ik.FastIKSolve.time_solve": {
