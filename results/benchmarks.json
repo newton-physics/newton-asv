@@ -917,7 +917,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "ms/frame",
@@ -934,7 +934,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "x",
@@ -951,7 +951,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "s",
@@ -968,7 +968,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -985,7 +985,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "ms/world-step",
@@ -1002,7 +1002,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "world-steps/s",
@@ -1019,7 +1019,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1036,7 +1036,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1053,7 +1053,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:343",
+        "setup_cache_key": "simulation.bench_mujoco:333",
         "timeout": 900,
         "type": "track",
         "unit": "MiB",
@@ -1070,7 +1070,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "ms/frame",
         "version": "9513fc66a1851ea1d49fcec0737f0b69e41e7e77f76f31e8382989f3ce36c4cb"
@@ -1086,7 +1086,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "x",
         "version": "2cf9a8e765b1c8574a232456c46caa981710fc1306867f3f4dcb0142e663f9c6"
@@ -1102,7 +1102,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "s",
         "version": "aa9f01d609ad4fac8f76696dede42bace06ed921d88e19a0032aca74dbeed4b7"
@@ -1118,7 +1118,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "5b0cbaf05c5c31603fb09b8df3df5350c2ca60834e3539a615f6df8e5742fedb"
@@ -1134,7 +1134,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "ms/world-step",
         "version": "8a800c46570dc8f80a53c8c5d6ee5a40f026717d956789815d2ae13f1fce0c4e"
@@ -1150,7 +1150,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "world-steps/s",
         "version": "e6060227a79bffa295e593f883c3fea682a8dfdc5d811bf60c37885959fe076e"
@@ -1166,7 +1166,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "iterations",
         "version": "5e3e0bc42438fa2e54763f6437879cf215215b82594ea15a84195aa58bad3c1b"
@@ -1182,7 +1182,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "iterations",
         "version": "98ee8b9e77815d97b43f757c1657433d8b290e34b8f6bdedf9f3ff3e9233db17"
@@ -1198,7 +1198,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:277",
+        "setup_cache_key": "simulation.bench_mujoco:272",
         "type": "track",
         "unit": "MiB",
         "version": "331b49991fcf795d70f17a67c05b5a5ab5bff0e215f7bfba23e7ef34b93a3e5a"
@@ -1214,7 +1214,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "ms/frame",
@@ -1231,7 +1231,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "x",
@@ -1248,7 +1248,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "s",
@@ -1265,7 +1265,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1282,7 +1282,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "ms/world-step",
@@ -1299,7 +1299,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "world-steps/s",
@@ -1316,7 +1316,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1333,7 +1333,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1350,7 +1350,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:291",
+        "setup_cache_key": "simulation.bench_mujoco:285",
         "timeout": 900,
         "type": "track",
         "unit": "MiB",
@@ -1367,7 +1367,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "ms/frame",
         "version": "b78f42ea9dcb2cd4aade0ace8c787f77c04111d7f72713924511d69ba89bd64d"
@@ -1383,7 +1383,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "x",
         "version": "5a41b7f2e7323c06c07a288a27ee42fdd7b111d2b0552f41cdd46e6e488c3783"
@@ -1399,7 +1399,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "s",
         "version": "8add2a3682512a614c90d2e40cba15975a0816e9202a364ae9c8255b151fb1ba"
@@ -1415,7 +1415,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "9a8cd40188f82e627eb8019e3a4a8a3907fd72a1b0ff87bb6fa891f07f6276e3"
@@ -1431,7 +1431,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "ms/world-step",
         "version": "7022153f0c8e8a37e16f036d8763c852d238e5f33b4c69c6b4e0c70cac342993"
@@ -1447,7 +1447,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "world-steps/s",
         "version": "a0073d804c51f1e082d4032ee5f5137cad92e5482da5a561964fb481821ae37e"
@@ -1463,7 +1463,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "iterations",
         "version": "48a9ee7416d6081f9465b8d10fec5488175c843e974908046ef81dce9d1cdbe1"
@@ -1479,7 +1479,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "iterations",
         "version": "cf9d52fd67cddcee4d27743ca9c2173abbb9174c61a200c238ca78727583365d"
@@ -1495,7 +1495,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:314",
+        "setup_cache_key": "simulation.bench_mujoco:306",
         "type": "track",
         "unit": "MiB",
         "version": "a60e9c9f13a32297f68e41486deaf03e6debc042f98dfee7237b38986d13cd9a"
@@ -1511,7 +1511,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "ms/frame",
@@ -1528,7 +1528,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "x",
@@ -1545,7 +1545,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "s",
@@ -1562,7 +1562,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1579,7 +1579,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "ms/world-step",
@@ -1596,7 +1596,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "world-steps/s",
@@ -1613,7 +1613,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1630,7 +1630,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1647,14 +1647,14 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:360",
+        "setup_cache_key": "simulation.bench_mujoco:349",
         "timeout": 900,
         "type": "track",
         "unit": "MiB",
         "version": "2"
     },
     "simulation.bench_mujoco.FastNewtonOverheadG1.track_simulate": {
-        "code": "class _NewtonOverheadBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulate(self, world_count):\n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        from newton.utils import EventTracer  # noqa: PLC0415\n    \n        trace = {}\n        with EventTracer(enabled=True) as tracer:\n            for _iter in range(self.samples):\n                example = Example(\n                    stage_path=None,\n                    robot=self.robot,\n                    randomize=self.random_init,\n                    headless=True,\n                    actuation=\"random\",\n                    world_count=world_count,\n                    use_cuda_graph=True,\n                    builder=self.builder[world_count],\n                    ls_iteration=self.ls_iteration,\n                )\n    \n                for _ in range(self.num_frames):\n                    example.step()\n                    trace = tracer.add_trace(trace, tracer.trace())\n    \n        step_time = trace[\"step\"][0]\n        step_trace = trace[\"step\"][1]\n        mujoco_warp_step_time = step_trace[\"_mujoco_warp_step\"][0]\n        overhead = 100.0 * (step_time - mujoco_warp_step_time) / step_time\n        return overhead\n\n    def setup(self, world_count):\n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        if not hasattr(self, \"builder\") or self.builder is None:\n            self.builder = {}\n        if world_count not in self.builder:\n            self.builder[world_count] = Example.create_model_builder(\n                self.robot, world_count, randomize=self.random_init, seed=123\n            )",
+        "code": "class _NewtonOverheadBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulate(self, world_count):\n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        from newton.utils import EventTracer  # noqa: PLC0415\n    \n        trace = {}\n        with EventTracer(enabled=True) as tracer:\n            for _iter in range(self.samples):\n                example = Example(\n                    stage_path=None,\n                    robot=self.robot,\n                    randomize=self.random_init,\n                    headless=True,\n                    actuation=\"random\",\n                    world_count=world_count,\n                    use_cuda_graph=True,\n                    builder=self.builder[world_count],\n                )\n    \n                for _ in range(self.num_frames):\n                    example.step()\n                    trace = tracer.add_trace(trace, tracer.trace())\n    \n        step_time = trace[\"step\"][0]\n        step_trace = trace[\"step\"][1]\n        mujoco_warp_step_time = step_trace[\"_mujoco_warp_step\"][0]\n        overhead = 100.0 * (step_time - mujoco_warp_step_time) / step_time\n        return overhead\n\n    def setup(self, world_count):\n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        if not hasattr(self, \"builder\") or self.builder is None:\n            self.builder = {}\n        if world_count not in self.builder:\n            self.builder[world_count] = Example.create_model_builder(\n                self.robot, world_count, randomize=self.random_init, seed=123\n            )",
         "name": "simulation.bench_mujoco.FastNewtonOverheadG1.track_simulate",
         "param_names": [
             "world_count"
@@ -1667,10 +1667,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "%",
-        "version": "2e88f9456aba2808b6968f505862e54699facb20546383b9aa23fbd9ecaf2128"
+        "version": "215e4ca892e1f954f5a3a010d9514c07b1da5a5285136bf0bb480950c2efc7f5"
     },
     "simulation.bench_mujoco.FastNewtonOverheadHumanoid.track_simulate": {
-        "code": "class _NewtonOverheadBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulate(self, world_count):\n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        from newton.utils import EventTracer  # noqa: PLC0415\n    \n        trace = {}\n        with EventTracer(enabled=True) as tracer:\n            for _iter in range(self.samples):\n                example = Example(\n                    stage_path=None,\n                    robot=self.robot,\n                    randomize=self.random_init,\n                    headless=True,\n                    actuation=\"random\",\n                    world_count=world_count,\n                    use_cuda_graph=True,\n                    builder=self.builder[world_count],\n                    ls_iteration=self.ls_iteration,\n                )\n    \n                for _ in range(self.num_frames):\n                    example.step()\n                    trace = tracer.add_trace(trace, tracer.trace())\n    \n        step_time = trace[\"step\"][0]\n        step_trace = trace[\"step\"][1]\n        mujoco_warp_step_time = step_trace[\"_mujoco_warp_step\"][0]\n        overhead = 100.0 * (step_time - mujoco_warp_step_time) / step_time\n        return overhead\n\n    def setup(self, world_count):\n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        if not hasattr(self, \"builder\") or self.builder is None:\n            self.builder = {}\n        if world_count not in self.builder:\n            self.builder[world_count] = Example.create_model_builder(\n                self.robot, world_count, randomize=self.random_init, seed=123\n            )",
+        "code": "class _NewtonOverheadBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulate(self, world_count):\n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        from newton.utils import EventTracer  # noqa: PLC0415\n    \n        trace = {}\n        with EventTracer(enabled=True) as tracer:\n            for _iter in range(self.samples):\n                example = Example(\n                    stage_path=None,\n                    robot=self.robot,\n                    randomize=self.random_init,\n                    headless=True,\n                    actuation=\"random\",\n                    world_count=world_count,\n                    use_cuda_graph=True,\n                    builder=self.builder[world_count],\n                )\n    \n                for _ in range(self.num_frames):\n                    example.step()\n                    trace = tracer.add_trace(trace, tracer.trace())\n    \n        step_time = trace[\"step\"][0]\n        step_trace = trace[\"step\"][1]\n        mujoco_warp_step_time = step_trace[\"_mujoco_warp_step\"][0]\n        overhead = 100.0 * (step_time - mujoco_warp_step_time) / step_time\n        return overhead\n\n    def setup(self, world_count):\n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        if not hasattr(self, \"builder\") or self.builder is None:\n            self.builder = {}\n        if world_count not in self.builder:\n            self.builder[world_count] = Example.create_model_builder(\n                self.robot, world_count, randomize=self.random_init, seed=123\n            )",
         "name": "simulation.bench_mujoco.FastNewtonOverheadHumanoid.track_simulate",
         "param_names": [
             "world_count"
@@ -1682,7 +1682,7 @@
         ],
         "type": "track",
         "unit": "%",
-        "version": "2e88f9456aba2808b6968f505862e54699facb20546383b9aa23fbd9ecaf2128"
+        "version": "215e4ca892e1f954f5a3a010d9514c07b1da5a5285136bf0bb480950c2efc7f5"
     },
     "simulation.bench_mujoco.RealtimeHumanoidPhysics.track_mean_step_ms": {
         "code": "class _RealtimePhysicsBenchmark:\n    def track_mean_step_ms(self) -> float:\n        return 1000.0 * self._mean(self._measure_step_durations())\n\n    def setup(self):\n        if wp.get_cuda_device_count() == 0:\n            raise SkipNotImplemented\n    \n        from benchmark_mujoco import Example  # noqa: PLC0415\n    \n        with wp.ScopedDevice(\"cuda:0\"):\n            if not wp.is_mempool_enabled(wp.get_device()):\n                raise SkipNotImplemented\n            builder = Example.create_model_builder(self.robot, 1, randomize=True, seed=123)\n            self.example = Example(\n                stage_path=None,\n                robot=self.robot,\n                randomize=True,\n                headless=True,\n                actuation=\"None\",\n                use_cuda_graph=True,\n                builder=builder,\n                fps=self.physics_hz,\n                sim_substeps=1,\n            )\n            for _ in range(self.warmup_steps):\n                self.example.step()",
