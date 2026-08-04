@@ -1,0 +1,10 @@
+{
+    "arch": "aarch64",
+    "cpu": "Cortex-X925 (20 physical cores, 20 logical)",
+    "gpu": "NVIDIA NVIDIA GB10",
+    "machine": "SC-PV-SPARK-PS-01 (NVIDIA NVIDIA GB10)",
+    "num_cpu": "20",
+    "os": "Linux 6.17.0-1022-nvidia version #22-Ubuntu SMP PREEMPT_DYNAMIC Wed May 27 19:31:58 UTC 2026",
+    "ram": "122GB",
+    "version": 1
+}
