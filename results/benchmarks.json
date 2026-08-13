@@ -94,7 +94,7 @@
                 "256"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:118",
+        "setup_cache_key": "setup.bench_model:169",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "889585d54e5e70fe61ed7e1e066b837180ea8bde16da86aa735ad894f10f63f4"
@@ -121,10 +121,62 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:118",
+        "setup_cache_key": "setup.bench_model:169",
         "type": "time",
         "unit": "seconds",
         "version": "2c5b54190ffe915edf4bedba6e1bda0783dd321f2141a56e52ace85061077198",
+        "warmup_time": -1
+    },
+    "setup.bench_model.FastInitializeModelTiledCamera.time_finalize_model": {
+        "code": "class _InitializeModelTiledCamera:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_finalize_model(self, scene, world_count):\n        _model, _sensor = self._initialize_model_and_sensor(self.replicated_builder)\n        wp.synchronize_device()\n\n    def setup(self, scene, world_count):\n        self.world = TILED_CAMERA_SCENES[scene].build()\n        warmup = self._replicate(1)\n        _model, _sensor = self._initialize_model_and_sensor(warmup)\n        self.replicated_builder = self._replicate(world_count)\n        wp.synchronize_device()",
+        "min_run_count": 1,
+        "name": "setup.bench_model.FastInitializeModelTiledCamera.time_finalize_model",
+        "number": 1,
+        "param_names": [
+            "scene",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'franka_cabinet'",
+                "'quadruped'"
+            ],
+            [
+                "256"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 1,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "2ec0134df209415a86e41d67e350141e42cf499235abd8599304a24b13387a96",
+        "warmup_time": -1
+    },
+    "setup.bench_model.FastInitializeModelTiledCamera.time_initialize_model": {
+        "code": "class _InitializeModelTiledCamera:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_model(self, scene, world_count):\n        _model, _sensor = self._initialize_model_and_sensor(self._replicate(world_count))\n        wp.synchronize_device()\n\n    def setup(self, scene, world_count):\n        self.world = TILED_CAMERA_SCENES[scene].build()\n        warmup = self._replicate(1)\n        _model, _sensor = self._initialize_model_and_sensor(warmup)\n        self.replicated_builder = self._replicate(world_count)\n        wp.synchronize_device()",
+        "min_run_count": 1,
+        "name": "setup.bench_model.FastInitializeModelTiledCamera.time_initialize_model",
+        "number": 1,
+        "param_names": [
+            "scene",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'franka_cabinet'",
+                "'quadruped'"
+            ],
+            [
+                "256"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 1,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "080831ab4cb7d83b7715fb0374b3e30d04a73cc9daf00c2937c3d552906a5b70",
         "warmup_time": -1
     },
     "setup.bench_model.FastInitializeSolver.time_initialize_solver": {
@@ -205,6 +257,60 @@
         "type": "time",
         "unit": "seconds",
         "version": "1eb1943d31536b040079c24c6428a73a866fdab4411562e31dbf0c79bcb18df9",
+        "warmup_time": -1
+    },
+    "setup.bench_model.KpiInitializeModelTiledCamera.time_finalize_model": {
+        "code": "class _InitializeModelTiledCamera:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_finalize_model(self, scene, world_count):\n        _model, _sensor = self._initialize_model_and_sensor(self.replicated_builder)\n        wp.synchronize_device()\n\n    def setup(self, scene, world_count):\n        self.world = TILED_CAMERA_SCENES[scene].build()\n        warmup = self._replicate(1)\n        _model, _sensor = self._initialize_model_and_sensor(warmup)\n        self.replicated_builder = self._replicate(world_count)\n        wp.synchronize_device()",
+        "min_run_count": 1,
+        "name": "setup.bench_model.KpiInitializeModelTiledCamera.time_finalize_model",
+        "number": 1,
+        "param_names": [
+            "scene",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'franka_cabinet'",
+                "'quadruped'"
+            ],
+            [
+                "4096"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 1,
+        "sample_time": 0.01,
+        "timeout": 3600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "2ec0134df209415a86e41d67e350141e42cf499235abd8599304a24b13387a96",
+        "warmup_time": -1
+    },
+    "setup.bench_model.KpiInitializeModelTiledCamera.time_initialize_model": {
+        "code": "class _InitializeModelTiledCamera:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_model(self, scene, world_count):\n        _model, _sensor = self._initialize_model_and_sensor(self._replicate(world_count))\n        wp.synchronize_device()\n\n    def setup(self, scene, world_count):\n        self.world = TILED_CAMERA_SCENES[scene].build()\n        warmup = self._replicate(1)\n        _model, _sensor = self._initialize_model_and_sensor(warmup)\n        self.replicated_builder = self._replicate(world_count)\n        wp.synchronize_device()",
+        "min_run_count": 1,
+        "name": "setup.bench_model.KpiInitializeModelTiledCamera.time_initialize_model",
+        "number": 1,
+        "param_names": [
+            "scene",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'franka_cabinet'",
+                "'quadruped'"
+            ],
+            [
+                "4096"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 1,
+        "sample_time": 0.01,
+        "timeout": 3600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "080831ab4cb7d83b7715fb0374b3e30d04a73cc9daf00c2937c3d552906a5b70",
         "warmup_time": -1
     },
     "setup.bench_model.KpiInitializeSolver.time_initialize_solver": {
