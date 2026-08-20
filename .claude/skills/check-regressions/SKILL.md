@@ -34,8 +34,15 @@ The three flag sections are REQUIRED even when empty ("none"):
 
 - **Data freshness**: active machines silent >3 days.
 - **Series continuity**: disappeared/renamed benchmarks or hash mismatches. For each: "hash-rewrite decision needed" → use the `rewrite-hashes` skill. If the decision was already made (documented as an exclusion comment in `replace_hash.sh`), say so instead. DISAPPEARED flags age out once the baseline window passes the change.
-- **Findings**: per finding — benchmark, machines + magnitude, bracket (snapshot hashes), classification, suspect commit/PR, status (persisting | resolved-by X).
+- **Findings**: per finding — benchmark, machines + magnitude, bracket (snapshot hashes), classification, suspect commit/PR, status (persisting | resolved-by X). Check **Standing triage decisions** below first — a listed benchmark keeps its recorded classification and priority; do not re-derive them from the bracket.
 - **Dismissed flags**: one line each — what the sweep flagged and why you dismissed it.
+
+## Standing triage decisions
+
+Closed investigations the sweep must not re-litigate. Report a matching flag under its recorded classification (one "known issue" line, not a fresh finding), and delete an entry only when its expiry condition is met.
+
+- `bench_kamino.NotifyDRLegs.time_notify_*` ~2–7× fleet-wide step (elevated plateau since the 08-11 snapshot): **MEASUREMENT ARTIFACT of newton #3859** ("Fix NotifyDRLegs ASV sampling", merged 2026-08-10; `number` 10→1, `repeat` 7→5) — NOT the Warp 1.16 pin (#3780), exonerated by Ruben's A/B (the step follows the sampling config, independent of Warp version). `number=1` exposes the one-time first-`wp.synchronize_device()` cost that `number=10` amortized. It reads as in-series because ASV hashes only benchmark/setup source, never timing attrs — version `a00bd83135d3…` is unchanged across the 08-11 `stats_number` `[10]→[1]` flip. NOT a product regression: report as a known measurement artifact, no P1, no re-bracketing. Fix in flight: explicit `version = "2"` on `NotifyDRLegs` (newton follow-up PR + issue). When the bump lands: (a) the old series ending / hash mismatch the continuity check will flag is the fix working — expected, no rewrite-hashes round; (b) do NOT refresh the seven `NotifyDRLegs` entries in `replace_hash.sh` to the new version and do NOT run the script across the boundary (it would merge the series back) — comment them out with an exclusion note instead (precedent: tiled-camera #3480). Expiry: once the new series has its own baseline and the old plateau has aged out of the sweep window, drop this entry.
+  - `time_notify_body_inertial_properties` additionally carries a REAL ~1.3–1.9× product component (#3858 body-inertial validation kernel, P2) layered on the same artifact — keep triaging that sub-metric on its own merits.
 
 ## Common mistakes
 
