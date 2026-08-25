@@ -555,7 +555,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:205",
+        "setup_cache_key": "simulation.bench_contacts:212",
         "type": "time",
         "unit": "seconds",
         "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
@@ -586,7 +586,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:169",
+        "setup_cache_key": "simulation.bench_contacts:176",
         "type": "time",
         "unit": "seconds",
         "version": "75fa33f2d98e88de35f707645ccb9f5c5366ca83ed131b9f85b51bc872a30f16",
@@ -1051,7 +1051,7 @@
         "warmup_time": 0
     },
     "simulation.bench_mujoco.FastAllegro.track_p95_step_time": {
-        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_p95_step_time(self, metrics, world_count):\n        return metrics[world_count].p95_frame_time_ms\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_p95_step_time(self, metrics, world_count):\n        return metrics[world_count].p95_frame_time_ms\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_p95_step_time",
         "param_names": [
             "world_count"
@@ -1065,10 +1065,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "ms/frame",
-        "version": "7e018e4d6a2c92305c7821787257f291e1f41b5722d8bbf4ff60ad9d7bed72c7"
+        "version": "cbed1427d35d8b71bcc0c2fc37f4027d0337ee4b7c45c6f8f57b3a197c7d3e81"
     },
     "simulation.bench_mujoco.FastAllegro.track_real_time_factor": {
-        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_real_time_factor(self, metrics, world_count):\n        return metrics[world_count].real_time_factor\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_real_time_factor(self, metrics, world_count):\n        return metrics[world_count].real_time_factor\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_real_time_factor",
         "param_names": [
             "world_count"
@@ -1082,10 +1082,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "x",
-        "version": "11c3776214f95f43de41c2da156cc0eb851a224468cd78e3ba910d5e1233647a"
+        "version": "f9efb755588ed680e4762ac2bbfe6821bb554016fa0248c6f974c48f12381dff"
     },
     "simulation.bench_mujoco.FastAllegro.track_sim_dt": {
-        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_sim_dt(self, metrics, world_count):\n        return metrics[world_count].sim_dt\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_sim_dt(self, metrics, world_count):\n        return metrics[world_count].sim_dt\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_sim_dt",
         "param_names": [
             "world_count"
@@ -1099,10 +1099,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "s",
-        "version": "af58ed83015a01616b7ab81a68775dc135059e638b0178dfb0ec7d83ad777fdb"
+        "version": "a0c167e50fc69a980e7a06f82a1cfb6ee4eefbc6df6d769362363cbc37afb927"
     },
     "simulation.bench_mujoco.FastAllegro.track_sim_substeps": {
-        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_sim_substeps(self, metrics, world_count):\n        return metrics[world_count].sim_substeps\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_sim_substeps(self, metrics, world_count):\n        return metrics[world_count].sim_substeps\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_sim_substeps",
         "param_names": [
             "world_count"
@@ -1116,10 +1116,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "simulation-steps/frame",
-        "version": "414e7595f17907f04832585896b6dbd2949f3a7faa30acce61bcc92b402c8ea2"
+        "version": "e381973653749ebfafd8619d143972880b8aec193b33dcf1e3f58e5b8b124624"
     },
     "simulation.bench_mujoco.FastAllegro.track_simulate": {
-        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulate(self, metrics, world_count):\n        return metrics[world_count].mean_world_step_time_ms\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulate(self, metrics, world_count):\n        return metrics[world_count].mean_world_step_time_ms\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_simulate",
         "param_names": [
             "world_count"
@@ -1133,10 +1133,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "ms/world-step",
-        "version": "f274c5b16ed3364e061b34647449d68927d90ee8745741587e496620c940f7b9"
+        "version": "0ebd6e2d0175658d861fd23dc43a86b2a52e5ea616d046167639ed32c41ac972"
     },
     "simulation.bench_mujoco.FastAllegro.track_simulation_steps_per_second": {
-        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulation_steps_per_second(self, metrics, world_count):\n        return metrics[world_count].world_steps_per_second\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulation_steps_per_second(self, metrics, world_count):\n        return metrics[world_count].world_steps_per_second\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_simulation_steps_per_second",
         "param_names": [
             "world_count"
@@ -1150,10 +1150,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "world-steps/s",
-        "version": "584cade6830a2963b38912fdf25cf9545545a09f2ca5c846deb8db66574134f8"
+        "version": "77807b6161f4c309b9c3c84d4af89a97f500a68a5a884a172282595af3376c48"
     },
     "simulation.bench_mujoco.FastAllegro.track_solver_niter_max": {
-        "code": "class _SimulationMetricTracksMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_solver_niter_max(self, metrics, world_count):\n        return metrics[world_count].solver_niter_max\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracksMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_solver_niter_max(self, metrics, world_count):\n        return metrics[world_count].solver_niter_max\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_solver_niter_max",
         "param_names": [
             "world_count"
@@ -1167,10 +1167,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
-        "version": "17ee700da9a61349f7a22725726df2d9fc88d45ed747b4dd5ec8bea1cb35e5af"
+        "version": "fa39dbb0f0e10087fe928c587ab3c3fb0398b64c42b7aa0b3961ef8eb6c4aa63"
     },
     "simulation.bench_mujoco.FastAllegro.track_solver_niter_mean": {
-        "code": "class _SimulationMetricTracksMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_solver_niter_mean(self, metrics, world_count):\n        return metrics[world_count].solver_niter_mean\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracksMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_solver_niter_mean(self, metrics, world_count):\n        return metrics[world_count].solver_niter_mean\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_solver_niter_mean",
         "param_names": [
             "world_count"
@@ -1184,10 +1184,10 @@
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
-        "version": "e06112217dead55397b48c90b0f715f6a2aa6c0295ed48720fcf462c1e15b939"
+        "version": "88ad9ba7c8f158709ae9498ed50f6801f9fa2fdf586900a62804a5b83e665947"
     },
     "simulation.bench_mujoco.FastAllegro.track_steady_state_gpu_memory": {
-        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_steady_state_gpu_memory(self, metrics, world_count):\n        return metrics[world_count].gpu_memory_mib\n\nclass FastAllegro:\n    def setup_cache(self):\n        return self._collect_metrics()",
+        "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_steady_state_gpu_memory(self, metrics, world_count):\n        return metrics[world_count].gpu_memory_mib\n\nclass FastAllegro:\n    def setup_cache(self):\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\"):\n            self.num_frames = 200\n            self.samples = 1\n        return self._collect_metrics()",
         "name": "simulation.bench_mujoco.FastAllegro.track_steady_state_gpu_memory",
         "param_names": [
             "world_count"
@@ -1201,7 +1201,7 @@
         "timeout": 900,
         "type": "track",
         "unit": "MiB",
-        "version": "6b6dcd032b87240f6c2ba0e90bfaccd315a1f5287b4b4f6156e1d328100f9ae3"
+        "version": "cbb81fe90a7eb4427016e9fe11e16f83b0b2c53a941129ad493a73070d839433"
     },
     "simulation.bench_mujoco.FastCartpole.track_p95_step_time": {
         "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_p95_step_time(self, metrics, world_count):\n        return metrics[world_count].p95_frame_time_ms\n\nclass FastCartpole:\n    def setup_cache(self):\n        return self._collect_metrics()",
@@ -1655,7 +1655,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "ms/frame",
@@ -1672,7 +1672,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "x",
@@ -1689,7 +1689,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "s",
@@ -1706,7 +1706,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1723,7 +1723,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "ms/world-step",
@@ -1740,7 +1740,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "world-steps/s",
@@ -1757,7 +1757,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1774,7 +1774,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1791,7 +1791,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:347",
+        "setup_cache_key": "simulation.bench_mujoco:350",
         "timeout": 900,
         "type": "track",
         "unit": "MiB",
@@ -1898,7 +1898,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:55",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
         "type": "track",
         "unit": "ms/world-step",
         "version": "401e11476f9eb69ef2353591210ab0b988cf0ca552b6c22f8ebea6d091d04fdf"
@@ -1908,7 +1908,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:55",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
         "type": "track",
         "unit": "ms/frame",
         "version": "333d04102bf8250627325af7a1b4a551d8e07a552b006d91b5342d91be18d577"
@@ -1918,7 +1918,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:55",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
         "type": "track",
         "unit": "x",
         "version": "7240735f4ef325e89ebdaef5a68d02ee2383a774f1dfdb86e4239d6519c0c0a2"
@@ -1928,7 +1928,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:55",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
         "type": "track",
         "unit": "s",
         "version": "235426366a7f706a3b9e889c5c183b1f9485d6525f30633b82ee28c98b4de5d1"
@@ -1938,7 +1938,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:55",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "aa3faf5a010d625b78a4f3ccc51be202c81e738620484cb4f85501894ef94375"
@@ -1948,7 +1948,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:55",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
         "type": "track",
         "unit": "world-steps/s",
         "version": "b102b1c4013859d50eb926bc98e19cc1c59ac71dd6c0c2566e016c2e919e5674"
@@ -1958,7 +1958,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:55",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
         "type": "track",
         "unit": "MiB",
         "version": "d4d248a76866c8539e82ab296b14546e070a817081be07f954e6a6b24b6f6ca1"
@@ -1979,7 +1979,7 @@
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.FastSensorTiledCamera.time_render_color_depth": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.FastSensorTiledCamera.time_render_color_depth",
         "number": 0,
@@ -2004,11 +2004,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "27cce50353bc75bb6eb44a254ebda442e40274ae605a844122fd136c1ac499a3",
+        "version": "dd1de495f4e8c1b96c0219d27d19860b2cc1a1b440dda6ab9ae6f44b5f496c74",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.FastSensorTiledCamera.time_render_color_only": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class FastSensorTiledCamera:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0 or _pr_gate_skips_output(True, False, pr_gate_output_modes))\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        super().time_render_color_only(resolution, world_count, iterations)\n\nclass _SceneBenchmark:\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.FastSensorTiledCamera.time_render_color_only",
         "number": 0,
@@ -2033,11 +2033,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "0d85c283f12a948aba5f1d513447e1719bd57b756fda555cf7af49fdec26ff2f",
+        "version": "3192e03cfa74523c993911ff791e4cbde0a27bb462a4356bd4c417c45c09cbab",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.FastSensorTiledCamera.time_render_depth_only": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.FastSensorTiledCamera.time_render_depth_only",
         "number": 0,
@@ -2062,11 +2062,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "484315cde34bdb94c1bbcbac027a7951a644baefe05245ffc4d23c25471d2ff1",
+        "version": "4ef6f8207296221ae8efd404ddc4d6f17baecc740f662203086676539db22aa6",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.FastSensorTiledCameraPixel.time_render_color_depth": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.FastSensorTiledCameraPixel.time_render_color_depth",
         "number": 0,
@@ -2091,11 +2091,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "27cce50353bc75bb6eb44a254ebda442e40274ae605a844122fd136c1ac499a3",
+        "version": "dd1de495f4e8c1b96c0219d27d19860b2cc1a1b440dda6ab9ae6f44b5f496c74",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.FastSensorTiledCameraPixel.time_render_color_only": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class FastSensorTiledCameraPixel:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0 or _pr_gate_skips_output(True, False, pr_gate_output_modes))\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        super().time_render_color_only(resolution, world_count, iterations)\n\nclass _SceneBenchmark:\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.FastSensorTiledCameraPixel.time_render_color_only",
         "number": 0,
@@ -2120,11 +2120,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "0d85c283f12a948aba5f1d513447e1719bd57b756fda555cf7af49fdec26ff2f",
+        "version": "d9501c6932fbbe0fc8b54886e3fa320a73e33c44bb504834b9c0952a74245fe7",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.FastSensorTiledCameraPixel.time_render_depth_only": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class FastSensorTiledCameraPixel:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0 or _pr_gate_skips_output(False, True, pr_gate_output_modes))\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        super().time_render_depth_only(resolution, world_count, iterations)\n\nclass _SceneBenchmark:\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.FastSensorTiledCameraPixel.time_render_depth_only",
         "number": 0,
@@ -2149,11 +2149,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "484315cde34bdb94c1bbcbac027a7951a644baefe05245ffc4d23c25471d2ff1",
+        "version": "aead74e959583c2dc988df889338e51f161caaf5a457b0b6b198d3a3f2479d73",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.TiledCameraQuadruped.time_render_color_depth": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.TiledCameraQuadruped.time_render_color_depth",
         "number": 0,
@@ -2178,11 +2178,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "27cce50353bc75bb6eb44a254ebda442e40274ae605a844122fd136c1ac499a3",
+        "version": "dd1de495f4e8c1b96c0219d27d19860b2cc1a1b440dda6ab9ae6f44b5f496c74",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.TiledCameraQuadruped.time_render_color_only": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.TiledCameraQuadruped.time_render_color_only",
         "number": 0,
@@ -2207,11 +2207,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "0d85c283f12a948aba5f1d513447e1719bd57b756fda555cf7af49fdec26ff2f",
+        "version": "557de215c624220b8a6183a9ec67a69597ad5953ea97fa632b2e2800bb33726f",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.TiledCameraQuadruped.time_render_depth_only": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.TiledCameraQuadruped.time_render_depth_only",
         "number": 0,
@@ -2236,11 +2236,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "484315cde34bdb94c1bbcbac027a7951a644baefe05245ffc4d23c25471d2ff1",
+        "version": "4ef6f8207296221ae8efd404ddc4d6f17baecc740f662203086676539db22aa6",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.TiledCameraShapes256.time_render_color_depth": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.TiledCameraShapes256.time_render_color_depth",
         "number": 0,
@@ -2265,11 +2265,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "27cce50353bc75bb6eb44a254ebda442e40274ae605a844122fd136c1ac499a3",
+        "version": "dd1de495f4e8c1b96c0219d27d19860b2cc1a1b440dda6ab9ae6f44b5f496c74",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.TiledCameraShapes256.time_render_color_only": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.TiledCameraShapes256.time_render_color_only",
         "number": 0,
@@ -2294,11 +2294,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "0d85c283f12a948aba5f1d513447e1719bd57b756fda555cf7af49fdec26ff2f",
+        "version": "557de215c624220b8a6183a9ec67a69597ad5953ea97fa632b2e2800bb33726f",
         "warmup_time": -1
     },
     "simulation.bench_sensor_tiled_camera.TiledCameraShapes256.time_render_depth_only": {
-        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
         "name": "simulation.bench_sensor_tiled_camera.TiledCameraShapes256.time_render_depth_only",
         "number": 0,
@@ -2323,7 +2323,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "484315cde34bdb94c1bbcbac027a7951a644baefe05245ffc4d23c25471d2ff1",
+        "version": "4ef6f8207296221ae8efd404ddc4d6f17baecc740f662203086676539db22aa6",
         "warmup_time": -1
     },
     "simulation.bench_teleop_mujoco.FastTeleopMuJoCo.time_teleop_loop": {
