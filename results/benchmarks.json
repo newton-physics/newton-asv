@@ -730,7 +730,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "5e87eea3aa3c9a5607ca7796ab168be681dfa2a8519b8461e812d378d06f77bb",
+        "version": "2",
         "warmup_time": -1
     },
     "simulation.bench_kamino.FastMetricsDRLegs.track_mean_world_step_time": {
@@ -738,70 +738,70 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:135",
+        "setup_cache_key": "simulation.bench_kamino:137",
         "type": "track",
         "unit": "ms/world-step",
-        "version": "4892548caf31ca1f9d5af5dc38581ee068345909be1a666b3dcd57ae25796b53"
+        "version": "2"
     },
     "simulation.bench_kamino.FastMetricsDRLegs.track_p95_step_time": {
         "code": "class _SimulationMetricTracksUnparameterized:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_p95_step_time(self, metrics):\n        return metrics.p95_frame_time_ms\n\nclass FastMetricsDRLegs:\n    def setup_cache(self):\n        return _collect_metrics_dr_legs(\n            robot=self.robot,\n            world_count=self.world_count,\n            num_frames=self.num_frames,\n            samples=self.samples,\n            use_policy=False,\n        )",
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:135",
+        "setup_cache_key": "simulation.bench_kamino:137",
         "type": "track",
         "unit": "ms/frame",
-        "version": "f1a7fbec464a2099c327f30f89744824debc92cf1e83a27cdf035b0c3546e954"
+        "version": "2"
     },
     "simulation.bench_kamino.FastMetricsDRLegs.track_real_time_factor": {
         "code": "class _SimulationMetricTracksUnparameterized:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_real_time_factor(self, metrics):\n        return metrics.real_time_factor\n\nclass FastMetricsDRLegs:\n    def setup_cache(self):\n        return _collect_metrics_dr_legs(\n            robot=self.robot,\n            world_count=self.world_count,\n            num_frames=self.num_frames,\n            samples=self.samples,\n            use_policy=False,\n        )",
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:135",
+        "setup_cache_key": "simulation.bench_kamino:137",
         "type": "track",
         "unit": "x",
-        "version": "9c77a5991528f1ac402160bdaa7ff5ff542ac36459e49e1f1a4dda7e4e2caf25"
+        "version": "2"
     },
     "simulation.bench_kamino.FastMetricsDRLegs.track_sim_dt": {
         "code": "class _SimulationMetricTracksUnparameterized:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_sim_dt(self, metrics):\n        return metrics.sim_dt\n\nclass FastMetricsDRLegs:\n    def setup_cache(self):\n        return _collect_metrics_dr_legs(\n            robot=self.robot,\n            world_count=self.world_count,\n            num_frames=self.num_frames,\n            samples=self.samples,\n            use_policy=False,\n        )",
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:135",
+        "setup_cache_key": "simulation.bench_kamino:137",
         "type": "track",
         "unit": "s",
-        "version": "d923ca6cf50ce030df28e63fa41ec46b4ed89ded587db0aae1adaea1e293bb77"
+        "version": "2"
     },
     "simulation.bench_kamino.FastMetricsDRLegs.track_sim_substeps": {
         "code": "class _SimulationMetricTracksUnparameterized:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_sim_substeps(self, metrics):\n        return metrics.sim_substeps\n\nclass FastMetricsDRLegs:\n    def setup_cache(self):\n        return _collect_metrics_dr_legs(\n            robot=self.robot,\n            world_count=self.world_count,\n            num_frames=self.num_frames,\n            samples=self.samples,\n            use_policy=False,\n        )",
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:135",
+        "setup_cache_key": "simulation.bench_kamino:137",
         "type": "track",
         "unit": "simulation-steps/frame",
-        "version": "81e1d2dacde51dc6d734d4e222112795ba2adf204e9ec1993f7a3296624523a2"
+        "version": "2"
     },
     "simulation.bench_kamino.FastMetricsDRLegs.track_simulation_steps_per_second": {
         "code": "class _SimulationMetricTracksUnparameterized:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulation_steps_per_second(self, metrics):\n        return metrics.world_steps_per_second\n\nclass FastMetricsDRLegs:\n    def setup_cache(self):\n        return _collect_metrics_dr_legs(\n            robot=self.robot,\n            world_count=self.world_count,\n            num_frames=self.num_frames,\n            samples=self.samples,\n            use_policy=False,\n        )",
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:135",
+        "setup_cache_key": "simulation.bench_kamino:137",
         "type": "track",
         "unit": "world-steps/s",
-        "version": "14721bacfa6e3390ca9c298092ecd361d927db36f8a00cc7a457713a75cbd590"
+        "version": "2"
     },
     "simulation.bench_kamino.FastMetricsDRLegs.track_steady_state_gpu_memory": {
         "code": "class _SimulationMetricTracksUnparameterized:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_steady_state_gpu_memory(self, metrics):\n        return metrics.gpu_memory_mib\n\nclass FastMetricsDRLegs:\n    def setup_cache(self):\n        return _collect_metrics_dr_legs(\n            robot=self.robot,\n            world_count=self.world_count,\n            num_frames=self.num_frames,\n            samples=self.samples,\n            use_policy=False,\n        )",
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:135",
+        "setup_cache_key": "simulation.bench_kamino:137",
         "type": "track",
         "unit": "MiB",
-        "version": "e540b32626738217c6007d52f92485076911cb21a77c7de29a06cdfb085a9a8a"
+        "version": "2"
     },
     "simulation.bench_kamino.KpiDRLegs.track_p95_step_time": {
         "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_p95_step_time(self, metrics, world_count):\n        return metrics[world_count].p95_frame_time_ms\n\nclass KpiDRLegs:\n    def setup_cache(self):\n        return self._collect_metrics()",
@@ -814,11 +814,11 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:151",
+        "setup_cache_key": "simulation.bench_kamino:154",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "ms/frame",
-        "version": "7bd8683fb85f93b3b15b39b14af6d4b1e07f0b079df0e034982548b933dad660"
+        "version": "2"
     },
     "simulation.bench_kamino.KpiDRLegs.track_real_time_factor": {
         "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_real_time_factor(self, metrics, world_count):\n        return metrics[world_count].real_time_factor\n\nclass KpiDRLegs:\n    def setup_cache(self):\n        return self._collect_metrics()",
@@ -831,11 +831,11 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:151",
+        "setup_cache_key": "simulation.bench_kamino:154",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "x",
-        "version": "25b06a2b325d9e8fc2ad5d3950a5bf59a2b72bdf23268fdaf781a9f79e28a5f7"
+        "version": "2"
     },
     "simulation.bench_kamino.KpiDRLegs.track_sim_dt": {
         "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_sim_dt(self, metrics, world_count):\n        return metrics[world_count].sim_dt\n\nclass KpiDRLegs:\n    def setup_cache(self):\n        return self._collect_metrics()",
@@ -848,11 +848,11 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:151",
+        "setup_cache_key": "simulation.bench_kamino:154",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "s",
-        "version": "9184d2d4aaa9df9855f9c9aba9e3c0f60e81c15683e7ed54cfcab09a0f95df5b"
+        "version": "2"
     },
     "simulation.bench_kamino.KpiDRLegs.track_sim_substeps": {
         "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_sim_substeps(self, metrics, world_count):\n        return metrics[world_count].sim_substeps\n\nclass KpiDRLegs:\n    def setup_cache(self):\n        return self._collect_metrics()",
@@ -865,11 +865,11 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:151",
+        "setup_cache_key": "simulation.bench_kamino:154",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "simulation-steps/frame",
-        "version": "acccd8b27b94baaeb32c2261b6a9a99b35ab31b5ef1b568640b316dd7e7e5c00"
+        "version": "2"
     },
     "simulation.bench_kamino.KpiDRLegs.track_simulate": {
         "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulate(self, metrics, world_count):\n        return metrics[world_count].mean_world_step_time_ms\n\nclass KpiDRLegs:\n    def setup_cache(self):\n        return self._collect_metrics()",
@@ -882,11 +882,11 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:151",
+        "setup_cache_key": "simulation.bench_kamino:154",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "ms/world-step",
-        "version": "6afbd53709aa79872d11287096428c71195e4269b17e855c9cb6ddc643ad90a4"
+        "version": "2"
     },
     "simulation.bench_kamino.KpiDRLegs.track_simulation_steps_per_second": {
         "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_simulation_steps_per_second(self, metrics, world_count):\n        return metrics[world_count].world_steps_per_second\n\nclass KpiDRLegs:\n    def setup_cache(self):\n        return self._collect_metrics()",
@@ -899,11 +899,11 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:151",
+        "setup_cache_key": "simulation.bench_kamino:154",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "world-steps/s",
-        "version": "9a32d102bbc0cd84c639c1b247698018678778b2fd2dc83ef6c06a502ae28bcf"
+        "version": "2"
     },
     "simulation.bench_kamino.KpiDRLegs.track_steady_state_gpu_memory": {
         "code": "class _SimulationMetricTracks:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_steady_state_gpu_memory(self, metrics, world_count):\n        return metrics[world_count].gpu_memory_mib\n\nclass KpiDRLegs:\n    def setup_cache(self):\n        return self._collect_metrics()",
@@ -916,11 +916,11 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:151",
+        "setup_cache_key": "simulation.bench_kamino:154",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "MiB",
-        "version": "b57f7c8c9ded842c857c90e83ec77934169963353725c7fd3b9c222945bdb24c"
+        "version": "2"
     },
     "simulation.bench_kamino.NotifyDRLegs.time_notify_actuator_properties": {
         "code": "class NotifyDRLegs:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_notify_actuator_properties(self):\n        self._notify(self._model_flags.ACTUATOR_PROPERTIES)\n\n    def setup(self):\n        from benchmark_kamino import DRLegsBenchmarkWorkload  # noqa: PLC0415\n    \n        import newton  # noqa: PLC0415\n    \n        builder = DRLegsBenchmarkWorkload.create_model_builder(\"dr_legs\", self.world_count)\n        model = builder.finalize(skip_validation_joints=True)\n        self._solver = newton.solvers.SolverKamino(model)\n        self._model_flags = newton.ModelFlags\n        for flag in (\n            self._model_flags.MODEL_PROPERTIES,\n            self._model_flags.BODY_PROPERTIES,\n            self._model_flags.BODY_INERTIAL_PROPERTIES,\n            self._model_flags.SHAPE_PROPERTIES,\n            self._model_flags.JOINT_PROPERTIES,\n            self._model_flags.JOINT_DOF_PROPERTIES,\n            self._model_flags.ACTUATOR_PROPERTIES,\n            self._model_flags.ALL,\n        ):\n            self._solver.notify_model_changed(flag)\n        wp.synchronize_device()",
