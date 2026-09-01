@@ -522,6 +522,51 @@
         "version": "4550069ca84ba0bd50f608a46dad4a7d29ab17d08b7bed62ceea9f55e1c73ee0",
         "warmup_time": -1
     },
+    "simulation.bench_contacts.BroadPhaseCollision.time_collide": {
+        "code": "class BroadPhaseCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        broad_phase, pair_count = case\n        self.launch_count = 20\n        self.model = _build_single_world_scene(pair_count)\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        pipeline_kwargs = {\n            \"broad_phase\": broad_phase,\n            \"rigid_contact_max\": 8 * pair_count,\n            \"contact_matching\": \"latest\",\n            \"verify_buffers\": False,\n        }\n        if broad_phase == \"explicit\":\n            shape_indices = np.arange(2 * pair_count, dtype=np.int32).reshape(-1, 2)\n            pipeline_kwargs[\"shape_pairs_filtered\"] = wp.array(shape_indices, dtype=wp.vec2i, device=device)\n        else:\n            pipeline_kwargs[\"shape_pairs_max\"] = 32_768\n        self.collision_pipeline = newton.CollisionPipeline(self.model, **pipeline_kwargs)\n        self.contacts = self.collision_pipeline.contacts()\n        if broad_phase == \"sap\" and not self.collision_pipeline.broad_phase._single_segment_identity_map:\n            raise RuntimeError(\"SAP benchmark did not select the single-segment identity-map path\")\n    \n        for _ in range(3):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n        contact_count = int(self.contacts.rigid_contact_count.numpy()[0])\n        candidate_count = int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0])\n        match_indices = self.contacts.rigid_contact_match_index.numpy()[:contact_count]\n        if contact_count < pair_count or candidate_count == 0 or not np.any(match_indices >= 0):\n            raise RuntimeError(\"broad-phase benchmark did not produce the intended persistent mixed contacts\")\n        if broad_phase == \"sap\" and not self.collision_pipeline.narrow_phase.split_gjk_mpr:\n            raise RuntimeError(\"SAP benchmark did not select split GJK/MPR\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "min_run_count": 2,
+        "name": "simulation.bench_contacts.BroadPhaseCollision.time_collide",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "('sap', 10000)",
+                "('nxn', 1000)",
+                "('explicit', 10000)"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "6c392a310a7cd5a11b58b2dc061f5f3b87e98f4616feb6dd7f3eb0ede1be7b4a",
+        "warmup_time": -1
+    },
+    "simulation.bench_contacts.ComplexContactCollision.time_collide": {
+        "code": "class ComplexContactCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 20\n        world_count = 64\n        if case == \"mesh_convex\":\n            self.model, max_triangle_pairs = _build_mesh_convex_scene(world_count, resolution=24)\n            pipeline_kwargs = {\n                \"broad_phase\": \"explicit\",\n                \"max_triangle_pairs\": max_triangle_pairs,\n                \"rigid_contact_max\": 1024 * world_count,\n            }\n        elif case == \"mesh_sdf\":\n            self.model = _build_mesh_sdf_scene(world_count, device)\n            pipeline_kwargs = {\n                \"broad_phase\": \"explicit\",\n                \"rigid_contact_max\": 256 * world_count,\n            }\n        else:\n            raise ValueError(f\"Unsupported complex-contact benchmark case: {case}\")\n    \n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            deterministic=True,\n            verify_buffers=False,\n            **pipeline_kwargs,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n        if case == \"mesh_convex\" and not self.collision_pipeline.narrow_phase.convex_support_acceleration:\n            raise RuntimeError(\"mesh-convex benchmark did not enable convex support acceleration\")\n    \n        for _ in range(3):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n    \n        if case == \"mesh_convex\":\n            pair_count = int(self.collision_pipeline.narrow_phase.shape_pairs_mesh_count.numpy()[0])\n        else:\n            pair_count = int(self.collision_pipeline.narrow_phase.shape_pairs_mesh_mesh_count.numpy()[0])\n        if pair_count == 0 or int(self.contacts.rigid_contact_count.numpy()[0]) == 0:\n            raise RuntimeError(f\"complex-contact benchmark did not produce {case} contacts\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "min_run_count": 2,
+        "name": "simulation.bench_contacts.ComplexContactCollision.time_collide",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "'mesh_convex'",
+                "'mesh_sdf'"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "64e9d15a82e9315a1efc7692385465d5cbeec07518d357d29eb4a7fb7f218217",
+        "warmup_time": -1
+    },
     "simulation.bench_contacts.FastConvexCollision.time_collide": {
         "code": "class FastConvexCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 100\n        scene, world_count = case\n        if scene in (\"hulls\", \"hulls_duplicate\"):\n            pair_types = ((\"hull\", \"hull\"),) * len(MIXED_CONVEX_PAIR_TYPES)\n        elif scene == \"mixed\":\n            pair_types = MIXED_CONVEX_PAIR_TYPES\n        else:\n            raise ValueError(f\"Unsupported convex benchmark scene: {scene}\")\n        self.model = _build_convex_scene(\n            world_count,\n            pair_types,\n            triangle_local_vertices=scene == \"hulls_duplicate\",\n        )\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"sap\",\n            rigid_contact_max=self.model.shape_count * 8,\n            verify_buffers=False,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n    \n        for _ in range(5):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        if int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0]) == 0:\n            raise RuntimeError(\"convex benchmark scene produced no GJK candidate pairs\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
         "min_run_count": 2,
@@ -555,7 +600,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:212",
+        "setup_cache_key": "simulation.bench_contacts:290",
         "type": "time",
         "unit": "seconds",
         "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
@@ -586,7 +631,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:176",
+        "setup_cache_key": "simulation.bench_contacts:254",
         "type": "time",
         "unit": "seconds",
         "version": "75fa33f2d98e88de35f707645ccb9f5c5366ca83ed131b9f85b51bc872a30f16",
