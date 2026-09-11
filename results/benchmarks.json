@@ -491,6 +491,28 @@
         "version": "38579de24aa1852dd217c842dc29042fe4671b747fb616437af39fb2e8604988",
         "warmup_time": -1
     },
+    "simulation.bench_cloth.FastDeformableSelfCollision.time_detect": {
+        "code": "class FastDeformableSelfCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_detect(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        resolution, world_count = case\n        builder = newton.ModelBuilder()\n        builder.replicate(_make_collision_world(resolution), world_count)\n        self.model = builder.finalize(device=device)\n        self.detector = TriMeshCollisionDetector(\n            self.model,\n            init_collision_info=True,\n            topological_contact_filter_threshold=0,\n            vertex_collision_buffer_pre_alloc=64,\n            edge_collision_buffer_pre_alloc=64,\n        )\n        self.radius = 0.012\n    \n        for _ in range(self.warmup_count):\n            self._detect()\n        if self.detector.resize_flags.numpy().any():\n            raise RuntimeError(\"collision buffers overflowed; increase the pre-allocated sizes\")\n        with wp.ScopedCapture(device=device) as capture:\n            self._detect()\n        self.graph = capture.graph",
+        "min_run_count": 2,
+        "name": "simulation.bench_cloth.FastDeformableSelfCollision.time_detect",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "(256, 1)",
+                "(16, 1024)"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "acb2295421dcfd9524e4f83630b7a548812ab298e36f1776aef96cf985c8e727",
+        "warmup_time": -1
+    },
     "simulation.bench_cloth.FastExampleClothManipulation.time_simulate": {
         "code": "class FastExampleClothManipulation:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleClothManipulation(ViewerNull(num_frames=self.num_frames), args)",
         "min_run_count": 2,
