@@ -622,7 +622,7 @@
         "repeat": 5,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:336",
+        "setup_cache_key": "simulation.bench_contacts:339",
         "type": "time",
         "unit": "seconds",
         "version": "19b79dc89e90198f18d5a020706695ed06f8f563348494927ea53c086d57c082",
@@ -638,7 +638,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:290",
+        "setup_cache_key": "simulation.bench_contacts:293",
         "type": "time",
         "unit": "seconds",
         "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
@@ -669,7 +669,7 @@
         "repeat": 5,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:336",
+        "setup_cache_key": "simulation.bench_contacts:339",
         "type": "time",
         "unit": "seconds",
         "version": "19b79dc89e90198f18d5a020706695ed06f8f563348494927ea53c086d57c082",
@@ -685,10 +685,31 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:254",
+        "setup_cache_key": "simulation.bench_contacts:257",
         "type": "time",
         "unit": "seconds",
         "version": "75fa33f2d98e88de35f707645ccb9f5c5366ca83ed131b9f85b51bc872a30f16",
+        "warmup_time": -1
+    },
+    "simulation.bench_contacts.SplitConvexCollision.time_collide": {
+        "code": "class SplitConvexCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 20\n        _scene, world_count = case\n        pair_types = ((\"hull\", \"hull\"),) * len(MIXED_CONVEX_PAIR_TYPES)\n        self.model = _build_convex_scene(world_count, pair_types)\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"sap\",\n            rigid_contact_max=self.model.shape_count * 8,\n            verify_buffers=False,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n    \n        # This benchmark exists to cover the split path. If the scene stops\n        # crossing the activation threshold it would silently start timing the\n        # monolithic kernel instead, so fail loudly rather than drift.\n        if not self.collision_pipeline.narrow_phase.split_gjk_mpr:\n            raise RuntimeError(\"split convex benchmark scene did not activate the split GJK/MPR path\")\n    \n        for _ in range(5):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        if int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0]) == 0:\n            raise RuntimeError(\"convex benchmark scene produced no GJK candidate pairs\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "min_run_count": 2,
+        "name": "simulation.bench_contacts.SplitConvexCollision.time_collide",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "('hulls_split', 4096)"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "58da59f274e2cceaacc9de29452cae0b40a3808a189de1f9a21762c13af46906",
         "warmup_time": -1
     },
     "simulation.bench_cpu.CpuIKFranka.time_solve": {
