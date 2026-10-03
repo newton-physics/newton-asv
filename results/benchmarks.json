@@ -2098,6 +2098,354 @@
         "version": "1d5ae94d0fbd9942b54483081a9ad25b2e28122d1c6749b38c297816aa125377",
         "warmup_time": -1
     },
+    "simulation.bench_sensor_camera.FastSensorCamera.time_render_color_depth": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.FastSensorCamera.time_render_color_depth",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "26ba8be1e18e4c31084f4dbc4afe8bb6cab749e9ab95a9b6bf53f1d3503b21ee",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.FastSensorCamera.time_render_color_only": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.FastSensorCamera.time_render_color_only",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "5d1a9b53cd8c69972821a20c9d422e8fcff6bf35f897b0222245b4d7aaee3741",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.FastSensorCamera.time_render_depth_only": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.FastSensorCamera.time_render_depth_only",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "ab4c517d0d8b0773a1838b3030ded1b5d29d5415bc845ee263c7d05b9b64acbf",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.FastSensorCameraPixel.time_render_color_depth": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.FastSensorCameraPixel.time_render_color_depth",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "26ba8be1e18e4c31084f4dbc4afe8bb6cab749e9ab95a9b6bf53f1d3503b21ee",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.FastSensorCameraPixel.time_render_color_only": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.FastSensorCameraPixel.time_render_color_only",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "5d1a9b53cd8c69972821a20c9d422e8fcff6bf35f897b0222245b4d7aaee3741",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.FastSensorCameraPixel.time_render_depth_only": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.FastSensorCameraPixel.time_render_depth_only",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "ab4c517d0d8b0773a1838b3030ded1b5d29d5415bc845ee263c7d05b9b64acbf",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.SensorCameraQuadruped.time_render_color_depth": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.SensorCameraQuadruped.time_render_color_depth",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "26ba8be1e18e4c31084f4dbc4afe8bb6cab749e9ab95a9b6bf53f1d3503b21ee",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.SensorCameraQuadruped.time_render_color_only": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.SensorCameraQuadruped.time_render_color_only",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "5d1a9b53cd8c69972821a20c9d422e8fcff6bf35f897b0222245b4d7aaee3741",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.SensorCameraQuadruped.time_render_depth_only": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.SensorCameraQuadruped.time_render_depth_only",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "ab4c517d0d8b0773a1838b3030ded1b5d29d5415bc845ee263c7d05b9b64acbf",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.SensorCameraShapes256.time_render_color_depth": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.SensorCameraShapes256.time_render_color_depth",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "26ba8be1e18e4c31084f4dbc4afe8bb6cab749e9ab95a9b6bf53f1d3503b21ee",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.SensorCameraShapes256.time_render_color_only": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=False)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.SensorCameraShapes256.time_render_color_only",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "5d1a9b53cd8c69972821a20c9d422e8fcff6bf35f897b0222245b4d7aaee3741",
+        "warmup_time": -1
+    },
+    "simulation.bench_sensor_camera.SensorCameraShapes256.time_render_depth_only": {
+        "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_depth_only(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=False, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _SensorCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        # Compile and warm the render kernels for every output combination measured below.\n        for color, depth in ((True, True), (True, False), (False, True)):\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
+        "min_run_count": 2,
+        "name": "simulation.bench_sensor_camera.SensorCameraShapes256.time_render_depth_only",
+        "number": 0,
+        "param_names": [
+            "resolution",
+            "world_count",
+            "iterations"
+        ],
+        "params": [
+            [
+                "64"
+            ],
+            [
+                "4096"
+            ],
+            [
+                "50"
+            ]
+        ],
+        "repeat": 0,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "ab4c517d0d8b0773a1838b3030ded1b5d29d5415bc845ee263c7d05b9b64acbf",
+        "warmup_time": -1
+    },
     "simulation.bench_sensor_tiled_camera.FastSensorTiledCamera.time_render_color_depth": {
         "code": "class _SceneBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_render_color_depth(self, resolution: int, world_count: int, iterations: int):\n        for _ in range(iterations):\n            self.rig.render(color=True, depth=True)\n        wp.synchronize()\n\n    def setup(self, resolution: int, world_count: int, iterations: int):\n        self.rig = _TiledCameraSceneRig(SCENES[self.scene], world_count, resolution, self.render_order)\n        output_modes = ((True, True), (True, False), (False, True))\n        if os.environ.get(\"NEWTON_ASV_PR_GATE\") and self.pr_gate_output_modes is not None:\n            output_modes = self.pr_gate_output_modes\n        # Compile and warm each output combination selected by this ASV run.\n        for color, depth in output_modes:\n            self.rig.render(color=color, depth=depth)\n        wp.synchronize()",
         "min_run_count": 2,
