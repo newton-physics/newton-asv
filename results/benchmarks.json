@@ -77,6 +77,35 @@
         "version": "156564a71da0483e487b79b3529bc50e31f7281c494a48b9ca2d12300094be02",
         "warmup_time": 0
     },
+    "setup.bench_collision.CollisionPipelineSetup.time_construct": {
+        "code": "class CollisionPipelineSetup:\n    def time_construct(self, world_count, broad_phase):\n        self.pipeline = newton.CollisionPipeline(self.model, broad_phase=broad_phase)\n        wp.synchronize_device(self.model.device)\n\n    def setup(self, world_count, broad_phase):\n        world = newton.ModelBuilder()\n        for i in range(16):\n            body = world.add_body(xform=wp.transform((i * 0.4, 0.0, 0.5), wp.quat_identity()))\n            if i % 2:\n                world.add_shape_cylinder(body, radius=0.15, half_height=0.3)\n            else:\n                world.add_shape_box(body, hx=0.15, hy=0.15, hz=0.3)\n        builder = newton.ModelBuilder()\n        builder.replicate(world, world_count)\n        builder.add_ground_plane()\n        self.model = builder.finalize()\n        self.pipeline = newton.CollisionPipeline(self.model, broad_phase=broad_phase)\n        wp.synchronize_device(self.model.device)",
+        "min_run_count": 2,
+        "name": "setup.bench_collision.CollisionPipelineSetup.time_construct",
+        "number": 1,
+        "param_names": [
+            "world_count",
+            "broad_phase"
+        ],
+        "params": [
+            [
+                "1",
+                "1024",
+                "4096"
+            ],
+            [
+                "'sap'",
+                "'nxn'",
+                "'explicit'"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "16ee480fa1b14f594369b50a77dce806290ced8db574f3f26acb1367f55672c8",
+        "warmup_time": -1
+    },
     "setup.bench_model.FastInitializeModel.peakmem_initialize_model_cpu": {
         "code": "class FastInitializeModel:\n    def peakmem_initialize_model_cpu(self, robot, world_count):\n        gc.collect()\n    \n        with wp.ScopedDevice(\"cpu\"):\n            builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n            # finalize model\n            model = builder.finalize()\n    \n        del model\n\n    def setup_cache(self):\n        # Finalize small models first so the asset download and one-time kernel\n        # compilation stay out of the timed builds. Warp compiles per device\n        # target, so warm both the default device (for time_initialize_model)\n        # and CPU (for peakmem_initialize_model_cpu). Fresh builder per\n        # finalize: finalize() mutates builder state in place.\n        for robot in self.params[0]:\n            for device in (None, \"cpu\"):\n                builder = Example.create_model_builder(robot, 1, randomize=False, seed=123)\n                model = builder.finalize(device=device)\n                del model\n                del builder",
         "name": "setup.bench_model.FastInitializeModel.peakmem_initialize_model_cpu",
