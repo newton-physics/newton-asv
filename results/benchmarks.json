@@ -1210,7 +1210,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "ms/frame",
@@ -1227,7 +1227,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "x",
@@ -1244,7 +1244,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "s",
@@ -1261,7 +1261,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1278,7 +1278,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "ms/world-step",
@@ -1295,7 +1295,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "world-steps/s",
@@ -1312,7 +1312,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1329,7 +1329,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1346,7 +1346,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:331",
+        "setup_cache_key": "simulation.bench_mujoco:337",
         "timeout": 900,
         "type": "track",
         "unit": "MiB",
@@ -1363,7 +1363,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "ms/frame",
         "version": "9513fc66a1851ea1d49fcec0737f0b69e41e7e77f76f31e8382989f3ce36c4cb"
@@ -1379,7 +1379,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "x",
         "version": "2cf9a8e765b1c8574a232456c46caa981710fc1306867f3f4dcb0142e663f9c6"
@@ -1395,7 +1395,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "s",
         "version": "aa9f01d609ad4fac8f76696dede42bace06ed921d88e19a0032aca74dbeed4b7"
@@ -1411,7 +1411,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "5b0cbaf05c5c31603fb09b8df3df5350c2ca60834e3539a615f6df8e5742fedb"
@@ -1427,7 +1427,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "ms/world-step",
         "version": "8a800c46570dc8f80a53c8c5d6ee5a40f026717d956789815d2ae13f1fce0c4e"
@@ -1443,7 +1443,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "world-steps/s",
         "version": "e6060227a79bffa295e593f883c3fea682a8dfdc5d811bf60c37885959fe076e"
@@ -1459,7 +1459,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "iterations",
         "version": "5e3e0bc42438fa2e54763f6437879cf215215b82594ea15a84195aa58bad3c1b"
@@ -1475,7 +1475,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "iterations",
         "version": "98ee8b9e77815d97b43f757c1657433d8b290e34b8f6bdedf9f3ff3e9233db17"
@@ -1491,7 +1491,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:270",
+        "setup_cache_key": "simulation.bench_mujoco:276",
         "type": "track",
         "unit": "MiB",
         "version": "331b49991fcf795d70f17a67c05b5a5ab5bff0e215f7bfba23e7ef34b93a3e5a"
@@ -1507,7 +1507,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "ms/frame",
@@ -1524,7 +1524,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "x",
@@ -1541,7 +1541,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "s",
@@ -1558,7 +1558,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1575,7 +1575,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "ms/world-step",
@@ -1592,7 +1592,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "world-steps/s",
@@ -1609,7 +1609,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1626,7 +1626,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1643,7 +1643,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:283",
+        "setup_cache_key": "simulation.bench_mujoco:289",
         "timeout": 900,
         "type": "track",
         "unit": "MiB",
@@ -1660,7 +1660,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "ms/frame",
         "version": "b78f42ea9dcb2cd4aade0ace8c787f77c04111d7f72713924511d69ba89bd64d"
@@ -1676,7 +1676,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "x",
         "version": "5a41b7f2e7323c06c07a288a27ee42fdd7b111d2b0552f41cdd46e6e488c3783"
@@ -1692,7 +1692,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "s",
         "version": "8add2a3682512a614c90d2e40cba15975a0816e9202a364ae9c8255b151fb1ba"
@@ -1708,7 +1708,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "9a8cd40188f82e627eb8019e3a4a8a3907fd72a1b0ff87bb6fa891f07f6276e3"
@@ -1724,7 +1724,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "ms/world-step",
         "version": "7022153f0c8e8a37e16f036d8763c852d238e5f33b4c69c6b4e0c70cac342993"
@@ -1740,7 +1740,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "world-steps/s",
         "version": "a0073d804c51f1e082d4032ee5f5137cad92e5482da5a561964fb481821ae37e"
@@ -1756,7 +1756,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "iterations",
         "version": "48a9ee7416d6081f9465b8d10fec5488175c843e974908046ef81dce9d1cdbe1"
@@ -1772,7 +1772,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "iterations",
         "version": "cf9d52fd67cddcee4d27743ca9c2173abbb9174c61a200c238ca78727583365d"
@@ -1788,7 +1788,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:304",
+        "setup_cache_key": "simulation.bench_mujoco:310",
         "type": "track",
         "unit": "MiB",
         "version": "a60e9c9f13a32297f68e41486deaf03e6debc042f98dfee7237b38986d13cd9a"
@@ -1804,7 +1804,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "ms/frame",
@@ -1821,7 +1821,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "x",
@@ -1838,7 +1838,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "s",
@@ -1855,7 +1855,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1872,7 +1872,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "ms/world-step",
@@ -1889,7 +1889,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "world-steps/s",
@@ -1906,7 +1906,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1923,7 +1923,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "iterations",
@@ -1940,7 +1940,7 @@
                 "512"
             ]
         ],
-        "setup_cache_key": "simulation.bench_mujoco:350",
+        "setup_cache_key": "simulation.bench_mujoco:356",
         "timeout": 900,
         "type": "track",
         "unit": "MiB",
@@ -2111,6 +2111,56 @@
         "type": "track",
         "unit": "MiB",
         "version": "d4d248a76866c8539e82ab296b14546e070a817081be07f954e6a6b24b6f6ca1"
+    },
+    "simulation.bench_reset.FastPartialResetStepHumanoidMuJoCo.time_reset_and_first_step": {
+        "code": "class _ResetWithStep:\n    def time_reset_and_first_step(self, world_count, reset_count):\n        self._reset_and_step()\n        wp.synchronize_device(self.device)\n\n    def setup(self, world_count, reset_count):\n        super().setup(world_count, reset_count)\n        # Check the reset state before any integration, then restore dirty input.\n        self._reset()\n        self._verify_reset(world_count)\n        self._prepare_dirty(world_count)\n        self.reference, _ = self._create_example(world_count)\n        np.testing.assert_array_equal(self.reference.model.joint_q.numpy(), self.example.model.joint_q.numpy())\n        np.testing.assert_array_equal(self.reference.model.joint_qd.numpy(), self.example.model.joint_qd.numpy())\n        assert self.reference.sim_dt == self.example.sim_dt\n    \n        # Compile one complete measured path and one direct reference step.\n        self._reset_and_step()\n        self.reference.state_0.clear_forces()\n        self.reference.solver.step(\n            self.reference.state_0,\n            self.reference.state_1,\n            self.reference.control,\n            getattr(self.reference, \"contacts\", None),\n            self.reference.sim_dt,\n        )\n        self.reference.state_0, self.reference.state_1 = self.reference.state_1, self.reference.state_0\n    \n        self._prepare_dirty(world_count)\n        self._snapshot_reset_expected(world_count)\n        ref_state = self.reference.state_0\n        expected_q = self.dirty_q.copy()\n        expected_q[self.selected] = self.target_q_np[self.selected]\n        expected_qd = self.dirty_qd.copy()\n        expected_qd[self.selected] = self.target_qd_np[self.selected]\n        ref_state.joint_q.assign(expected_q.reshape(ref_state.joint_q.shape))\n        ref_state.joint_qd.assign(expected_qd.reshape(ref_state.joint_qd.shape))\n        newton.eval_fk(self.reference.model, ref_state.joint_q, ref_state.joint_qd, ref_state)\n        for name in self._buffer_names:\n            dirty = self.dirty_buffers[name].copy()\n            dirty.reshape((world_count, -1))[self.selected] = 0.0\n            getattr(self.reference.solver.mjw_data, name).assign(dirty)\n    \n        # The independent expected operation never calls _reset or a selection setter.\n        ref_state.clear_forces()\n        self.reference.solver.step(\n            ref_state,\n            self.reference.state_1,\n            self.reference.control,\n            getattr(self.reference, \"contacts\", None),\n            self.reference.sim_dt,\n        )\n        self.reference.state_0, self.reference.state_1 = self.reference.state_1, ref_state\n        self.poststep_expected = {\n            name: getattr(self.reference.state_0, name).numpy().reshape((world_count, -1))\n            for name in (\"joint_q\", \"joint_qd\", \"body_q\", \"body_qd\")\n        }\n        self.poststep_expected.update(\n            {\n                name: getattr(self.reference.solver.mjw_data, name).numpy().reshape((world_count, -1))\n                for name in (\"qpos\", \"qvel\")\n            }\n        )\n        wp.synchronize_device(self.device)",
+        "min_run_count": 2,
+        "name": "simulation.bench_reset.FastPartialResetStepHumanoidMuJoCo.time_reset_and_first_step",
+        "number": 1,
+        "param_names": [
+            "world_count",
+            "reset_count"
+        ],
+        "params": [
+            [
+                "2048"
+            ],
+            [
+                "512"
+            ]
+        ],
+        "repeat": 10,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "34658620b235b52d9e3f15f3932df4fd99ce6f3164652e818411903618c34898",
+        "warmup_time": 0
+    },
+    "simulation.bench_reset.FullResetHumanoidMuJoCo.time_reset": {
+        "code": "class _ResetOnly:\n    def time_reset(self, world_count, reset_count):\n        self._reset()\n        wp.synchronize_device(self.device)\n\nclass _Reset:\n    def setup(self, world_count, reset_count):\n        if not wp.get_device().is_cuda:\n            raise SkipNotImplemented\n    \n        self.example, self.view = self._create_example(world_count)\n        self.solver = self.example.solver\n        self.state = self.example.state_0\n        self.state_out = self.example.state_1\n        self.device = self.example.model.device\n        assert not self.solver.use_mujoco_cpu\n        assert self.solver.update_data_interval == 1\n        assert not self.solver.enable_sleeping\n    \n        self.selected = np.zeros(world_count, dtype=bool)\n        self.selected[:: world_count // reset_count] = True\n        assert np.count_nonzero(self.selected) == reset_count\n        self.view_mask = (\n            None if reset_count == world_count else wp.array(self.selected, dtype=wp.bool, device=self.device)\n        )\n        self.world_mask = (\n            None\n            if reset_count == world_count\n            else wp.array(np.append(self.selected, False), dtype=wp.bool, device=self.device)\n        )\n        self.fk_mask = None if self.view_mask is None else self.view.get_model_articulation_mask(self.view_mask)\n    \n        model = self.example.model\n        self.target_q_np, self.target_qd_np, self.dirty_q, self.dirty_qd = self._make_joint_states(model, world_count)\n        self.target_q = wp.array(self.target_q_np, dtype=wp.float32, device=self.device)\n        self.target_qd = wp.array(self.target_qd_np, dtype=wp.float32, device=self.device)\n    \n        target_state = model.state()\n        self.view.set_dof_positions(target_state, self.target_q)\n        self.view.set_dof_velocities(target_state, self.target_qd)\n        newton.eval_fk(model, target_state.joint_q, target_state.joint_qd, target_state)\n        self.target_body = {\n            name: getattr(target_state, name).numpy().reshape((world_count, -1)) for name in (\"body_q\", \"body_qd\")\n        }\n    \n        # Compile the reset path, then make its timed input different from the target.\n        self._reset()\n        self._prepare_dirty(world_count)\n        self._snapshot_reset_expected(world_count)\n        wp.synchronize_device(self.device)",
+        "min_run_count": 2,
+        "name": "simulation.bench_reset.FullResetHumanoidMuJoCo.time_reset",
+        "number": 1,
+        "param_names": [
+            "world_count",
+            "reset_count"
+        ],
+        "params": [
+            [
+                "2048"
+            ],
+            [
+                "2048"
+            ]
+        ],
+        "repeat": 10,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "type": "time",
+        "unit": "seconds",
+        "version": "84cfb7630e31f2a17a0490e147e28b150a37d1cbefca3b9342b44262a51dc0b3",
+        "warmup_time": 0
     },
     "simulation.bench_selection.FastExampleSelectionCartpoleMuJoCo.time_simulate": {
         "code": "class FastExampleSelectionCartpoleMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 200\n        if hasattr(newton.examples, \"default_args\") and hasattr(Example, \"create_parser\"):\n            args = newton.examples.default_args(Example.create_parser())\n            self.example = Example(newton.viewer.ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = Example(\n                viewer=newton.viewer.ViewerNull(num_frames=self.num_frames), world_count=16, verbose=False\n            )",
