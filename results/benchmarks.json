@@ -123,7 +123,7 @@
                 "256"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:169",
+        "setup_cache_key": "setup.bench_model:199",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "889585d54e5e70fe61ed7e1e066b837180ea8bde16da86aa735ad894f10f63f4"
@@ -150,7 +150,7 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:169",
+        "setup_cache_key": "setup.bench_model:199",
         "type": "time",
         "unit": "seconds",
         "version": "2c5b54190ffe915edf4bedba6e1bda0783dd321f2141a56e52ace85061077198",
@@ -288,6 +288,102 @@
         "version": "1eb1943d31536b040079c24c6428a73a866fdab4411562e31dbf0c79bcb18df9",
         "warmup_time": -1
     },
+    "setup.bench_model.KpiInitializeModel.track_initialize_model": {
+        "code": "class KpiInitializeModel:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_initialize_model(self, metrics, robot, world_count):\n        return metrics[robot, world_count].model_time\n\nclass _KpiInitialize:\n    def setup_cache(self):\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # ASV runs an inherited setup_cache once and shares its result, so collect\n        # the base parameters rather than those of the class that triggers it.\n        robots, world_counts = _KpiInitialize.params\n        metrics = {}\n        for robot in robots:\n            for world_count in world_counts:\n                # Warm the measured configuration: multi-world workloads can use different kernels.\n                collect_startup_metrics(partial(self._create_workload, robot, world_count), samples=1)\n                metrics[robot, world_count] = collect_startup_metrics(\n                    partial(self._create_workload, robot, world_count), self.samples\n                )\n        return metrics",
+        "name": "setup.bench_model.KpiInitializeModel.track_initialize_model",
+        "param_names": [
+            "robot",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'humanoid'",
+                "'g1'",
+                "'cartpole'"
+            ],
+            [
+                "8192"
+            ]
+        ],
+        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "505c7c305ef135918323f60fa5bdf0c143579319f519676be7ea3ae7cda1a020"
+    },
+    "setup.bench_model.KpiInitializeModel.track_mean_finalize_time": {
+        "code": "class KpiInitializeModel:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_mean_finalize_time(self, metrics, robot, world_count):\n        return metrics[robot, world_count].finalize_time\n\nclass _KpiInitialize:\n    def setup_cache(self):\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # ASV runs an inherited setup_cache once and shares its result, so collect\n        # the base parameters rather than those of the class that triggers it.\n        robots, world_counts = _KpiInitialize.params\n        metrics = {}\n        for robot in robots:\n            for world_count in world_counts:\n                # Warm the measured configuration: multi-world workloads can use different kernels.\n                collect_startup_metrics(partial(self._create_workload, robot, world_count), samples=1)\n                metrics[robot, world_count] = collect_startup_metrics(\n                    partial(self._create_workload, robot, world_count), self.samples\n                )\n        return metrics",
+        "name": "setup.bench_model.KpiInitializeModel.track_mean_finalize_time",
+        "param_names": [
+            "robot",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'humanoid'",
+                "'g1'",
+                "'cartpole'"
+            ],
+            [
+                "8192"
+            ]
+        ],
+        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "63b69bc9918e3f35fe421f1015c7033a426e8f4a25c076f139a38c2b4b922674"
+    },
+    "setup.bench_model.KpiInitializeModel.track_mean_replication_time": {
+        "code": "class KpiInitializeModel:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_mean_replication_time(self, metrics, robot, world_count):\n        return metrics[robot, world_count].replication_time\n\nclass _KpiInitialize:\n    def setup_cache(self):\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # ASV runs an inherited setup_cache once and shares its result, so collect\n        # the base parameters rather than those of the class that triggers it.\n        robots, world_counts = _KpiInitialize.params\n        metrics = {}\n        for robot in robots:\n            for world_count in world_counts:\n                # Warm the measured configuration: multi-world workloads can use different kernels.\n                collect_startup_metrics(partial(self._create_workload, robot, world_count), samples=1)\n                metrics[robot, world_count] = collect_startup_metrics(\n                    partial(self._create_workload, robot, world_count), self.samples\n                )\n        return metrics",
+        "name": "setup.bench_model.KpiInitializeModel.track_mean_replication_time",
+        "param_names": [
+            "robot",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'humanoid'",
+                "'g1'",
+                "'cartpole'"
+            ],
+            [
+                "8192"
+            ]
+        ],
+        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "d7641196ede857d223061c7d7d0947eb8f1a7d1f1fb8aca8c50e25a7620918dd"
+    },
+    "setup.bench_model.KpiInitializeModel.track_mean_startup_time": {
+        "code": "class KpiInitializeModel:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_mean_startup_time(self, metrics, robot, world_count):\n        return metrics[robot, world_count].total_time\n\nclass _KpiInitialize:\n    def setup_cache(self):\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # ASV runs an inherited setup_cache once and shares its result, so collect\n        # the base parameters rather than those of the class that triggers it.\n        robots, world_counts = _KpiInitialize.params\n        metrics = {}\n        for robot in robots:\n            for world_count in world_counts:\n                # Warm the measured configuration: multi-world workloads can use different kernels.\n                collect_startup_metrics(partial(self._create_workload, robot, world_count), samples=1)\n                metrics[robot, world_count] = collect_startup_metrics(\n                    partial(self._create_workload, robot, world_count), self.samples\n                )\n        return metrics",
+        "name": "setup.bench_model.KpiInitializeModel.track_mean_startup_time",
+        "param_names": [
+            "robot",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'humanoid'",
+                "'g1'",
+                "'cartpole'"
+            ],
+            [
+                "8192"
+            ]
+        ],
+        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "3467faf4ba6b562bd07ced4eadcb934c74748d80b463ec9babaab44b21c00003"
+    },
     "setup.bench_model.KpiInitializeModelTiledCamera.time_finalize_model": {
         "code": "class _InitializeModelTiledCamera:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_finalize_model(self, scene, world_count):\n        _model, _sensor = self._initialize_model_and_sensor(self.replicated_builder)\n        wp.synchronize_device()\n\n    def setup(self, scene, world_count):\n        self.world = TILED_CAMERA_SCENES[scene].build()\n        warmup = self._replicate(1)\n        _model, _sensor = self._initialize_model_and_sensor(warmup)\n        self.replicated_builder = self._replicate(world_count)\n        wp.synchronize_device()",
         "min_run_count": 1,
@@ -370,6 +466,31 @@
         "unit": "seconds",
         "version": "e358228dda3fc4e02785210c91dce733b1d1aebbce52f3d3ac0dedf2827160a3",
         "warmup_time": -1
+    },
+    "setup.bench_model.KpiInitializeSolver.track_initialize_solver": {
+        "code": "class KpiInitializeSolver:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_initialize_solver(self, metrics, robot, world_count):\n        return metrics[robot, world_count].solver_time\n\nclass _KpiInitialize:\n    def setup_cache(self):\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # ASV runs an inherited setup_cache once and shares its result, so collect\n        # the base parameters rather than those of the class that triggers it.\n        robots, world_counts = _KpiInitialize.params\n        metrics = {}\n        for robot in robots:\n            for world_count in world_counts:\n                # Warm the measured configuration: multi-world workloads can use different kernels.\n                collect_startup_metrics(partial(self._create_workload, robot, world_count), samples=1)\n                metrics[robot, world_count] = collect_startup_metrics(\n                    partial(self._create_workload, robot, world_count), self.samples\n                )\n        return metrics",
+        "name": "setup.bench_model.KpiInitializeSolver.track_initialize_solver",
+        "param_names": [
+            "robot",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'humanoid'",
+                "'g1'",
+                "'cartpole'",
+                "'ant'"
+            ],
+            [
+                "8192"
+            ]
+        ],
+        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "fe62ad9a8c5a6cc3e4359471cbde0d07e63284d0ba8118c32037246cb945d278"
     },
     "setup.bench_model.KpiInitializeViewerGL.time_initialize_renderer": {
         "code": "class KpiInitializeViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_renderer(self, robot, world_count):\n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)\n    \n        wp.synchronize_device()\n        self.renderer.close()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()",
@@ -889,7 +1010,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:137",
+        "setup_cache_key": "simulation.bench_kamino:182",
         "type": "track",
         "unit": "ms/world-step",
         "version": "2"
@@ -899,7 +1020,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:137",
+        "setup_cache_key": "simulation.bench_kamino:182",
         "type": "track",
         "unit": "ms/frame",
         "version": "2"
@@ -909,7 +1030,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:137",
+        "setup_cache_key": "simulation.bench_kamino:182",
         "type": "track",
         "unit": "x",
         "version": "2"
@@ -919,7 +1040,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:137",
+        "setup_cache_key": "simulation.bench_kamino:182",
         "type": "track",
         "unit": "s",
         "version": "2"
@@ -929,7 +1050,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:137",
+        "setup_cache_key": "simulation.bench_kamino:182",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "2"
@@ -939,7 +1060,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:137",
+        "setup_cache_key": "simulation.bench_kamino:182",
         "type": "track",
         "unit": "world-steps/s",
         "version": "2"
@@ -949,7 +1070,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:137",
+        "setup_cache_key": "simulation.bench_kamino:182",
         "type": "track",
         "unit": "MiB",
         "version": "2"
@@ -988,7 +1109,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:154",
+        "setup_cache_key": "simulation.bench_kamino:199",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "ms/frame",
@@ -1005,7 +1126,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:154",
+        "setup_cache_key": "simulation.bench_kamino:199",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "x",
@@ -1022,7 +1143,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:154",
+        "setup_cache_key": "simulation.bench_kamino:199",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "s",
@@ -1039,7 +1160,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:154",
+        "setup_cache_key": "simulation.bench_kamino:199",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1056,7 +1177,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:154",
+        "setup_cache_key": "simulation.bench_kamino:199",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "ms/world-step",
@@ -1073,7 +1194,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:154",
+        "setup_cache_key": "simulation.bench_kamino:199",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "world-steps/s",
@@ -1090,7 +1211,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:154",
+        "setup_cache_key": "simulation.bench_kamino:199",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "MiB",
