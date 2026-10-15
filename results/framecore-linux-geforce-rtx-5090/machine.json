@@ -1,0 +1,10 @@
+{
+    "arch": "x86_64",
+    "cpu": "AMD Ryzen 7 7800X3D 8-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "machine": "framecore-linux-geforce-rtx-5090",
+    "num_cpu": "16",
+    "os": "Linux",
+    "ram": "128 GB",
+    "version": 1
+}
