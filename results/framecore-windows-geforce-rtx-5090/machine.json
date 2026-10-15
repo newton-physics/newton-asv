@@ -1,0 +1,10 @@
+{
+    "arch": "x86_64",
+    "cpu": "AMD Ryzen 5 9600X 6-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "machine": "framecore-windows-geforce-rtx-5090",
+    "num_cpu": "12",
+    "os": "Windows 11",
+    "ram": "Not reported",
+    "version": 1
+}
