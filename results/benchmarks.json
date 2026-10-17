@@ -123,7 +123,7 @@
                 "256"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:199",
+        "setup_cache_key": "setup.bench_model:303",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "889585d54e5e70fe61ed7e1e066b837180ea8bde16da86aa735ad894f10f63f4"
@@ -150,7 +150,7 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:199",
+        "setup_cache_key": "setup.bench_model:303",
         "type": "time",
         "unit": "seconds",
         "version": "2c5b54190ffe915edf4bedba6e1bda0783dd321f2141a56e52ace85061077198",
@@ -305,7 +305,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_key": "setup.bench_model:61",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -329,7 +329,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_key": "setup.bench_model:61",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -353,7 +353,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_key": "setup.bench_model:61",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -377,12 +377,72 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_key": "setup.bench_model:61",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
         "unit": "s",
         "version": "3467faf4ba6b562bd07ced4eadcb934c74748d80b463ec9babaab44b21c00003"
+    },
+    "setup.bench_model.KpiInitializeModelLargeWorld.peakmem_initialize_model_cpu": {
+        "code": "class KpiInitializeModelLargeWorld:\n    def peakmem_initialize_model_cpu(self, metrics=None):\n        gc.collect()\n    \n        with wp.ScopedDevice(\"cpu\"):\n            model, pipeline, solver = self._initialize(10000)\n    \n        del model, pipeline, solver\n\n    def setup_cache(self):\n        # Warm CPU kernels for the separate peak-memory measurement.\n        with wp.ScopedDevice(\"cpu\"):\n            self._initialize(4)\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # Warm the measured configuration before collecting phase averages.\n        workload = self._initialize(10000)\n        del workload\n        gc.collect()\n        wp.synchronize_device()\n    \n        sample_times = []\n        for _ in range(self.samples):\n            phase_times = {}\n            start_time = time.perf_counter()\n            workload = self._initialize(10000, phase_times)\n            phase_times[\"total\"] = time.perf_counter() - start_time\n            del workload\n            gc.collect()\n            wp.synchronize_device()\n            sample_times.append(phase_times)\n    \n        return {name: fmean(times[name] for times in sample_times) for name in (\"model\", \"finalize\", \"solver\", \"total\")}",
+        "name": "setup.bench_model.KpiInitializeModelLargeWorld.peakmem_initialize_model_cpu",
+        "param_names": [],
+        "params": [],
+        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "peakmemory",
+        "unit": "bytes",
+        "version": "58c35b87e126111ed9b0bdd05095f3348aa9a894799f31ae1362b6f0005eceb9"
+    },
+    "setup.bench_model.KpiInitializeModelLargeWorld.track_initialize_model": {
+        "code": "class KpiInitializeModelLargeWorld:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_initialize_model(self, metrics):\n        return metrics[\"model\"]\n\n    def setup_cache(self):\n        # Warm CPU kernels for the separate peak-memory measurement.\n        with wp.ScopedDevice(\"cpu\"):\n            self._initialize(4)\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # Warm the measured configuration before collecting phase averages.\n        workload = self._initialize(10000)\n        del workload\n        gc.collect()\n        wp.synchronize_device()\n    \n        sample_times = []\n        for _ in range(self.samples):\n            phase_times = {}\n            start_time = time.perf_counter()\n            workload = self._initialize(10000, phase_times)\n            phase_times[\"total\"] = time.perf_counter() - start_time\n            del workload\n            gc.collect()\n            wp.synchronize_device()\n            sample_times.append(phase_times)\n    \n        return {name: fmean(times[name] for times in sample_times) for name in (\"model\", \"finalize\", \"solver\", \"total\")}",
+        "name": "setup.bench_model.KpiInitializeModelLargeWorld.track_initialize_model",
+        "param_names": [],
+        "params": [],
+        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "28d68df31a256604ad6e7ae1b0f9e228eee932d5b63064cb1c34b505f2f12e9a"
+    },
+    "setup.bench_model.KpiInitializeModelLargeWorld.track_initialize_solver": {
+        "code": "class KpiInitializeModelLargeWorld:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_initialize_solver(self, metrics):\n        return metrics[\"solver\"]\n\n    def setup_cache(self):\n        # Warm CPU kernels for the separate peak-memory measurement.\n        with wp.ScopedDevice(\"cpu\"):\n            self._initialize(4)\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # Warm the measured configuration before collecting phase averages.\n        workload = self._initialize(10000)\n        del workload\n        gc.collect()\n        wp.synchronize_device()\n    \n        sample_times = []\n        for _ in range(self.samples):\n            phase_times = {}\n            start_time = time.perf_counter()\n            workload = self._initialize(10000, phase_times)\n            phase_times[\"total\"] = time.perf_counter() - start_time\n            del workload\n            gc.collect()\n            wp.synchronize_device()\n            sample_times.append(phase_times)\n    \n        return {name: fmean(times[name] for times in sample_times) for name in (\"model\", \"finalize\", \"solver\", \"total\")}",
+        "name": "setup.bench_model.KpiInitializeModelLargeWorld.track_initialize_solver",
+        "param_names": [],
+        "params": [],
+        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "7ad78fc3b4704c384a4c225cf7d07df102a8eb94dd0f501e042ea444ce82d487"
+    },
+    "setup.bench_model.KpiInitializeModelLargeWorld.track_mean_finalize_time": {
+        "code": "class KpiInitializeModelLargeWorld:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_mean_finalize_time(self, metrics):\n        return metrics[\"finalize\"]\n\n    def setup_cache(self):\n        # Warm CPU kernels for the separate peak-memory measurement.\n        with wp.ScopedDevice(\"cpu\"):\n            self._initialize(4)\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # Warm the measured configuration before collecting phase averages.\n        workload = self._initialize(10000)\n        del workload\n        gc.collect()\n        wp.synchronize_device()\n    \n        sample_times = []\n        for _ in range(self.samples):\n            phase_times = {}\n            start_time = time.perf_counter()\n            workload = self._initialize(10000, phase_times)\n            phase_times[\"total\"] = time.perf_counter() - start_time\n            del workload\n            gc.collect()\n            wp.synchronize_device()\n            sample_times.append(phase_times)\n    \n        return {name: fmean(times[name] for times in sample_times) for name in (\"model\", \"finalize\", \"solver\", \"total\")}",
+        "name": "setup.bench_model.KpiInitializeModelLargeWorld.track_mean_finalize_time",
+        "param_names": [],
+        "params": [],
+        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "4f00e3930a748507054df86ea76b3035bb0b97810ea1b18b0c24d341e6add585"
+    },
+    "setup.bench_model.KpiInitializeModelLargeWorld.track_mean_startup_time": {
+        "code": "class KpiInitializeModelLargeWorld:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def track_mean_startup_time(self, metrics):\n        return metrics[\"total\"]\n\n    def setup_cache(self):\n        # Warm CPU kernels for the separate peak-memory measurement.\n        with wp.ScopedDevice(\"cpu\"):\n            self._initialize(4)\n        if wp.get_cuda_device_count() == 0:\n            return None\n    \n        # Warm the measured configuration before collecting phase averages.\n        workload = self._initialize(10000)\n        del workload\n        gc.collect()\n        wp.synchronize_device()\n    \n        sample_times = []\n        for _ in range(self.samples):\n            phase_times = {}\n            start_time = time.perf_counter()\n            workload = self._initialize(10000, phase_times)\n            phase_times[\"total\"] = time.perf_counter() - start_time\n            del workload\n            gc.collect()\n            wp.synchronize_device()\n            sample_times.append(phase_times)\n    \n        return {name: fmean(times[name] for times in sample_times) for name in (\"model\", \"finalize\", \"solver\", \"total\")}",
+        "name": "setup.bench_model.KpiInitializeModelLargeWorld.track_mean_startup_time",
+        "param_names": [],
+        "params": [],
+        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_timeout": 3600,
+        "timeout": 3600,
+        "type": "track",
+        "unit": "s",
+        "version": "e0f8bfd79c8d66d4789352caa54386cb93d5833cf3ddf530be350c98e90621d8"
     },
     "setup.bench_model.KpiInitializeModelTiledCamera.time_finalize_model": {
         "code": "class _InitializeModelTiledCamera:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_finalize_model(self, scene, world_count):\n        _model, _sensor = self._initialize_model_and_sensor(self.replicated_builder)\n        wp.synchronize_device()\n\n    def setup(self, scene, world_count):\n        self.world = TILED_CAMERA_SCENES[scene].build()\n        warmup = self._replicate(1)\n        _model, _sensor = self._initialize_model_and_sensor(warmup)\n        self.replicated_builder = self._replicate(world_count)\n        wp.synchronize_device()",
@@ -485,7 +545,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:58",
+        "setup_cache_key": "setup.bench_model:61",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -774,7 +834,7 @@
         "repeat": 5,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:339",
+        "setup_cache_key": "simulation.bench_contacts:337",
         "type": "time",
         "unit": "seconds",
         "version": "19b79dc89e90198f18d5a020706695ed06f8f563348494927ea53c086d57c082",
@@ -790,7 +850,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:293",
+        "setup_cache_key": "simulation.bench_contacts:291",
         "type": "time",
         "unit": "seconds",
         "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
@@ -821,7 +881,7 @@
         "repeat": 5,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:339",
+        "setup_cache_key": "simulation.bench_contacts:337",
         "type": "time",
         "unit": "seconds",
         "version": "19b79dc89e90198f18d5a020706695ed06f8f563348494927ea53c086d57c082",
@@ -837,7 +897,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:257",
+        "setup_cache_key": "simulation.bench_contacts:255",
         "type": "time",
         "unit": "seconds",
         "version": "75fa33f2d98e88de35f707645ccb9f5c5366ca83ed131b9f85b51bc872a30f16",
@@ -3020,7 +3080,7 @@
         "warmup_time": -1
     },
     "simulation.bench_teleop_mujoco.FastTeleopMuJoCo.time_teleop_loop": {
-        "code": "class _TeleopMuJoCoBenchmark:\n    def time_teleop_loop(self, mode: str) -> None:\n        self._step_frames(self.num_frames)\n\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class _TeleopMuJoCoBenchmark:\n    def time_teleop_loop(self, mode: str) -> None:\n        self._step_frames(self.num_frames)\n\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "min_run_count": 2,
         "name": "simulation.bench_teleop_mujoco.FastTeleopMuJoCo.time_teleop_loop",
         "number": 1,
@@ -3041,11 +3101,11 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "6f8ae3019a74604ccd7b080d1a3793388f672dac68ca3c9243b51b63f0fef76c",
+        "version": "459eddeef98e8108b993792b637c79cbdb81979414c14205c5fce199ba3505e5",
         "warmup_time": -1
     },
     "simulation.bench_teleop_mujoco.FastTeleopMuJoCo.track_mean_loop_ms": {
-        "code": "class FastTeleopMuJoCo:\n    def track_mean_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class FastTeleopMuJoCo:\n    def track_mean_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.FastTeleopMuJoCo.track_mean_loop_ms",
         "param_names": [
             "mode"
@@ -3061,10 +3121,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "ms/frame",
-        "version": "b923304b7e5eaf057b764a0d3e118ee95364a7f1d051379c7c40c4f84df09277"
+        "version": "5b86c78e7c973b9fb38f9d5d2268cceede9da2f66db3fbef198d7ab900c95a60"
     },
     "simulation.bench_teleop_mujoco.FastTeleopMuJoCo.track_p95_loop_ms": {
-        "code": "class FastTeleopMuJoCo:\n    def track_p95_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[1]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class FastTeleopMuJoCo:\n    def track_p95_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[1]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.FastTeleopMuJoCo.track_p95_loop_ms",
         "param_names": [
             "mode"
@@ -3080,10 +3140,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "ms/frame",
-        "version": "22005390c20793b3dab44f4971a2348f0ab00a7357e79e1cc8de2867cc923f06"
+        "version": "ccaf46b4170bccb6cd3fbc8c828b846a9f4f3cac0248f7609c5e672e6487bda1"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.time_teleop_loop": {
-        "code": "class _TeleopMuJoCoBenchmark:\n    def time_teleop_loop(self, mode: str) -> None:\n        self._step_frames(self.num_frames)\n\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class _TeleopMuJoCoBenchmark:\n    def time_teleop_loop(self, mode: str) -> None:\n        self._step_frames(self.num_frames)\n\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "min_run_count": 2,
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.time_teleop_loop",
         "number": 1,
@@ -3104,11 +3164,11 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "6f8ae3019a74604ccd7b080d1a3793388f672dac68ca3c9243b51b63f0fef76c",
+        "version": "459eddeef98e8108b993792b637c79cbdb81979414c14205c5fce199ba3505e5",
         "warmup_time": -1
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_frame_overrun_pct": {
-        "code": "class TeleopMuJoCo:\n    def track_frame_overrun_pct(self, mode: str) -> float:\n        self._measure_frames()\n        values = self.loop.stats.values[\"local_loop_ms\"]\n        overruns = sum(value > self.loop.frame_dt * 1000.0 for value in values)\n        return 100.0 * overruns / len(values)\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_frame_overrun_pct(self, mode: str) -> float:\n        self._measure_frames()\n        values = self.loop.stats.values[\"local_loop_ms\"]\n        overruns = sum(value > self.loop.frame_dt * 1000.0 for value in values)\n        return 100.0 * overruns / len(values)\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_frame_overrun_pct",
         "param_names": [
             "mode"
@@ -3124,10 +3184,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "%",
-        "version": "94f3172c4f434042274685167614c074e17573a9cdd95835fec902e41e5e384b"
+        "version": "126d415a425a6663156b19d95a5976a587ec82df3ea2287898c1360cb62c053e"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_hand_object_contact_frame_pct": {
-        "code": "class TeleopMuJoCo:\n    def track_hand_object_contact_frame_pct(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        self._validate_workload()\n        return 100.0 * self.loop.stats.summary(\"hand_object_contact\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_hand_object_contact_frame_pct(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        self._validate_workload()\n        return 100.0 * self.loop.stats.summary(\"hand_object_contact\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_hand_object_contact_frame_pct",
         "param_names": [
             "mode"
@@ -3143,10 +3203,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "%",
-        "version": "d02bf9e88e014d5e7b380d57e0079c8523fe06115215b1957999b82fe65885cb"
+        "version": "5e3fb2bc271305be53da0d4744332109b9db46e02215dff349e05f5cdabaa386"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_loop_time_cv_pct": {
-        "code": "class TeleopMuJoCo:\n    def track_loop_time_cv_pct(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.coefficient_of_variation_pct(\"local_loop_ms\")\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_loop_time_cv_pct(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.coefficient_of_variation_pct(\"local_loop_ms\")\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_loop_time_cv_pct",
         "param_names": [
             "mode"
@@ -3162,10 +3222,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "%",
-        "version": "2d4009b9dc4388ee836d9b1be40ae62764222464682ffc47b76805cada587995"
+        "version": "360d50f36e348a4e8c0e7380bc06c656d1c6a01fd973d64a9e664abf4bc49212"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_mean_loop_ms": {
-        "code": "class TeleopMuJoCo:\n    def track_mean_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_mean_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_mean_loop_ms",
         "param_names": [
             "mode"
@@ -3181,10 +3241,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "ms/frame",
-        "version": "27b1397614762fd1f2363379bee58bee43c0834cee95903bebc3ef22488461a1"
+        "version": "1a760b0dd65f64610505c6974c218f3921c50c8894d8f3d37d81a42aca70c1c3"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_mean_target_error_m": {
-        "code": "class TeleopMuJoCo:\n    def track_mean_target_error_m(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        return self.loop.stats.summary(\"target_error_m\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_mean_target_error_m(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        return self.loop.stats.summary(\"target_error_m\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_mean_target_error_m",
         "param_names": [
             "mode"
@@ -3200,10 +3260,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "m",
-        "version": "4b9eda917a7a98678674e789a7f070dc6691be5eea678e22a6fda0269310f89b"
+        "version": "0f9b9b3209a522dd15fb31804edb9aba8d9e691d45a2af045b4a6c85f0d0d754"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_mean_target_rotation_error_rad": {
-        "code": "class TeleopMuJoCo:\n    def track_mean_target_rotation_error_rad(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        return self.loop.stats.summary(\"target_rotation_error_rad\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_mean_target_rotation_error_rad(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        return self.loop.stats.summary(\"target_rotation_error_rad\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_mean_target_rotation_error_rad",
         "param_names": [
             "mode"
@@ -3219,10 +3279,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "rad",
-        "version": "35b83883c38f2a1910b8d0ddfa425d649021330315c96bfec99cd070283ee731"
+        "version": "4db9658bc8ab2e676e669c9080d341e865aa4c5bb4ca4b621941dca254b22e22"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_object_displacement_m": {
-        "code": "class TeleopMuJoCo:\n    def track_object_displacement_m(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        self._validate_workload()\n        return self.loop.stats.summary(\"object_displacement_m\")[2]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_object_displacement_m(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        self._validate_workload()\n        return self.loop.stats.summary(\"object_displacement_m\")[2]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_object_displacement_m",
         "param_names": [
             "mode"
@@ -3238,10 +3298,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "m",
-        "version": "d28b1890fba0b3cd819cbfc0126029562a228a2519eb7781feae6a1998164fe0"
+        "version": "373d1080550cd8fb26952f23f26081615501ced1d2882c6ffe3c50cfc11551fd"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_p95_loop_ms": {
-        "code": "class TeleopMuJoCo:\n    def track_p95_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[1]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_p95_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[1]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_p95_loop_ms",
         "param_names": [
             "mode"
@@ -3257,10 +3317,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "ms/frame",
-        "version": "691896d7ff5e7ca1ecd6789bd97a4d8367e52d54964ba8a3533e847c89ceba01"
+        "version": "0a08ca281519d3a4e79c13654c131d0a27d09df147b92050013580888b615794"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_real_time_factor": {
-        "code": "class TeleopMuJoCo:\n    def track_real_time_factor(self, mode: str) -> float:\n        self._measure_frames()\n        mean_loop_ms = self.loop.stats.summary(\"local_loop_ms\")[0]\n        return self.loop.frame_dt * 1000.0 / mean_loop_ms\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_real_time_factor(self, mode: str) -> float:\n        self._measure_frames()\n        mean_loop_ms = self.loop.stats.summary(\"local_loop_ms\")[0]\n        return self.loop.frame_dt * 1000.0 / mean_loop_ms\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_real_time_factor",
         "param_names": [
             "mode"
@@ -3276,10 +3336,10 @@
         "timeout": 600,
         "type": "track",
         "unit": "x",
-        "version": "6a7b88ae3fe541b9c4db8d55544d797a44f3c4740b28014d2526335ae90d9de5"
+        "version": "b9355eff87b3f5e2a0b74e134c97347fec461fbf0620f37fd6bdee810d996567"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_sustainable_physics_step_hz": {
-        "code": "class TeleopMuJoCo:\n    def track_sustainable_physics_step_hz(self, mode: str) -> float:\n        self._measure_frames()\n        mean_loop_ms = self.loop.stats.summary(\"local_loop_ms\")[0]\n        return self.loop.sim_substeps * 1000.0 / mean_loop_ms\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        previous_target_layout = newton.use_coord_layout_targets\n        newton.use_coord_layout_targets = True\n        try:\n            with wp.ScopedDevice(self.mode.device):\n                self.loop = _TeleopLoop(self.mode, self.num_frames)\n        finally:\n            newton.use_coord_layout_targets = previous_target_layout\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
+        "code": "class TeleopMuJoCo:\n    def track_sustainable_physics_step_hz(self, mode: str) -> float:\n        self._measure_frames()\n        mean_loop_ms = self.loop.stats.summary(\"local_loop_ms\")[0]\n        return self.loop.sim_substeps * 1000.0 / mean_loop_ms\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "name": "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_sustainable_physics_step_hz",
         "param_names": [
             "mode"
@@ -3295,7 +3355,7 @@
         "timeout": 600,
         "type": "track",
         "unit": "Hz",
-        "version": "37339001a4796c9eb60aeaeb73c01094fd80e825226f7509684f316ea4b2b720"
+        "version": "ac913ab05325417a3e2a18b663e236b3931e6e5641387426e829d1166891cf00"
     },
     "simulation.bench_viewer.FastViewerGL.time_rendering_frame": {
         "code": "class FastViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_rendering_frame(self, robot, world_count):\n        # Rendering one frame\n        self.renderer.begin_frame(0.0)\n        self.renderer.log_state(self._state)\n        self.renderer.end_frame()\n        wp.synchronize_device()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()\n        self._state = self._model.state()\n    \n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)",
