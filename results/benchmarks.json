@@ -701,6 +701,117 @@
         "version": "38579de24aa1852dd217c842dc29042fe4671b747fb616437af39fb2e8604988",
         "warmup_time": -1
     },
+    "simulation.bench_cloth.DeformableRigidCollision.time_collide": {
+        "code": "class DeformableRigidCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        _name, kind, resolution, world_count, shape_count, sparse = case\n        builder = newton.ModelBuilder()\n        builder.replicate(\n            _make_deformable_rigid_world(kind, resolution, shape_count, sparse),\n            world_count,\n        )\n        self.model = builder.finalize(device=device)\n        self.state = self.model.state()\n        self.pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"nxn\",\n            soft_contact_gap=0.05,\n            enable_rigid_soft_full_surface_contact=True,\n            verify_buffers=False,\n        )\n        self.contacts = self.pipeline.contacts()\n    \n        for _ in range(self.warmup_count):\n            self.pipeline.collide(self.state, self.contacts)\n        self._verify_contact_capacity()\n        if kind == \"mixed\" and not sparse:\n            contact_count = int(self.contacts.soft_contact_count.numpy()[0])\n            contacted_shapes = np.unique(self.contacts.soft_contact_shape.numpy()[:contact_count])\n            if len(contacted_shapes) != self.model.shape_count:\n                raise RuntimeError(\n                    f\"mixed benchmark contacts {len(contacted_shapes)} of {self.model.shape_count} rigid shapes\"\n                )\n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "min_run_count": 2,
+        "name": "simulation.bench_cloth.DeformableRigidCollision.time_collide",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "('sphere_dense', 'sphere', 64, 128, 1, False)",
+                "('sphere_sparse', 'sphere', 64, 128, 1, True)",
+                "('box_single_world', 'box', 724, 1, 1, False)",
+                "('box_multi_shape', 'box', 32, 128, 16, False)",
+                "('capsule', 'capsule', 32, 64, 16, False)",
+                "('cylinder', 'cylinder', 32, 64, 16, False)",
+                "('cone', 'cone', 32, 64, 16, False)",
+                "('ellipsoid', 'ellipsoid', 32, 64, 16, False)",
+                "('mesh_sdf', 'mesh', 32, 64, 16, False)",
+                "('mesh_high_poly_fallback', 'mesh_high_poly', 64, 256, 1, False)",
+                "('infinite_plane', 'plane', 64, 128, 1, False)",
+                "('finite_plane', 'finite_plane', 64, 128, 1, False)",
+                "('heightfield', 'heightfield', 64, 128, 1, False)",
+                "('mixed', 'mixed', 32, 64, 20, False)",
+                "('mixed_sparse', 'mixed', 32, 64, 20, True)",
+                "('mixed_gpu', 'mixed', 128, 64, 10, False)"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "2d1bc8b7c76bfea739bcada7f3a00aee1a4590836ee986372f95ea9d46b5016f",
+        "warmup_time": -1
+    },
+    "simulation.bench_cloth.DeformableRigidCollisionScale.time_collide": {
+        "code": "class DeformableRigidCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        _name, kind, resolution, world_count, shape_count, sparse = case\n        builder = newton.ModelBuilder()\n        builder.replicate(\n            _make_deformable_rigid_world(kind, resolution, shape_count, sparse),\n            world_count,\n        )\n        self.model = builder.finalize(device=device)\n        self.state = self.model.state()\n        self.pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"nxn\",\n            soft_contact_gap=0.05,\n            enable_rigid_soft_full_surface_contact=True,\n            verify_buffers=False,\n        )\n        self.contacts = self.pipeline.contacts()\n    \n        for _ in range(self.warmup_count):\n            self.pipeline.collide(self.state, self.contacts)\n        self._verify_contact_capacity()\n        if kind == \"mixed\" and not sparse:\n            contact_count = int(self.contacts.soft_contact_count.numpy()[0])\n            contacted_shapes = np.unique(self.contacts.soft_contact_shape.numpy()[:contact_count])\n            if len(contacted_shapes) != self.model.shape_count:\n                raise RuntimeError(\n                    f\"mixed benchmark contacts {len(contacted_shapes)} of {self.model.shape_count} rigid shapes\"\n                )\n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "min_run_count": 2,
+        "name": "simulation.bench_cloth.DeformableRigidCollisionScale.time_collide",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "('sphere_10m_rl', 'sphere', 64, 1250, 1, False)",
+                "('mesh_10m_rl', 'mesh', 64, 1250, 1, False)"
+            ]
+        ],
+        "repeat": 1,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "2d1bc8b7c76bfea739bcada7f3a00aee1a4590836ee986372f95ea9d46b5016f",
+        "warmup_time": -1
+    },
+    "simulation.bench_cloth.FastDeformableRigidCoarseCloth.time_collide": {
+        "code": "class DeformableRigidCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        _name, kind, resolution, world_count, shape_count, sparse = case\n        builder = newton.ModelBuilder()\n        builder.replicate(\n            _make_deformable_rigid_world(kind, resolution, shape_count, sparse),\n            world_count,\n        )\n        self.model = builder.finalize(device=device)\n        self.state = self.model.state()\n        self.pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"nxn\",\n            soft_contact_gap=0.05,\n            enable_rigid_soft_full_surface_contact=True,\n            verify_buffers=False,\n        )\n        self.contacts = self.pipeline.contacts()\n    \n        for _ in range(self.warmup_count):\n            self.pipeline.collide(self.state, self.contacts)\n        self._verify_contact_capacity()\n        if kind == \"mixed\" and not sparse:\n            contact_count = int(self.contacts.soft_contact_count.numpy()[0])\n            contacted_shapes = np.unique(self.contacts.soft_contact_shape.numpy()[:contact_count])\n            if len(contacted_shapes) != self.model.shape_count:\n                raise RuntimeError(\n                    f\"mixed benchmark contacts {len(contacted_shapes)} of {self.model.shape_count} rigid shapes\"\n                )\n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "min_run_count": 2,
+        "name": "simulation.bench_cloth.FastDeformableRigidCoarseCloth.time_collide",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "('box_coarse_cloth_16', 'box', 4, 16, 1, False)",
+                "('box_coarse_cloth_64', 'box', 4, 64, 1, False)",
+                "('capsule_coarse_cloth_16', 'capsule', 4, 16, 1, False)",
+                "('mesh_coarse_cloth_16', 'mesh', 4, 16, 1, False)"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "2d1bc8b7c76bfea739bcada7f3a00aee1a4590836ee986372f95ea9d46b5016f",
+        "warmup_time": -1
+    },
+    "simulation.bench_cloth.FastDeformableRigidCoarseClothVBD.time_simulate": {
+        "code": "class FastDeformableRigidCoarseClothVBD:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        _name, kind, resolution, world_count, shape_count, sparse = case\n        builder = newton.ModelBuilder()\n        builder.replicate(_make_deformable_rigid_world(kind, resolution, shape_count, sparse), world_count)\n        builder.color()\n        self.model = builder.finalize(device=device)\n        self.state_in = self.model.state()\n        self.state_out = self.model.state()\n        self.pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"nxn\",\n            soft_contact_gap=0.05,\n            enable_rigid_soft_full_surface_contact=True,\n            verify_buffers=False,\n        )\n        self.contacts = self.pipeline.contacts()\n        self.solver = newton.solvers.SolverVBD(self.model, iterations=10)\n        self.control = self.model.control()\n    \n        for _ in range(self.warmup_count):\n            self.pipeline.collide(self.state_in, self.contacts)\n            self.solver.step(self.state_in, self.state_out, self.control, self.contacts, 1.0 / 120.0)\n        self._verify_contact_capacity()\n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state_in, self.contacts)\n            self.solver.step(self.state_in, self.state_out, self.control, self.contacts, 1.0 / 120.0)\n        self.graph = capture.graph",
+        "min_run_count": 2,
+        "name": "simulation.bench_cloth.FastDeformableRigidCoarseClothVBD.time_simulate",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "('box_coarse_cloth_16', 'box', 8, 16, 1, False)",
+                "('box_coarse_cloth_64', 'box', 8, 64, 1, False)",
+                "('box_coarse_cloth_256', 'box', 8, 256, 1, False)",
+                "('capsule_coarse_cloth_16', 'capsule', 8, 16, 1, False)",
+                "('mesh_coarse_cloth_16', 'mesh', 8, 16, 1, False)"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "376fa9612a8d39c2f1f8637b92b545cc6f70888e8f48ec57a124b164ea52b1b6",
+        "warmup_time": -1
+    },
     "simulation.bench_cloth.FastDeformableSelfCollision.time_detect": {
         "code": "class FastDeformableSelfCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_detect(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        resolution, world_count = case\n        builder = newton.ModelBuilder()\n        builder.replicate(_make_collision_world(resolution), world_count)\n        self.model = builder.finalize(device=device)\n        self.detector = TriMeshCollisionDetector(\n            self.model,\n            init_collision_info=True,\n            topological_contact_filter_threshold=0,\n            vertex_collision_buffer_pre_alloc=64,\n            edge_collision_buffer_pre_alloc=64,\n        )\n        self.radius = 0.012\n    \n        for _ in range(self.warmup_count):\n            self._detect()\n        if self.detector.resize_flags.numpy().any():\n            raise RuntimeError(\"collision buffers overflowed; increase the pre-allocated sizes\")\n        with wp.ScopedCapture(device=device) as capture:\n            self._detect()\n        self.graph = capture.graph",
         "min_run_count": 2,
