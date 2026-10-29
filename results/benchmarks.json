@@ -123,7 +123,7 @@
                 "256"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:303",
+        "setup_cache_key": "setup.bench_model:304",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "889585d54e5e70fe61ed7e1e066b837180ea8bde16da86aa735ad894f10f63f4"
@@ -150,10 +150,50 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:303",
+        "setup_cache_key": "setup.bench_model:304",
         "type": "time",
         "unit": "seconds",
         "version": "2c5b54190ffe915edf4bedba6e1bda0783dd321f2141a56e52ace85061077198",
+        "warmup_time": -1
+    },
+    "setup.bench_model.FastInitializeModelStackedBoxes.peakmem_initialize_model": {
+        "code": "class FastInitializeModelStackedBoxes:\n    def peakmem_initialize_model(self, method):\n        # Not part of the PR gate, so it uses a larger pile; at the timing grid the\n        # builder's memory would be lost in the process baseline.\n        gc.collect()\n        model = self._build(method, *self.peakmem_grid).finalize(device=\"cpu\")\n        del model\n\n    def setup(self, method):\n        if (\n            method == \"replicate\"\n            and \"separate_worlds\" not in inspect.signature(newton.ModelBuilder.replicate).parameters\n        ):\n            # Skips commits that predate replicate(separate_worlds=...).\n            raise SkipNotImplemented\n\n    def setup_cache(self):\n        # Compile the CPU finalize kernels once, outside the timed builds.\n        self._build(\"add_builder\", 2, 2, 2).finalize(device=\"cpu\")",
+        "name": "setup.bench_model.FastInitializeModelStackedBoxes.peakmem_initialize_model",
+        "param_names": [
+            "method"
+        ],
+        "params": [
+            [
+                "'add_builder'",
+                "'replicate'"
+            ]
+        ],
+        "setup_cache_key": "setup.bench_model:409",
+        "type": "peakmemory",
+        "unit": "bytes",
+        "version": "32cd0d49b0809c8cdd061d41caaf61b3ee7e98b4d8f154877c14f6ae15ff6eae"
+    },
+    "setup.bench_model.FastInitializeModelStackedBoxes.time_initialize_model": {
+        "code": "class FastInitializeModelStackedBoxes:\n    def time_initialize_model(self, method):\n        self._build(method, *self.grid).finalize(device=\"cpu\")\n\n    def setup(self, method):\n        if (\n            method == \"replicate\"\n            and \"separate_worlds\" not in inspect.signature(newton.ModelBuilder.replicate).parameters\n        ):\n            # Skips commits that predate replicate(separate_worlds=...).\n            raise SkipNotImplemented\n\n    def setup_cache(self):\n        # Compile the CPU finalize kernels once, outside the timed builds.\n        self._build(\"add_builder\", 2, 2, 2).finalize(device=\"cpu\")",
+        "min_run_count": 1,
+        "name": "setup.bench_model.FastInitializeModelStackedBoxes.time_initialize_model",
+        "number": 1,
+        "param_names": [
+            "method"
+        ],
+        "params": [
+            [
+                "'add_builder'",
+                "'replicate'"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 1,
+        "sample_time": 0.01,
+        "setup_cache_key": "setup.bench_model:409",
+        "type": "time",
+        "unit": "seconds",
+        "version": "133b4b98a0a1cb2315560d73de2261d78f244cac33e38eacb05b758cb711f5c8",
         "warmup_time": -1
     },
     "setup.bench_model.FastInitializeModelTiledCamera.time_finalize_model": {
@@ -305,7 +345,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:61",
+        "setup_cache_key": "setup.bench_model:62",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -329,7 +369,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:61",
+        "setup_cache_key": "setup.bench_model:62",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -353,7 +393,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:61",
+        "setup_cache_key": "setup.bench_model:62",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -377,7 +417,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:61",
+        "setup_cache_key": "setup.bench_model:62",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -389,7 +429,7 @@
         "name": "setup.bench_model.KpiInitializeModelLargeWorld.peakmem_initialize_model_cpu",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_key": "setup.bench_model:133",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "peakmemory",
@@ -401,7 +441,7 @@
         "name": "setup.bench_model.KpiInitializeModelLargeWorld.track_initialize_model",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_key": "setup.bench_model:133",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -413,7 +453,7 @@
         "name": "setup.bench_model.KpiInitializeModelLargeWorld.track_initialize_solver",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_key": "setup.bench_model:133",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -425,7 +465,7 @@
         "name": "setup.bench_model.KpiInitializeModelLargeWorld.track_mean_finalize_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_key": "setup.bench_model:133",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -437,7 +477,7 @@
         "name": "setup.bench_model.KpiInitializeModelLargeWorld.track_mean_startup_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "setup.bench_model:132",
+        "setup_cache_key": "setup.bench_model:133",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -545,7 +585,7 @@
                 "8192"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:61",
+        "setup_cache_key": "setup.bench_model:62",
         "setup_cache_timeout": 3600,
         "timeout": 3600,
         "type": "track",
@@ -599,6 +639,33 @@
         "type": "time",
         "unit": "seconds",
         "version": "92f72f96438ffd9ad0dee8e00d73a0a6991544fec74f7f5739e05ad473136aa1",
+        "warmup_time": -1
+    },
+    "simulation.bench_actuators.ActuatorG1.time_step": {
+        "code": "class _ActuatorBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_step(self, drive, world_count):\n        for _ in range(self.NUM_STEPS // 2):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, drive, world_count):\n        if not (wp.get_cuda_device_count() and wp.is_mempool_enabled(wp.get_device(\"cuda:0\"))):\n            raise SkipNotImplemented\n    \n        with wp.ScopedDevice(\"cuda:0\"):\n            model, dofs_per_world = _build_g1(world_count)\n            self.model = model\n            self.solver = newton.solvers.SolverMuJoCo(\n                model, solver=\"newton\", integrator=\"implicitfast\", njmax=210, nconmax=35, cone=\"pyramidal\"\n            )\n            self.state_0, self.state_1 = model.state(), model.state()\n            self.control = model.control()\n    \n            qd_start = model.joint_qd_start.numpy()\n            q_start = model.joint_q_start.numpy()\n            art_start = model.articulation_start.numpy()\n            dofs, coords = [], []\n            for a in range(model.articulation_count):\n                root = int(art_start[a])\n                dofs += range(int(qd_start[root]) + 6, int(qd_start[root]) + dofs_per_world)\n                coords += range(int(q_start[root]) + 7, int(q_start[root]) + dofs_per_world + 1)\n            n = len(dofs)\n            self.actuator = Actuator(\n                indices=wp.array(dofs, dtype=wp.uint32),\n                pos_indices=wp.array(coords, dtype=wp.uint32),\n                drive=DrivePD(kp=wp.full(n, KP, dtype=float), kd=wp.full(n, KD, dtype=float)),\n                control_target_pos_attr=\"joint_target_q\",\n                control_target_vel_attr=\"joint_target_qd\",\n            )\n            self.response = JointSpaceResponse(model)\n            self.actuator.set_effort_mode_implicit(self.response)\n            self.solve_inverse = None\n            if drive == \"implicit_from_solve\":\n                import mujoco_warp  # noqa: PLC0415\n    \n                solver = self.solver\n    \n                def solve_inverse(x, y):\n                    mujoco_warp.solve_m(solver.mjw_model, solver.mjw_data, x, y)\n    \n                self.solve_inverse = solve_inverse\n                # Factorize the inertia once so the first captured refresh reads a valid one.\n                self._step(self.state_0, self.state_1)\n    \n            for _ in range(10):\n                self._step(self.state_0, self.state_1)\n                self._step(self.state_1, self.state_0)\n            with wp.ScopedCapture() as capture:\n                self._step(self.state_0, self.state_1)\n                self._step(self.state_1, self.state_0)\n            self.graph = capture.graph\n            wp.synchronize_device()",
+        "min_run_count": 2,
+        "name": "simulation.bench_actuators.ActuatorG1.time_step",
+        "number": 1,
+        "param_names": [
+            "drive",
+            "world_count"
+        ],
+        "params": [
+            [
+                "'implicit'",
+                "'implicit_from_solve'"
+            ],
+            [
+                "1024"
+            ]
+        ],
+        "repeat": 3,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "afe7d1f25f9925a05fc3c943e2ee46f714b1b30a5bd5d2fe5b67d16191225e8f",
         "warmup_time": -1
     },
     "simulation.bench_anymal.FastExampleAnymalPretrained.time_simulate": {
@@ -1401,7 +1468,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "8b301f560e11839f31d6855ae626ebc757f5b4c4decf0b942add5c3113108d97",
+        "version": "2",
         "warmup_time": 0
     },
     "simulation.bench_kamino.NotifyDRLegs.time_notify_all": {
@@ -1417,7 +1484,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "4aa876370ee3a7e0e3306ab7bb2fe64ff09cee31fb7f2e14b99cbe0b8f592023",
+        "version": "2",
         "warmup_time": 0
     },
     "simulation.bench_kamino.NotifyDRLegs.time_notify_body_inertial_properties": {
@@ -1433,7 +1500,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "17683f4fb9f561706d45681687c5b601141badee8cecf8837564f7688e98924e",
+        "version": "2",
         "warmup_time": 0
     },
     "simulation.bench_kamino.NotifyDRLegs.time_notify_body_properties": {
@@ -1449,7 +1516,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "d6e765a8d6a228d6bcab6dbde46120f256cf81b8762ae5426d865fffb7f506e9",
+        "version": "2",
         "warmup_time": 0
     },
     "simulation.bench_kamino.NotifyDRLegs.time_notify_joint_dof_properties": {
@@ -1465,7 +1532,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "68a5c53fa57388b2500caa6f6710410ea90f5a2e88e2b0faed2c6f19577973eb",
+        "version": "2",
         "warmup_time": 0
     },
     "simulation.bench_kamino.NotifyDRLegs.time_notify_joint_properties": {
@@ -1481,7 +1548,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "76973bd6ed3808865065738b8f677887e791e794eba1108aece0290c07ca2768",
+        "version": "2",
         "warmup_time": 0
     },
     "simulation.bench_kamino.NotifyDRLegs.time_notify_model_properties": {
@@ -1497,7 +1564,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "a00bd83135d32a2d8a2f0b12c013bedd3fe78deca191fa260e6bff6ad02b0cd6",
+        "version": "2",
         "warmup_time": 0
     },
     "simulation.bench_kamino.NotifyDRLegs.time_notify_shape_properties": {
@@ -1513,7 +1580,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "fbb9c9138996302ad59f89f32c17e873cd50ea33298ee71627e9e7f29f2db4bb",
+        "version": "2",
         "warmup_time": 0
     },
     "simulation.bench_mujoco.FastAllegro.track_p95_step_time": {
