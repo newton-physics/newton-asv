@@ -978,7 +978,7 @@
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastConvexCollision.time_collide": {
-        "code": "class FastConvexCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 100\n        scene, world_count = case\n        if scene in (\"hulls\", \"hulls_duplicate\"):\n            pair_types = ((\"hull\", \"hull\"),) * len(MIXED_CONVEX_PAIR_TYPES)\n        elif scene == \"mixed\":\n            pair_types = MIXED_CONVEX_PAIR_TYPES\n        else:\n            raise ValueError(f\"Unsupported convex benchmark scene: {scene}\")\n        self.model = _build_convex_scene(\n            world_count,\n            pair_types,\n            triangle_local_vertices=scene == \"hulls_duplicate\",\n        )\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"sap\",\n            rigid_contact_max=self.model.shape_count * 8,\n            verify_buffers=False,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n    \n        for _ in range(5):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        if int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0]) == 0:\n            raise RuntimeError(\"convex benchmark scene produced no GJK candidate pairs\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "code": "class FastConvexCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 100\n        scene, world_count = case\n        if scene == \"plane_hulls\":\n            self.model = _build_plane_convex_scene(world_count)\n        else:\n            if scene in (\"hulls\", \"hulls_duplicate\", \"hulls_plane\"):\n                pair_types = ((\"hull\", \"hull\"),) * len(MIXED_CONVEX_PAIR_TYPES)\n            elif scene in (\"mixed\", \"mixed_plane\"):\n                pair_types = MIXED_CONVEX_PAIR_TYPES\n            else:\n                raise ValueError(f\"Unsupported convex benchmark scene: {scene}\")\n            self.model = _build_convex_scene(\n                world_count,\n                pair_types,\n                triangle_local_vertices=scene == \"hulls_duplicate\",\n                ground_plane=scene in (\"hulls_plane\", \"mixed_plane\"),\n            )\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"sap\",\n            rigid_contact_max=self.model.shape_count * 8,\n            verify_buffers=False,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n    \n        for _ in range(5):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        if int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0]) == 0:\n            raise RuntimeError(\"convex benchmark scene produced no GJK candidate pairs\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastConvexCollision.time_collide",
         "number": 1,
@@ -991,7 +991,13 @@
                 "('hulls_duplicate', 192)",
                 "('mixed', 64)",
                 "('mixed', 153)",
-                "('mixed', 191)"
+                "('mixed', 191)",
+                "('plane_hulls', 64)",
+                "('plane_hulls', 512)",
+                "('hulls_plane', 4)",
+                "('hulls_plane', 56)",
+                "('mixed_plane', 16)",
+                "('mixed_plane', 64)"
             ]
         ],
         "repeat": 5,
@@ -999,7 +1005,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "40e185549d0d6d1f085f01955072845f85b87b7020d6ce2f7d95f31bce46e166",
+        "version": "f6592470c24345d3e94f67954c0a9df9621a3125fa6d78926b26694a8f60a81d",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactHydroCollide.time_collide": {
@@ -1012,7 +1018,7 @@
         "repeat": 5,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:337",
+        "setup_cache_key": "simulation.bench_contacts:371",
         "type": "time",
         "unit": "seconds",
         "version": "19b79dc89e90198f18d5a020706695ed06f8f563348494927ea53c086d57c082",
@@ -1028,7 +1034,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:291",
+        "setup_cache_key": "simulation.bench_contacts:325",
         "type": "time",
         "unit": "seconds",
         "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
@@ -1059,7 +1065,7 @@
         "repeat": 5,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:337",
+        "setup_cache_key": "simulation.bench_contacts:371",
         "type": "time",
         "unit": "seconds",
         "version": "19b79dc89e90198f18d5a020706695ed06f8f563348494927ea53c086d57c082",
@@ -1075,7 +1081,7 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:255",
+        "setup_cache_key": "simulation.bench_contacts:289",
         "type": "time",
         "unit": "seconds",
         "version": "75fa33f2d98e88de35f707645ccb9f5c5366ca83ed131b9f85b51bc872a30f16",
