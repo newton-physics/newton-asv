@@ -820,7 +820,7 @@
                 "('mesh_10m_rl', 'mesh', 64, 1250, 1, False)"
             ]
         ],
-        "repeat": 1,
+        "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
         "timeout": 600,
