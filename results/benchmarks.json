@@ -123,7 +123,7 @@
                 "256"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:304",
+        "setup_cache_key": "setup.bench_model:306",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "889585d54e5e70fe61ed7e1e066b837180ea8bde16da86aa735ad894f10f63f4"
@@ -150,7 +150,7 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:304",
+        "setup_cache_key": "setup.bench_model:306",
         "type": "time",
         "unit": "seconds",
         "version": "2c5b54190ffe915edf4bedba6e1bda0783dd321f2141a56e52ace85061077198",
@@ -168,7 +168,7 @@
                 "'replicate'"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:409",
+        "setup_cache_key": "setup.bench_model:417",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "32cd0d49b0809c8cdd061d41caaf61b3ee7e98b4d8f154877c14f6ae15ff6eae"
@@ -190,7 +190,7 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:409",
+        "setup_cache_key": "setup.bench_model:417",
         "type": "time",
         "unit": "seconds",
         "version": "133b4b98a0a1cb2315560d73de2261d78f244cac33e38eacb05b758cb711f5c8",
@@ -249,7 +249,7 @@
         "warmup_time": -1
     },
     "setup.bench_model.FastInitializeSolver.time_initialize_solver": {
-        "code": "class FastInitializeSolver:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_solver(self, robot, world_count):\n        self._solver = Example.create_solver(self._model, robot, use_mujoco_cpu=False)\n        wp.synchronize_device()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()",
+        "code": "class FastInitializeSolver:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_solver(self, robot, world_count):\n        self._solver = Example.create_solver(self._model, robot, use_mujoco_cpu=False)\n        wp.synchronize_device()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()\n        # Load the solver's kernels before timing, and free the warm-up solver.\n        Example.create_solver(self._model, robot, use_mujoco_cpu=False)\n        gc.collect()\n        wp.synchronize_device()",
         "min_run_count": 1,
         "name": "setup.bench_model.FastInitializeSolver.time_initialize_solver",
         "number": 1,
@@ -272,11 +272,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "3b89e042bc863172b61d3d39c02f8f67dffe87664041c32c6e277846ed2095dd",
+        "version": "a3cc36d811fb8ba02ffabb767d090adbc4e425acc6d430a5b4bcaaeb87b523ab",
         "warmup_time": -1
     },
     "setup.bench_model.FastInitializeViewerGL.time_initialize_renderer": {
-        "code": "class FastInitializeViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_renderer(self, robot, world_count):\n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)\n    \n        wp.synchronize_device()\n        self.renderer.close()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()",
+        "code": "class FastInitializeViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_renderer(self, robot, world_count):\n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)\n    \n        wp.synchronize_device()\n        self.renderer.close()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()\n        # Load the viewer's kernels before timing.\n        self.time_initialize_renderer(robot, world_count)",
         "min_run_count": 1,
         "name": "setup.bench_model.FastInitializeViewerGL.time_initialize_renderer",
         "number": 1,
@@ -297,7 +297,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "6c957e22fbeb7711e6fbdfb6f8053bb4147d24a6d118c46438a961f3a2c8feab",
+        "version": "08f55070a307f4f3caf5c563c475dd6c769ab23b8e0ecd52581ee9fcd3c82f36",
         "warmup_time": -1
     },
     "setup.bench_model.KpiInitializeModel.time_initialize_model": {
@@ -593,7 +593,7 @@
         "version": "fe62ad9a8c5a6cc3e4359471cbde0d07e63284d0ba8118c32037246cb945d278"
     },
     "setup.bench_model.KpiInitializeViewerGL.time_initialize_renderer": {
-        "code": "class KpiInitializeViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_renderer(self, robot, world_count):\n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)\n    \n        wp.synchronize_device()\n        self.renderer.close()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()",
+        "code": "class KpiInitializeViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_initialize_renderer(self, robot, world_count):\n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)\n    \n        wp.synchronize_device()\n        self.renderer.close()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()\n        # Load the viewer's kernels before timing.\n        self.time_initialize_renderer(robot, world_count)",
         "min_run_count": 1,
         "name": "setup.bench_model.KpiInitializeViewerGL.time_initialize_renderer",
         "number": 1,
@@ -614,7 +614,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "5ba06d80fcf8716093a193bd47034b063820abddda6df221a0f5d2df380f8e01",
+        "version": "b9585aed7de90616121171fd051da9676306a72f1b76608218e3d2d5e1b785c3",
         "warmup_time": -1
     },
     "setup.bench_sdf.FastBuildSdf.time_build_sdf": {
@@ -670,7 +670,7 @@
         "warmup_time": -1
     },
     "simulation.bench_anymal.FastExampleAnymalPretrained.time_simulate": {
-        "code": "class FastExampleAnymalPretrained:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = _NUM_FRAMES\n        self.example = _create_example(self.num_frames)",
+        "code": "class FastExampleAnymalPretrained:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = _NUM_FRAMES\n        self.example = _create_example(self.num_frames)\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_anymal.FastExampleAnymalPretrained.time_simulate",
         "number": 1,
@@ -681,7 +681,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "3a10c8d05e3cc6621a9079cbdf32b3673985f39e1c6823561b2d025c878dec3b",
+        "version": "0e6d3042a025cc1fdf3fc66ab1e8f310464a1118d7327497e096db0d265bcc3e",
         "warmup_time": -1
     },
     "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_mean_world_step_time": {
@@ -689,7 +689,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:74",
+        "setup_cache_key": "simulation.bench_anymal:77",
         "type": "track",
         "unit": "ms/world-step",
         "version": "97d7912a80b337ca7eceb85f53efc976b9158c2758a7c2ae8bbacf5e19107df5"
@@ -699,7 +699,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:74",
+        "setup_cache_key": "simulation.bench_anymal:77",
         "type": "track",
         "unit": "ms/frame",
         "version": "eaff561a3df5eaac0e75ba4d183b6fc37f9d4041c443b0c5c25127e13d442c88"
@@ -709,7 +709,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:74",
+        "setup_cache_key": "simulation.bench_anymal:77",
         "type": "track",
         "unit": "x",
         "version": "6a2947e1b751cb015d77a69404108b7dd6e72ceab4a1df60f9e84702fef9d01a"
@@ -719,7 +719,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:74",
+        "setup_cache_key": "simulation.bench_anymal:77",
         "type": "track",
         "unit": "s",
         "version": "abb58c1e28ce239245c34eac573298468a0df64665a3c9d5b94a78eb9bc9d44a"
@@ -729,7 +729,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:74",
+        "setup_cache_key": "simulation.bench_anymal:77",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "37de5baa51200191461a25b7d78af31bec734886173569d7e6ab4931e07b483b"
@@ -739,7 +739,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:74",
+        "setup_cache_key": "simulation.bench_anymal:77",
         "type": "track",
         "unit": "world-steps/s",
         "version": "c5c9a36ed31446a5c2ed927fff73783cf5a539eeb383593c8a71f7426b1c7a10"
@@ -749,13 +749,13 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:74",
+        "setup_cache_key": "simulation.bench_anymal:77",
         "type": "track",
         "unit": "MiB",
         "version": "a647e19c3cac4bc80af10519045c328d4b4fc3f8367bf4e01615cd146342ee99"
     },
     "simulation.bench_cable.FastExampleCablePile.time_simulate": {
-        "code": "class FastExampleCablePile:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        viewer = ViewerNull(num_frames=self.num_frames)\n        if _supports_cable_pile_size_args():\n            self.example = ExampleCablePile(viewer, args, layers=4, lanes_per_layer=10)\n        else:\n            self.example = ExampleCablePile(viewer, args)\n        wp.synchronize_device()",
+        "code": "class FastExampleCablePile:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        viewer = ViewerNull(num_frames=self.num_frames + 1)\n        if _supports_cable_pile_size_args():\n            self.example = ExampleCablePile(viewer, args, layers=4, lanes_per_layer=10)\n        else:\n            self.example = ExampleCablePile(viewer, args)\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        self.example.render()\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_cable.FastExampleCablePile.time_simulate",
         "number": 1,
@@ -766,7 +766,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "38579de24aa1852dd217c842dc29042fe4671b747fb616437af39fb2e8604988",
+        "version": "9f0c00a040c572bcc2fb6cfce4525cde5b865ef543b70b28110444776aa39604",
         "warmup_time": -1
     },
     "simulation.bench_cloth.DeformableRigidCollision.time_collide": {
@@ -855,7 +855,7 @@
         "warmup_time": -1
     },
     "simulation.bench_cloth.FastDeformableRigidCoarseClothVBD.time_simulate": {
-        "code": "class FastDeformableRigidCoarseClothVBD:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        _name, kind, resolution, world_count, shape_count, sparse = case\n        builder = newton.ModelBuilder()\n        builder.replicate(_make_deformable_rigid_world(kind, resolution, shape_count, sparse), world_count)\n        builder.color()\n        self.model = builder.finalize(device=device)\n        self.state_in = self.model.state()\n        self.state_out = self.model.state()\n        self.pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"nxn\",\n            soft_contact_gap=0.05,\n            enable_rigid_soft_full_surface_contact=True,\n            verify_buffers=False,\n        )\n        self.contacts = self.pipeline.contacts()\n        self.solver = newton.solvers.SolverVBD(self.model, iterations=10)\n        self.control = self.model.control()\n    \n        for _ in range(self.warmup_count):\n            self.pipeline.collide(self.state_in, self.contacts)\n            self.solver.step(self.state_in, self.state_out, self.control, self.contacts, 1.0 / 120.0)\n        self._verify_contact_capacity()\n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state_in, self.contacts)\n            self.solver.step(self.state_in, self.state_out, self.control, self.contacts, 1.0 / 120.0)\n        self.graph = capture.graph",
+        "code": "class FastDeformableRigidCoarseClothVBD:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        _name, kind, resolution, world_count, shape_count, sparse = case\n        builder = newton.ModelBuilder()\n        builder.replicate(_make_deformable_rigid_world(kind, resolution, shape_count, sparse), world_count)\n        builder.color()\n        self.model = builder.finalize(device=device)\n        self.state_in = self.model.state()\n        self.state_out = self.model.state()\n        self.pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"nxn\",\n            soft_contact_gap=0.05,\n            enable_rigid_soft_full_surface_contact=True,\n            verify_buffers=False,\n        )\n        self.contacts = self.pipeline.contacts()\n        self.solver = newton.solvers.SolverVBD(self.model, iterations=10)\n        self.control = self.model.control()\n    \n        for _ in range(self.warmup_count):\n            self.pipeline.collide(self.state_in, self.contacts)\n            self.solver.step(self.state_in, self.state_out, self.control, self.contacts, 1.0 / 120.0)\n        self._verify_contact_capacity()\n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state_in, self.contacts)\n            self.solver.step(self.state_in, self.state_out, self.control, self.contacts, 1.0 / 120.0)\n        self.graph = capture.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_cloth.FastDeformableRigidCoarseClothVBD.time_simulate",
         "number": 1,
@@ -877,11 +877,11 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "376fa9612a8d39c2f1f8637b92b545cc6f70888e8f48ec57a124b164ea52b1b6",
+        "version": "33314c8a750702f125257e1a74eb5a499f05b629930c80b96242638572f6d42f",
         "warmup_time": -1
     },
     "simulation.bench_cloth.FastDeformableSelfCollision.time_detect": {
-        "code": "class FastDeformableSelfCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_detect(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        resolution, world_count = case\n        builder = newton.ModelBuilder()\n        builder.replicate(_make_collision_world(resolution), world_count)\n        self.model = builder.finalize(device=device)\n        self.detector = TriMeshCollisionDetector(\n            self.model,\n            init_collision_info=True,\n            topological_contact_filter_threshold=0,\n            vertex_collision_buffer_pre_alloc=64,\n            edge_collision_buffer_pre_alloc=64,\n        )\n        self.radius = 0.012\n    \n        for _ in range(self.warmup_count):\n            self._detect()\n        if self.detector.resize_flags.numpy().any():\n            raise RuntimeError(\"collision buffers overflowed; increase the pre-allocated sizes\")\n        with wp.ScopedCapture(device=device) as capture:\n            self._detect()\n        self.graph = capture.graph",
+        "code": "class FastDeformableSelfCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_detect(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n    \n        resolution, world_count = case\n        builder = newton.ModelBuilder()\n        builder.replicate(_make_collision_world(resolution), world_count)\n        self.model = builder.finalize(device=device)\n        self.detector = TriMeshCollisionDetector(\n            self.model,\n            init_collision_info=True,\n            topological_contact_filter_threshold=0,\n            vertex_collision_buffer_pre_alloc=64,\n            edge_collision_buffer_pre_alloc=64,\n        )\n        self.radius = 0.012\n    \n        for _ in range(self.warmup_count):\n            self._detect()\n        if self.detector.resize_flags.numpy().any():\n            raise RuntimeError(\"collision buffers overflowed; increase the pre-allocated sizes\")\n        with wp.ScopedCapture(device=device) as capture:\n            self._detect()\n        self.graph = capture.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_cloth.FastDeformableSelfCollision.time_detect",
         "number": 1,
@@ -899,11 +899,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "acb2295421dcfd9524e4f83630b7a548812ab298e36f1776aef96cf985c8e727",
+        "version": "ea30466206c1d1e43cb3322f64655622ca43f98714c9b3382b6d4370a4b2a03b",
         "warmup_time": -1
     },
     "simulation.bench_cloth.FastExampleClothManipulation.time_simulate": {
-        "code": "class FastExampleClothManipulation:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleClothManipulation(ViewerNull(num_frames=self.num_frames), args)",
+        "code": "class FastExampleClothManipulation:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, args=None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 30\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleClothManipulation(ViewerNull(num_frames=self.num_frames + 1), args)\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        self.example.render()\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_cloth.FastExampleClothManipulation.time_simulate",
         "number": 1,
@@ -915,11 +915,11 @@
         "timeout": 300,
         "type": "time",
         "unit": "seconds",
-        "version": "1369873c0a88c16d3821097693638b7a5a3586fdfb9a79f8664f39368d529c73",
+        "version": "2f9c00deb71118811a2589759b9dfaefc6c176b10f918d8afb71f203e631495f",
         "warmup_time": -1
     },
     "simulation.bench_cloth.FastExampleClothTwist.time_simulate": {
-        "code": "class FastExampleClothTwist:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 100\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleClothTwist(ViewerNull(num_frames=self.num_frames), args)",
+        "code": "class FastExampleClothTwist:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        newton.examples.run(self.example, None)\n    \n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 100\n        if hasattr(newton.examples, \"default_args\"):\n            args = newton.examples.default_args()\n        else:\n            args = None\n        self.example = ExampleClothTwist(ViewerNull(num_frames=self.num_frames + 1), args)\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        self.example.render()\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_cloth.FastExampleClothTwist.time_simulate",
         "number": 1,
@@ -930,11 +930,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "4550069ca84ba0bd50f608a46dad4a7d29ab17d08b7bed62ceea9f55e1c73ee0",
+        "version": "5f528982076542dc9725da571a76920871a7eea55a78f5bd7f34a719e2d4a647",
         "warmup_time": -1
     },
     "simulation.bench_contacts.BroadPhaseCollision.time_collide": {
-        "code": "class BroadPhaseCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        broad_phase, pair_count = case\n        self.launch_count = 20\n        self.model = _build_single_world_scene(pair_count)\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        pipeline_kwargs = {\n            \"broad_phase\": broad_phase,\n            \"rigid_contact_max\": 8 * pair_count,\n            \"contact_matching\": \"latest\",\n            \"verify_buffers\": False,\n        }\n        if broad_phase == \"explicit\":\n            shape_indices = np.arange(2 * pair_count, dtype=np.int32).reshape(-1, 2)\n            pipeline_kwargs[\"shape_pairs_filtered\"] = wp.array(shape_indices, dtype=wp.vec2i, device=device)\n        else:\n            pipeline_kwargs[\"shape_pairs_max\"] = 32_768\n        self.collision_pipeline = newton.CollisionPipeline(self.model, **pipeline_kwargs)\n        self.contacts = self.collision_pipeline.contacts()\n        if broad_phase == \"sap\" and not self.collision_pipeline.broad_phase._single_segment_identity_map:\n            raise RuntimeError(\"SAP benchmark did not select the single-segment identity-map path\")\n    \n        for _ in range(3):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n        contact_count = int(self.contacts.rigid_contact_count.numpy()[0])\n        candidate_count = int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0])\n        match_indices = self.contacts.rigid_contact_match_index.numpy()[:contact_count]\n        if contact_count < pair_count or candidate_count == 0 or not np.any(match_indices >= 0):\n            raise RuntimeError(\"broad-phase benchmark did not produce the intended persistent mixed contacts\")\n        if broad_phase == \"sap\" and not self.collision_pipeline.narrow_phase.split_gjk_mpr:\n            raise RuntimeError(\"SAP benchmark did not select split GJK/MPR\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "code": "class BroadPhaseCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        broad_phase, pair_count = case\n        self.launch_count = 20\n        self.model = _build_single_world_scene(pair_count)\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        pipeline_kwargs = {\n            \"broad_phase\": broad_phase,\n            \"rigid_contact_max\": 8 * pair_count,\n            \"contact_matching\": \"latest\",\n            \"verify_buffers\": False,\n        }\n        if broad_phase == \"explicit\":\n            shape_indices = np.arange(2 * pair_count, dtype=np.int32).reshape(-1, 2)\n            pipeline_kwargs[\"shape_pairs_filtered\"] = wp.array(shape_indices, dtype=wp.vec2i, device=device)\n        else:\n            pipeline_kwargs[\"shape_pairs_max\"] = 32_768\n        self.collision_pipeline = newton.CollisionPipeline(self.model, **pipeline_kwargs)\n        self.contacts = self.collision_pipeline.contacts()\n        if broad_phase == \"sap\" and not self.collision_pipeline.broad_phase._single_segment_identity_map:\n            raise RuntimeError(\"SAP benchmark did not select the single-segment identity-map path\")\n    \n        for _ in range(3):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n        contact_count = int(self.contacts.rigid_contact_count.numpy()[0])\n        candidate_count = int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0])\n        match_indices = self.contacts.rigid_contact_match_index.numpy()[:contact_count]\n        if contact_count < pair_count or candidate_count == 0 or not np.any(match_indices >= 0):\n            raise RuntimeError(\"broad-phase benchmark did not produce the intended persistent mixed contacts\")\n        if broad_phase == \"sap\" and not self.collision_pipeline.narrow_phase.split_gjk_mpr:\n            raise RuntimeError(\"SAP benchmark did not select split GJK/MPR\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.BroadPhaseCollision.time_collide",
         "number": 1,
@@ -953,11 +953,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "6c392a310a7cd5a11b58b2dc061f5f3b87e98f4616feb6dd7f3eb0ede1be7b4a",
+        "version": "4bac8beb71ba4febec5a498aa0d1bc1836fe214ef5381af5f1cc9df1c3b25028",
         "warmup_time": -1
     },
     "simulation.bench_contacts.ComplexContactCollision.time_collide": {
-        "code": "class ComplexContactCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 20\n        world_count = 64\n        if case == \"mesh_convex\":\n            self.model, max_triangle_pairs = _build_mesh_convex_scene(world_count, resolution=24)\n            pipeline_kwargs = {\n                \"broad_phase\": \"explicit\",\n                \"max_triangle_pairs\": max_triangle_pairs,\n                \"rigid_contact_max\": 1024 * world_count,\n            }\n        elif case == \"mesh_sdf\":\n            self.model = _build_mesh_sdf_scene(world_count, device)\n            pipeline_kwargs = {\n                \"broad_phase\": \"explicit\",\n                \"rigid_contact_max\": 256 * world_count,\n            }\n        else:\n            raise ValueError(f\"Unsupported complex-contact benchmark case: {case}\")\n    \n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            deterministic=True,\n            verify_buffers=False,\n            **pipeline_kwargs,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n        if case == \"mesh_convex\" and not self.collision_pipeline.narrow_phase.convex_support_acceleration:\n            raise RuntimeError(\"mesh-convex benchmark did not enable convex support acceleration\")\n    \n        for _ in range(3):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n    \n        if case == \"mesh_convex\":\n            pair_count = int(self.collision_pipeline.narrow_phase.shape_pairs_mesh_count.numpy()[0])\n        else:\n            pair_count = int(self.collision_pipeline.narrow_phase.shape_pairs_mesh_mesh_count.numpy()[0])\n        if pair_count == 0 or int(self.contacts.rigid_contact_count.numpy()[0]) == 0:\n            raise RuntimeError(f\"complex-contact benchmark did not produce {case} contacts\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "code": "class ComplexContactCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 20\n        world_count = 64\n        if case == \"mesh_convex\":\n            self.model, max_triangle_pairs = _build_mesh_convex_scene(world_count, resolution=24)\n            pipeline_kwargs = {\n                \"broad_phase\": \"explicit\",\n                \"max_triangle_pairs\": max_triangle_pairs,\n                \"rigid_contact_max\": 1024 * world_count,\n            }\n        elif case == \"mesh_sdf\":\n            self.model = _build_mesh_sdf_scene(world_count, device)\n            pipeline_kwargs = {\n                \"broad_phase\": \"explicit\",\n                \"rigid_contact_max\": 256 * world_count,\n            }\n        else:\n            raise ValueError(f\"Unsupported complex-contact benchmark case: {case}\")\n    \n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            deterministic=True,\n            verify_buffers=False,\n            **pipeline_kwargs,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n        if case == \"mesh_convex\" and not self.collision_pipeline.narrow_phase.convex_support_acceleration:\n            raise RuntimeError(\"mesh-convex benchmark did not enable convex support acceleration\")\n    \n        for _ in range(3):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n    \n        if case == \"mesh_convex\":\n            pair_count = int(self.collision_pipeline.narrow_phase.shape_pairs_mesh_count.numpy()[0])\n        else:\n            pair_count = int(self.collision_pipeline.narrow_phase.shape_pairs_mesh_mesh_count.numpy()[0])\n        if pair_count == 0 or int(self.contacts.rigid_contact_count.numpy()[0]) == 0:\n            raise RuntimeError(f\"complex-contact benchmark did not produce {case} contacts\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.ComplexContactCollision.time_collide",
         "number": 1,
@@ -975,11 +975,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "64e9d15a82e9315a1efc7692385465d5cbeec07518d357d29eb4a7fb7f218217",
+        "version": "7c5041c549f23759fba023234cab89facbf29a5584c4e768652f2aa61cef2c4a",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastConvexCollision.time_collide": {
-        "code": "class FastConvexCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 100\n        scene, world_count = case\n        if scene == \"plane_hulls\":\n            self.model = _build_plane_convex_scene(world_count)\n        else:\n            if scene in (\"hulls\", \"hulls_duplicate\", \"hulls_plane\"):\n                pair_types = ((\"hull\", \"hull\"),) * len(MIXED_CONVEX_PAIR_TYPES)\n            elif scene in (\"mixed\", \"mixed_plane\"):\n                pair_types = MIXED_CONVEX_PAIR_TYPES\n            else:\n                raise ValueError(f\"Unsupported convex benchmark scene: {scene}\")\n            self.model = _build_convex_scene(\n                world_count,\n                pair_types,\n                triangle_local_vertices=scene == \"hulls_duplicate\",\n                ground_plane=scene in (\"hulls_plane\", \"mixed_plane\"),\n            )\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"sap\",\n            rigid_contact_max=self.model.shape_count * 8,\n            verify_buffers=False,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n    \n        for _ in range(5):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        if int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0]) == 0:\n            raise RuntimeError(\"convex benchmark scene produced no GJK candidate pairs\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "code": "class FastConvexCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 100\n        scene, world_count = case\n        if scene == \"plane_hulls\":\n            self.model = _build_plane_convex_scene(world_count)\n        else:\n            if scene in (\"hulls\", \"hulls_duplicate\", \"hulls_plane\"):\n                pair_types = ((\"hull\", \"hull\"),) * len(MIXED_CONVEX_PAIR_TYPES)\n            elif scene in (\"mixed\", \"mixed_plane\"):\n                pair_types = MIXED_CONVEX_PAIR_TYPES\n            else:\n                raise ValueError(f\"Unsupported convex benchmark scene: {scene}\")\n            self.model = _build_convex_scene(\n                world_count,\n                pair_types,\n                triangle_local_vertices=scene == \"hulls_duplicate\",\n                ground_plane=scene in (\"hulls_plane\", \"mixed_plane\"),\n            )\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"sap\",\n            rigid_contact_max=self.model.shape_count * 8,\n            verify_buffers=False,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n    \n        for _ in range(5):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        if int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0]) == 0:\n            raise RuntimeError(\"convex benchmark scene produced no GJK candidate pairs\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastConvexCollision.time_collide",
         "number": 1,
@@ -1006,11 +1006,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "f6592470c24345d3e94f67954c0a9df9621a3125fa6d78926b26694a8f60a81d",
+        "version": "f5091747eb93cac7c4b24e212fdb51dd9bf638b7a5203e7fc2d0ec43e02b25df",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactHydroCollide.time_collide": {
-        "code": "class _ExampleCollideBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n        example_cls = _import_example_class(self.module_names)\n        args = newton.examples.default_args(example_cls.create_parser())\n        args.world_count = self.world_count\n        args.num_per_world = 1\n        self.example = example_cls(ViewerNull(num_frames=1), args)\n        self.pipeline = self.example.collision_pipeline\n        self.state = self.example.state_0\n        self.contacts = self.example.contacts\n    \n        for _ in range(3):\n            self.pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n        if int(self.contacts.rigid_contact_count.numpy()[0]) == 0:\n            raise RuntimeError(\"collide benchmark scene produced no contacts\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
+        "code": "class _ExampleCollideBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n        example_cls = _import_example_class(self.module_names)\n        args = newton.examples.default_args(example_cls.create_parser())\n        args.world_count = self.world_count\n        args.num_per_world = 1\n        self.example = example_cls(ViewerNull(num_frames=1), args)\n        self.pipeline = self.example.collision_pipeline\n        self.state = self.example.state_0\n        self.contacts = self.example.contacts\n    \n        for _ in range(3):\n            self.pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n        if int(self.contacts.rigid_contact_count.numpy()[0]) == 0:\n            raise RuntimeError(\"collide benchmark scene produced no contacts\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactHydroCollide.time_collide",
         "number": 1,
@@ -1019,14 +1019,14 @@
         "repeat": 5,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:371",
+        "setup_cache_key": "simulation.bench_contacts:377",
         "type": "time",
         "unit": "seconds",
-        "version": "19b79dc89e90198f18d5a020706695ed06f8f563348494927ea53c086d57c082",
+        "version": "86cb1927c23426c201495d65d811cd9c42f71b4840851c9ede846753f745b3dd",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactHydroWorkingDefaults.time_simulate": {
-        "code": "class FastExampleContactHydroWorkingDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_hydro\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                world_count=20,\n                num_per_world=1,\n                scene=\"nut_bolt\",\n                solver=\"mujoco\",\n                test_mode=False,\n            )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
+        "code": "class FastExampleContactHydroWorkingDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_hydro\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                world_count=20,\n                num_per_world=1,\n                scene=\"nut_bolt\",\n                solver=\"mujoco\",\n                test_mode=False,\n            )\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        wp.synchronize_device()\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactHydroWorkingDefaults.time_simulate",
         "number": 1,
@@ -1035,14 +1035,14 @@
         "repeat": 2,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:325",
+        "setup_cache_key": "simulation.bench_contacts:328",
         "type": "time",
         "unit": "seconds",
-        "version": "5389daa5fed1f5449fafa713a96cfc36b7e954e6fc823937abc43fcfb2f12c37",
+        "version": "2f8c0eb5ff1149c988a24b93c0e4651aaf29fba7df51ad77aad867ed8b97a6c8",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactPyramidDefaults.time_simulate": {
-        "code": "class FastExampleContactPyramidDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_pyramid\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                solver=\"xpbd\",\n                test_mode=False,\n            )",
+        "code": "class FastExampleContactPyramidDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_pyramid\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                solver=\"xpbd\",\n                test_mode=False,\n            )\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactPyramidDefaults.time_simulate",
         "number": 1,
@@ -1053,11 +1053,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "5b2a5503945a50c99a14b5e5ff6eeba0b8ec8251d67bf4de83b53e82fd7b5388",
+        "version": "11de352e218744ff4e76835b34e5da3eb878b3a2e8de4e546ee262886e34060d",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactSdfCollide.time_collide": {
-        "code": "class _ExampleCollideBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n        example_cls = _import_example_class(self.module_names)\n        args = newton.examples.default_args(example_cls.create_parser())\n        args.world_count = self.world_count\n        args.num_per_world = 1\n        self.example = example_cls(ViewerNull(num_frames=1), args)\n        self.pipeline = self.example.collision_pipeline\n        self.state = self.example.state_0\n        self.contacts = self.example.contacts\n    \n        for _ in range(3):\n            self.pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n        if int(self.contacts.rigid_contact_count.numpy()[0]) == 0:\n            raise RuntimeError(\"collide benchmark scene produced no contacts\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
+        "code": "class _ExampleCollideBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        device = wp.get_device()\n        if not device.is_cuda:\n            raise SkipNotImplemented\n        example_cls = _import_example_class(self.module_names)\n        args = newton.examples.default_args(example_cls.create_parser())\n        args.world_count = self.world_count\n        args.num_per_world = 1\n        self.example = example_cls(ViewerNull(num_frames=1), args)\n        self.pipeline = self.example.collision_pipeline\n        self.state = self.example.state_0\n        self.contacts = self.example.contacts\n    \n        for _ in range(3):\n            self.pipeline.collide(self.state, self.contacts)\n        wp.synchronize_device()\n        if int(self.contacts.rigid_contact_count.numpy()[0]) == 0:\n            raise RuntimeError(\"collide benchmark scene produced no contacts\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactSdfCollide.time_collide",
         "number": 1,
@@ -1066,14 +1066,14 @@
         "repeat": 5,
         "rounds": 2,
         "sample_time": 0.01,
-        "setup_cache_key": "simulation.bench_contacts:371",
+        "setup_cache_key": "simulation.bench_contacts:377",
         "type": "time",
         "unit": "seconds",
-        "version": "19b79dc89e90198f18d5a020706695ed06f8f563348494927ea53c086d57c082",
+        "version": "86cb1927c23426c201495d65d811cd9c42f71b4840851c9ede846753f745b3dd",
         "warmup_time": -1
     },
     "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate": {
-        "code": "class FastExampleContactSdfDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_sdf\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                world_count=100,\n                num_per_world=1,\n                scene=\"nut_bolt\",\n                solver=\"mujoco\",\n                test_mode=False,\n            )\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
+        "code": "class FastExampleContactSdfDefaults:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        example_cls = _import_example_class(\n            [\n                \"newton.examples.contacts.example_nut_bolt_sdf\",\n            ]\n        )\n        self.num_frames = 20\n        if hasattr(newton.examples, \"default_args\") and hasattr(example_cls, \"create_parser\"):\n            args = newton.examples.default_args(example_cls.create_parser())\n            self.example = example_cls(ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = example_cls(\n                viewer=ViewerNull(num_frames=self.num_frames),\n                world_count=100,\n                num_per_world=1,\n                scene=\"nut_bolt\",\n                solver=\"mujoco\",\n                test_mode=False,\n            )\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        wp.synchronize_device()\n\n    def setup_cache(self):\n        _download_external_git_folder(ISAACGYM_ENVS_REPO_URL, ISAACGYM_NUT_BOLT_FOLDER)",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.FastExampleContactSdfDefaults.time_simulate",
         "number": 1,
@@ -1085,11 +1085,11 @@
         "setup_cache_key": "simulation.bench_contacts:289",
         "type": "time",
         "unit": "seconds",
-        "version": "75fa33f2d98e88de35f707645ccb9f5c5366ca83ed131b9f85b51bc872a30f16",
+        "version": "a286c0e8f92302517df3f77c08a11358ec871b4edd31e29fb4972a3425140dde",
         "warmup_time": -1
     },
     "simulation.bench_contacts.SplitConvexCollision.time_collide": {
-        "code": "class SplitConvexCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 20\n        _scene, world_count = case\n        pair_types = ((\"hull\", \"hull\"),) * len(MIXED_CONVEX_PAIR_TYPES)\n        self.model = _build_convex_scene(world_count, pair_types)\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"sap\",\n            rigid_contact_max=self.model.shape_count * 8,\n            verify_buffers=False,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n    \n        # This benchmark exists to cover the split path. If the scene stops\n        # crossing the activation threshold it would silently start timing the\n        # monolithic kernel instead, so fail loudly rather than drift.\n        if not self.collision_pipeline.narrow_phase.split_gjk_mpr:\n            raise RuntimeError(\"split convex benchmark scene did not activate the split GJK/MPR path\")\n    \n        for _ in range(5):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        if int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0]) == 0:\n            raise RuntimeError(\"convex benchmark scene produced no GJK candidate pairs\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph",
+        "code": "class SplitConvexCollision:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_collide(self, case):\n        for _ in range(self.launch_count):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device()\n\n    def setup(self, case):\n        device = wp.get_device()\n        if not device.is_cuda or not wp.is_mempool_enabled(device):\n            raise SkipNotImplemented\n    \n        self.launch_count = 20\n        _scene, world_count = case\n        pair_types = ((\"hull\", \"hull\"),) * len(MIXED_CONVEX_PAIR_TYPES)\n        self.model = _build_convex_scene(world_count, pair_types)\n        self.state = self.model.state()\n        newton.eval_fk(self.model, self.model.joint_q, self.model.joint_qd, self.state)\n        self.collision_pipeline = newton.CollisionPipeline(\n            self.model,\n            broad_phase=\"sap\",\n            rigid_contact_max=self.model.shape_count * 8,\n            verify_buffers=False,\n        )\n        self.contacts = self.collision_pipeline.contacts()\n    \n        # This benchmark exists to cover the split path. If the scene stops\n        # crossing the activation threshold it would silently start timing the\n        # monolithic kernel instead, so fail loudly rather than drift.\n        if not self.collision_pipeline.narrow_phase.split_gjk_mpr:\n            raise RuntimeError(\"split convex benchmark scene did not activate the split GJK/MPR path\")\n    \n        for _ in range(5):\n            self.collision_pipeline.collide(self.state, self.contacts)\n        if int(self.collision_pipeline.narrow_phase.gjk_candidate_pairs_count.numpy()[0]) == 0:\n            raise RuntimeError(\"convex benchmark scene produced no GJK candidate pairs\")\n    \n        with wp.ScopedCapture(device=device) as capture:\n            self.collision_pipeline.collide(self.state, self.contacts)\n        self.graph = capture.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_contacts.SplitConvexCollision.time_collide",
         "number": 1,
@@ -1106,11 +1106,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "58da59f274e2cceaacc9de29452cae0b40a3808a189de1f9a21762c13af46906",
+        "version": "fff002668f6a1c23c216f7f5536b12575296aa71d12ff6f49d188e2476722872",
         "warmup_time": -1
     },
     "simulation.bench_cpu.CpuIKFranka.time_solve": {
-        "code": "class CpuIKFranka:\n    def time_solve(self):\n        with wp.ScopedDevice(\"cpu\"):\n            for _ in range(self.num_solves):\n                self.solver.step(self.seeds, self.winners, iterations=self.iterations, step_size=1.0)\n\n    def setup(self):\n        with wp.ScopedDevice(\"cpu\"):\n            self.model = create_franka_model()\n            self.solver, pos_obj, rot_obj = build_ik_solver(self.model, self.batch_size, self.ee_links)\n            n_coords = self.model.joint_coord_count\n    \n            q_gt = random_solutions(self.model, self.batch_size, np.random.default_rng(self.seed))\n            tgt_p, tgt_r = fk_targets(self.solver, self.model, q_gt, self.ee_links)\n            for ee in range(len(self.ee_links)):\n                pos_obj[ee].set_target_positions(wp.array(tgt_p[:, ee].astype(np.float32), dtype=wp.vec3))\n                rot_obj[ee].set_target_rotations(wp.array(tgt_r[:, ee].astype(np.float32), dtype=wp.vec4))\n    \n            self.seeds = wp.zeros((self.batch_size, n_coords), dtype=wp.float32)\n            self.winners = wp.zeros((self.batch_size, n_coords), dtype=wp.float32)",
+        "code": "class CpuIKFranka:\n    def time_solve(self):\n        with wp.ScopedDevice(\"cpu\"):\n            for _ in range(self.num_solves):\n                self.solver.step(self.seeds, self.winners, iterations=self.iterations, step_size=1.0)\n\n    def setup(self):\n        with wp.ScopedDevice(\"cpu\"):\n            self.model = create_franka_model()\n            self.solver, pos_obj, rot_obj = build_ik_solver(self.model, self.batch_size, self.ee_links)\n            n_coords = self.model.joint_coord_count\n    \n            q_gt = random_solutions(self.model, self.batch_size, np.random.default_rng(self.seed))\n            tgt_p, tgt_r = fk_targets(self.solver, self.model, q_gt, self.ee_links)\n            for ee in range(len(self.ee_links)):\n                pos_obj[ee].set_target_positions(wp.array(tgt_p[:, ee].astype(np.float32), dtype=wp.vec3))\n                rot_obj[ee].set_target_rotations(wp.array(tgt_r[:, ee].astype(np.float32), dtype=wp.vec4))\n    \n            self.seeds = wp.zeros((self.batch_size, n_coords), dtype=wp.float32)\n            self.winners = wp.zeros((self.batch_size, n_coords), dtype=wp.float32)\n            # Load the solve kernels before timing.\n            self.solver.step(self.seeds, self.winners, iterations=self.iterations, step_size=1.0)",
         "min_run_count": 2,
         "name": "simulation.bench_cpu.CpuIKFranka.time_solve",
         "number": 1,
@@ -1121,11 +1121,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "9fcf20853dc25c179cf22edc84aaecfbc94de82b1f4b033cce852ac472cd553c",
+        "version": "0017e3f0627cbe6ce967faa6f99a50a516676035ad13ad741e2342f1af2bbd80",
         "warmup_time": -1
     },
     "simulation.bench_cpu.CpuMuJoCoAnt.time_simulate": {
-        "code": "class CpuMuJoCoAnt:\n    def time_simulate(self):\n        with wp.ScopedDevice(\"cpu\"):\n            for _ in range(self.num_frames):\n                self.example.step()\n\n    def setup(self):\n        with wp.ScopedDevice(\"cpu\"):\n            self.example = MuJoCoExample(\n                stage_path=None,\n                robot=\"ant\",\n                randomize=False,\n                headless=True,\n                actuation=\"None\",\n                use_cuda_graph=False,\n                world_count=1,\n            )",
+        "code": "class CpuMuJoCoAnt:\n    def time_simulate(self):\n        with wp.ScopedDevice(\"cpu\"):\n            for _ in range(self.num_frames):\n                self.example.step()\n\n    def setup(self):\n        with wp.ScopedDevice(\"cpu\"):\n            self.example = MuJoCoExample(\n                stage_path=None,\n                robot=\"ant\",\n                randomize=False,\n                headless=True,\n                actuation=\"None\",\n                use_cuda_graph=False,\n                world_count=1,\n            )\n            # Load the stepping kernels before timing.\n            self.example.step()",
         "min_run_count": 2,
         "name": "simulation.bench_cpu.CpuMuJoCoAnt.time_simulate",
         "number": 1,
@@ -1136,7 +1136,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "0a22cae57e12fedfe0c13401c99f74103930eddc22cb682f7ea0c645fea34fab",
+        "version": "e634cebcb41c45ecc854c7d319271be22be5d4861aa09535f441ea6727224d50",
         "warmup_time": -1
     },
     "simulation.bench_cpu.CpuXPBDQuadruped.time_simulate": {
@@ -1170,7 +1170,7 @@
         "warmup_time": -1
     },
     "simulation.bench_ik.FastIKSolve.time_solve": {
-        "code": "class _IKBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_solve(self, batch_size):\n        for _ in range(self.NUM_SOLVES):\n            wp.capture_launch(self.solve_graph)\n        wp.synchronize_device()\n\n    def setup(self, batch_size):\n        if not (wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())):\n            raise SkipNotImplemented\n    \n        self.model = create_franka_model()\n        self.solver, self.pos_obj, self.rot_obj = build_ik_solver(self.model, batch_size, self.EE_LINKS)\n        self.n_coords = self.model.joint_coord_count\n    \n        rng = np.random.default_rng(self.SEED)\n        q_gt = random_solutions(self.model, batch_size, rng)\n        self.tgt_p, self.tgt_r = fk_targets(self.solver, self.model, q_gt, self.EE_LINKS)\n    \n        self.winners_d = wp.zeros((batch_size, self.n_coords), dtype=wp.float32)\n        self.seeds_d = wp.zeros((batch_size, self.n_coords), dtype=wp.float32)\n    \n        # Set targets\n        for ee in range(len(self.EE_LINKS)):\n            self.pos_obj[ee].set_target_positions(\n                wp.array(self.tgt_p[:, ee].astype(np.float32, copy=False), dtype=wp.vec3)\n            )\n            self.rot_obj[ee].set_target_rotations(\n                wp.array(self.tgt_r[:, ee].astype(np.float32, copy=False), dtype=wp.vec4)\n            )\n    \n        with wp.ScopedCapture() as cap:\n            self.solver.step(self.seeds_d, self.winners_d, iterations=self.ITERATIONS, step_size=self.STEP_SIZE)\n        self.solve_graph = cap.graph",
+        "code": "class _IKBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_solve(self, batch_size):\n        for _ in range(self.NUM_SOLVES):\n            wp.capture_launch(self.solve_graph)\n        wp.synchronize_device()\n\n    def setup(self, batch_size):\n        if not (wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())):\n            raise SkipNotImplemented\n    \n        self.model = create_franka_model()\n        self.solver, self.pos_obj, self.rot_obj = build_ik_solver(self.model, batch_size, self.EE_LINKS)\n        self.n_coords = self.model.joint_coord_count\n    \n        rng = np.random.default_rng(self.SEED)\n        q_gt = random_solutions(self.model, batch_size, rng)\n        self.tgt_p, self.tgt_r = fk_targets(self.solver, self.model, q_gt, self.EE_LINKS)\n    \n        self.winners_d = wp.zeros((batch_size, self.n_coords), dtype=wp.float32)\n        self.seeds_d = wp.zeros((batch_size, self.n_coords), dtype=wp.float32)\n    \n        # Set targets\n        for ee in range(len(self.EE_LINKS)):\n            self.pos_obj[ee].set_target_positions(\n                wp.array(self.tgt_p[:, ee].astype(np.float32, copy=False), dtype=wp.vec3)\n            )\n            self.rot_obj[ee].set_target_rotations(\n                wp.array(self.tgt_r[:, ee].astype(np.float32, copy=False), dtype=wp.vec4)\n            )\n    \n        with wp.ScopedCapture() as cap:\n            self.solver.step(self.seeds_d, self.winners_d, iterations=self.ITERATIONS, step_size=self.STEP_SIZE)\n        self.solve_graph = cap.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.solve_graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_ik.FastIKSolve.time_solve",
         "number": 1,
@@ -1187,7 +1187,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "e00213950917f07ae44e3e993493cfcb1730b7eaba5277047565a289f98c1f73",
+        "version": "2cb833008e3d5829311b45d6d14dc55aa7789666b0bc00277b569fd40030a73e",
         "warmup_time": -1
     },
     "simulation.bench_implicit_mpm.ImplicitMPMSingleWorld.time_step": {
@@ -1206,7 +1206,7 @@
         "warmup_time": -1
     },
     "simulation.bench_inverse_dynamics.FastInverseDynamics.time_eval_inverse_dynamics_force": {
-        "code": "class _InverseDynamicsBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_eval_inverse_dynamics_force(self):\n        for _ in range(self.NUM_FORCE_EVALS):\n            wp.capture_launch(self.force_graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        if not (wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())):\n            raise SkipNotImplemented\n    \n        self.model = create_franka_model(world_count=self.WORLD_COUNT)\n        self.state = self.model.state()\n        set_default_pose(self.model, self.state)\n    \n        self.mass_matrix = wp.empty(\n            (\n                self.model.articulation_count,\n                self.model.max_dofs_per_articulation,\n                self.model.max_dofs_per_articulation,\n            ),\n            dtype=wp.float32,\n            device=self.model.device,\n        )\n        self.gravity_force = wp.empty_like(self.state.joint_qd)\n        self.coriolis_force = wp.empty_like(self.state.joint_qd)\n        self.joint_f = wp.zeros_like(self.state.joint_qd)\n    \n        # Capture one full M(q) + g(q) + C(q, q_dot)*q_dot evaluation into a\n        # CUDA graph so the timed inner loop is just graph replays.\n        with wp.ScopedCapture() as cap:\n            newton.eval_inverse_dynamics_passive(\n                self.model,\n                self.state,\n                mass_matrix=self.mass_matrix,\n                gravity_force=self.gravity_force,\n                coriolis_force=self.coriolis_force,\n            )\n        self.eval_graph = cap.graph\n    \n        # Populate the passive terms so eval_inverse_dynamics_force\n        # has a valid M(q) / g(q) / C(q, q_dot)*q_dot to consume. The capture\n        # above only records the launches; it does not execute them.\n        wp.capture_launch(self.eval_graph)\n    \n        # joint_qdd input for eval_inverse_dynamics_force. Any finite values are\n        # fine; use a tiled ramp matching set_default_pose's joint_qd pattern.\n        n_dofs = self.model.joint_dof_count\n        dofs_per_world = n_dofs // max(self.model.world_count, 1)\n        joint_qdd_per_world = np.linspace(-0.1, 0.1, dofs_per_world, dtype=np.float32)\n        self.joint_qdd = wp.array(\n            np.tile(joint_qdd_per_world, max(self.model.world_count, 1)),\n            dtype=wp.float32,\n            device=self.model.device,\n        )\n    \n        # Capture eval_inverse_dynamics_force into a second graph so the\n        # force-only inner loop is purely replays.\n        with wp.ScopedCapture() as cap_force:\n            newton.eval_inverse_dynamics_force(\n                self.model,\n                self.state,\n                mass_matrix=self.mass_matrix,\n                joint_qdd=self.joint_qdd,\n                coriolis_force=self.coriolis_force,\n                gravity_force=self.gravity_force,\n                joint_f=self.joint_f,\n            )\n        self.force_graph = cap_force.graph",
+        "code": "class _InverseDynamicsBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_eval_inverse_dynamics_force(self):\n        for _ in range(self.NUM_FORCE_EVALS):\n            wp.capture_launch(self.force_graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        if not (wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())):\n            raise SkipNotImplemented\n    \n        self.model = create_franka_model(world_count=self.WORLD_COUNT)\n        self.state = self.model.state()\n        set_default_pose(self.model, self.state)\n    \n        self.mass_matrix = wp.empty(\n            (\n                self.model.articulation_count,\n                self.model.max_dofs_per_articulation,\n                self.model.max_dofs_per_articulation,\n            ),\n            dtype=wp.float32,\n            device=self.model.device,\n        )\n        self.gravity_force = wp.empty_like(self.state.joint_qd)\n        self.coriolis_force = wp.empty_like(self.state.joint_qd)\n        self.joint_f = wp.zeros_like(self.state.joint_qd)\n    \n        # Capture one full M(q) + g(q) + C(q, q_dot)*q_dot evaluation into a\n        # CUDA graph so the timed inner loop is just graph replays.\n        with wp.ScopedCapture() as cap:\n            newton.eval_inverse_dynamics_passive(\n                self.model,\n                self.state,\n                mass_matrix=self.mass_matrix,\n                gravity_force=self.gravity_force,\n                coriolis_force=self.coriolis_force,\n            )\n        self.eval_graph = cap.graph\n    \n        # Populate the passive terms so eval_inverse_dynamics_force\n        # has a valid M(q) / g(q) / C(q, q_dot)*q_dot to consume. The capture\n        # above only records the launches; it does not execute them.\n        wp.capture_launch(self.eval_graph)\n    \n        # joint_qdd input for eval_inverse_dynamics_force. Any finite values are\n        # fine; use a tiled ramp matching set_default_pose's joint_qd pattern.\n        n_dofs = self.model.joint_dof_count\n        dofs_per_world = n_dofs // max(self.model.world_count, 1)\n        joint_qdd_per_world = np.linspace(-0.1, 0.1, dofs_per_world, dtype=np.float32)\n        self.joint_qdd = wp.array(\n            np.tile(joint_qdd_per_world, max(self.model.world_count, 1)),\n            dtype=wp.float32,\n            device=self.model.device,\n        )\n    \n        # Capture eval_inverse_dynamics_force into a second graph so the\n        # force-only inner loop is purely replays.\n        with wp.ScopedCapture() as cap_force:\n            newton.eval_inverse_dynamics_force(\n                self.model,\n                self.state,\n                mass_matrix=self.mass_matrix,\n                joint_qdd=self.joint_qdd,\n                coriolis_force=self.coriolis_force,\n                gravity_force=self.gravity_force,\n                joint_f=self.joint_f,\n            )\n        self.force_graph = cap_force.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.force_graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_inverse_dynamics.FastInverseDynamics.time_eval_inverse_dynamics_force",
         "number": 1,
@@ -1217,11 +1217,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "9f1873a9ea3ce3d13d0a7cff5fe4c94cdaa60c47690cd182fc63ff4216688119",
+        "version": "dcdf439c78bc40595ced719bdd4c81c4c7a035cc330c74554444f3fa7db677fb",
         "warmup_time": -1
     },
     "simulation.bench_inverse_dynamics.FastInverseDynamics.time_eval_inverse_dynamics_passive": {
-        "code": "class _InverseDynamicsBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_eval_inverse_dynamics_passive(self):\n        for _ in range(self.NUM_EVALS):\n            wp.capture_launch(self.eval_graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        if not (wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())):\n            raise SkipNotImplemented\n    \n        self.model = create_franka_model(world_count=self.WORLD_COUNT)\n        self.state = self.model.state()\n        set_default_pose(self.model, self.state)\n    \n        self.mass_matrix = wp.empty(\n            (\n                self.model.articulation_count,\n                self.model.max_dofs_per_articulation,\n                self.model.max_dofs_per_articulation,\n            ),\n            dtype=wp.float32,\n            device=self.model.device,\n        )\n        self.gravity_force = wp.empty_like(self.state.joint_qd)\n        self.coriolis_force = wp.empty_like(self.state.joint_qd)\n        self.joint_f = wp.zeros_like(self.state.joint_qd)\n    \n        # Capture one full M(q) + g(q) + C(q, q_dot)*q_dot evaluation into a\n        # CUDA graph so the timed inner loop is just graph replays.\n        with wp.ScopedCapture() as cap:\n            newton.eval_inverse_dynamics_passive(\n                self.model,\n                self.state,\n                mass_matrix=self.mass_matrix,\n                gravity_force=self.gravity_force,\n                coriolis_force=self.coriolis_force,\n            )\n        self.eval_graph = cap.graph\n    \n        # Populate the passive terms so eval_inverse_dynamics_force\n        # has a valid M(q) / g(q) / C(q, q_dot)*q_dot to consume. The capture\n        # above only records the launches; it does not execute them.\n        wp.capture_launch(self.eval_graph)\n    \n        # joint_qdd input for eval_inverse_dynamics_force. Any finite values are\n        # fine; use a tiled ramp matching set_default_pose's joint_qd pattern.\n        n_dofs = self.model.joint_dof_count\n        dofs_per_world = n_dofs // max(self.model.world_count, 1)\n        joint_qdd_per_world = np.linspace(-0.1, 0.1, dofs_per_world, dtype=np.float32)\n        self.joint_qdd = wp.array(\n            np.tile(joint_qdd_per_world, max(self.model.world_count, 1)),\n            dtype=wp.float32,\n            device=self.model.device,\n        )\n    \n        # Capture eval_inverse_dynamics_force into a second graph so the\n        # force-only inner loop is purely replays.\n        with wp.ScopedCapture() as cap_force:\n            newton.eval_inverse_dynamics_force(\n                self.model,\n                self.state,\n                mass_matrix=self.mass_matrix,\n                joint_qdd=self.joint_qdd,\n                coriolis_force=self.coriolis_force,\n                gravity_force=self.gravity_force,\n                joint_f=self.joint_f,\n            )\n        self.force_graph = cap_force.graph",
+        "code": "class _InverseDynamicsBenchmark:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_eval_inverse_dynamics_passive(self):\n        for _ in range(self.NUM_EVALS):\n            wp.capture_launch(self.eval_graph)\n        wp.synchronize_device()\n\n    def setup(self):\n        if not (wp.get_device().is_cuda and wp.is_mempool_enabled(wp.get_device())):\n            raise SkipNotImplemented\n    \n        self.model = create_franka_model(world_count=self.WORLD_COUNT)\n        self.state = self.model.state()\n        set_default_pose(self.model, self.state)\n    \n        self.mass_matrix = wp.empty(\n            (\n                self.model.articulation_count,\n                self.model.max_dofs_per_articulation,\n                self.model.max_dofs_per_articulation,\n            ),\n            dtype=wp.float32,\n            device=self.model.device,\n        )\n        self.gravity_force = wp.empty_like(self.state.joint_qd)\n        self.coriolis_force = wp.empty_like(self.state.joint_qd)\n        self.joint_f = wp.zeros_like(self.state.joint_qd)\n    \n        # Capture one full M(q) + g(q) + C(q, q_dot)*q_dot evaluation into a\n        # CUDA graph so the timed inner loop is just graph replays.\n        with wp.ScopedCapture() as cap:\n            newton.eval_inverse_dynamics_passive(\n                self.model,\n                self.state,\n                mass_matrix=self.mass_matrix,\n                gravity_force=self.gravity_force,\n                coriolis_force=self.coriolis_force,\n            )\n        self.eval_graph = cap.graph\n    \n        # Populate the passive terms so eval_inverse_dynamics_force\n        # has a valid M(q) / g(q) / C(q, q_dot)*q_dot to consume. The capture\n        # above only records the launches; it does not execute them.\n        wp.capture_launch(self.eval_graph)\n    \n        # joint_qdd input for eval_inverse_dynamics_force. Any finite values are\n        # fine; use a tiled ramp matching set_default_pose's joint_qd pattern.\n        n_dofs = self.model.joint_dof_count\n        dofs_per_world = n_dofs // max(self.model.world_count, 1)\n        joint_qdd_per_world = np.linspace(-0.1, 0.1, dofs_per_world, dtype=np.float32)\n        self.joint_qdd = wp.array(\n            np.tile(joint_qdd_per_world, max(self.model.world_count, 1)),\n            dtype=wp.float32,\n            device=self.model.device,\n        )\n    \n        # Capture eval_inverse_dynamics_force into a second graph so the\n        # force-only inner loop is purely replays.\n        with wp.ScopedCapture() as cap_force:\n            newton.eval_inverse_dynamics_force(\n                self.model,\n                self.state,\n                mass_matrix=self.mass_matrix,\n                joint_qdd=self.joint_qdd,\n                coriolis_force=self.coriolis_force,\n                gravity_force=self.gravity_force,\n                joint_f=self.joint_f,\n            )\n        self.force_graph = cap_force.graph\n        # Keep one-time device work out of the samples.\n        wp.capture_launch(self.force_graph)\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_inverse_dynamics.FastInverseDynamics.time_eval_inverse_dynamics_passive",
         "number": 1,
@@ -1232,7 +1232,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "f30af9c4867af17886ff758d055b4a5325385e407a8a2465b1d577e8e0ca47c7",
+        "version": "8d014940dec5f5d38b7016dd8b8b863981045e7559c909a4c25249603dedb297",
         "warmup_time": -1
     },
     "simulation.bench_kamino.FastDRLegs.time_simulate": {
@@ -2442,7 +2442,7 @@
         "version": "3245e6ff25929dec5451ae9c766fb854562b43fc4f84bd1003c2bb1001550a25"
     },
     "simulation.bench_quadruped_xpbd.FastExampleQuadrupedXPBD.time_simulate": {
-        "code": "class FastExampleQuadrupedXPBD:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 1000\n        self.example = _create_example(self.num_frames, world_count=200)",
+        "code": "class FastExampleQuadrupedXPBD:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 1000\n        self.example = _create_example(self.num_frames, world_count=200)\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_quadruped_xpbd.FastExampleQuadrupedXPBD.time_simulate",
         "number": 1,
@@ -2453,7 +2453,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "a6f219d8eb15875bdebd417e35d547a0c058bc1a75b0f9b2a919cab36c033b22",
+        "version": "fb8395b6acbf42c477b231ca67cd5fd705ab5b75b133068213052a560ceb2d87",
         "warmup_time": -1
     },
     "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_mean_world_step_time": {
@@ -2461,7 +2461,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
         "type": "track",
         "unit": "ms/world-step",
         "version": "401e11476f9eb69ef2353591210ab0b988cf0ca552b6c22f8ebea6d091d04fdf"
@@ -2471,7 +2471,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
         "type": "track",
         "unit": "ms/frame",
         "version": "333d04102bf8250627325af7a1b4a551d8e07a552b006d91b5342d91be18d577"
@@ -2481,7 +2481,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
         "type": "track",
         "unit": "x",
         "version": "7240735f4ef325e89ebdaef5a68d02ee2383a774f1dfdb86e4239d6519c0c0a2"
@@ -2491,7 +2491,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
         "type": "track",
         "unit": "s",
         "version": "235426366a7f706a3b9e889c5c183b1f9485d6525f30633b82ee28c98b4de5d1"
@@ -2501,7 +2501,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "aa3faf5a010d625b78a4f3ccc51be202c81e738620484cb4f85501894ef94375"
@@ -2511,7 +2511,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
         "type": "track",
         "unit": "world-steps/s",
         "version": "b102b1c4013859d50eb926bc98e19cc1c59ac71dd6c0c2566e016c2e919e5674"
@@ -2521,7 +2521,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:56",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
         "type": "track",
         "unit": "MiB",
         "version": "d4d248a76866c8539e82ab296b14546e070a817081be07f954e6a6b24b6f6ca1"
@@ -2577,7 +2577,7 @@
         "warmup_time": 0
     },
     "simulation.bench_selection.FastExampleSelectionCartpoleMuJoCo.time_simulate": {
-        "code": "class FastExampleSelectionCartpoleMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 200\n        if hasattr(newton.examples, \"default_args\") and hasattr(Example, \"create_parser\"):\n            args = newton.examples.default_args(Example.create_parser())\n            self.example = Example(newton.viewer.ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = Example(\n                viewer=newton.viewer.ViewerNull(num_frames=self.num_frames), world_count=16, verbose=False\n            )",
+        "code": "class FastExampleSelectionCartpoleMuJoCo:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self):\n        for _ in range(self.num_frames):\n            self.example.step()\n        wp.synchronize_device()\n\n    def setup(self):\n        self.num_frames = 200\n        if hasattr(newton.examples, \"default_args\") and hasattr(Example, \"create_parser\"):\n            args = newton.examples.default_args(Example.create_parser())\n            self.example = Example(newton.viewer.ViewerNull(num_frames=self.num_frames), args)\n        else:\n            self.example = Example(\n                viewer=newton.viewer.ViewerNull(num_frames=self.num_frames), world_count=16, verbose=False\n            )\n        # Keep one-time device work out of the samples.\n        self.example.step()\n        wp.synchronize_device()",
         "min_run_count": 2,
         "name": "simulation.bench_selection.FastExampleSelectionCartpoleMuJoCo.time_simulate",
         "number": 1,
@@ -2588,7 +2588,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "1d5ae94d0fbd9942b54483081a9ad25b2e28122d1c6749b38c297816aa125377",
+        "version": "bfb2015ef0c5abf120ddf02ea80b53906aa46d03bfa4c397150c08e4f10ea299",
         "warmup_time": -1
     },
     "simulation.bench_sensor_camera.FastSensorCamera.time_render_color_depth": {
@@ -3566,7 +3566,7 @@
         "version": "ac913ab05325417a3e2a18b663e236b3931e6e5641387426e829d1166891cf00"
     },
     "simulation.bench_viewer.FastViewerGL.time_rendering_frame": {
-        "code": "class FastViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_rendering_frame(self, robot, world_count):\n        # Rendering one frame\n        self.renderer.begin_frame(0.0)\n        self.renderer.log_state(self._state)\n        self.renderer.end_frame()\n        wp.synchronize_device()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()\n        self._state = self._model.state()\n    \n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)",
+        "code": "class FastViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_rendering_frame(self, robot, world_count):\n        # Rendering one frame\n        self.renderer.begin_frame(0.0)\n        self.renderer.log_state(self._state)\n        self.renderer.end_frame()\n        wp.synchronize_device()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()\n        self._state = self._model.state()\n    \n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)\n        # Render once so the timed frame is a steady one.\n        self.time_rendering_frame(robot, world_count)",
         "min_run_count": 1,
         "name": "simulation.bench_viewer.FastViewerGL.time_rendering_frame",
         "number": 1,
@@ -3587,11 +3587,11 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "dc458e762bf26467d1e2af3f425b70413cb7675f9a0d646c652bad3d5bf4a670",
+        "version": "84aba9526dafeeb3957a88423d176832f81bd390d63736cbd3a2e7862f7f6373",
         "warmup_time": -1
     },
     "simulation.bench_viewer.KpiViewerGL.time_rendering_frame": {
-        "code": "class KpiViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_rendering_frame(self, robot, world_count):\n        # Rendering one frame\n        self.renderer.begin_frame(0.0)\n        self.renderer.log_state(self._state)\n        self.renderer.end_frame()\n        wp.synchronize_device()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()\n        self._state = self._model.state()\n    \n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)",
+        "code": "class KpiViewerGL:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_rendering_frame(self, robot, world_count):\n        # Rendering one frame\n        self.renderer.begin_frame(0.0)\n        self.renderer.log_state(self._state)\n        self.renderer.end_frame()\n        wp.synchronize_device()\n\n    def setup(self, robot, world_count):\n        wp.init()\n        builder = Example.create_model_builder(robot, world_count, randomize=True, seed=123)\n    \n        # finalize model\n        self._model = builder.finalize()\n        self._state = self._model.state()\n    \n        # Setting up the renderer\n        self.renderer = ViewerGL(headless=True)\n        self.renderer.set_model(self._model)\n        # Render once so the timed frame is a steady one.\n        self.time_rendering_frame(robot, world_count)",
         "min_run_count": 1,
         "name": "simulation.bench_viewer.KpiViewerGL.time_rendering_frame",
         "number": 1,
@@ -3612,7 +3612,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "c25efe60406065ad84bde4908e8f914997f231cfbc4213475b4da9d20809bd87",
+        "version": "7b2cc90c100b1d0e89f965e8ab0387d15e57e96f3f2144d0a9511dffcea3f26a",
         "warmup_time": -1
     },
     "version": 2
