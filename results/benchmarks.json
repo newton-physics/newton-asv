@@ -78,7 +78,7 @@
         "warmup_time": 0
     },
     "setup.bench_collision.CollisionPipelineSetup.time_construct": {
-        "code": "class CollisionPipelineSetup:\n    def time_construct(self, world_count, broad_phase):\n        self.pipeline = newton.CollisionPipeline(self.model, broad_phase=broad_phase)\n        wp.synchronize_device(self.model.device)\n\n    def setup(self, world_count, broad_phase):\n        world = newton.ModelBuilder()\n        for i in range(16):\n            body = world.add_body(xform=wp.transform((i * 0.4, 0.0, 0.5), wp.quat_identity()))\n            if i % 2:\n                world.add_shape_cylinder(body, radius=0.15, half_height=0.3)\n            else:\n                world.add_shape_box(body, hx=0.15, hy=0.15, hz=0.3)\n        builder = newton.ModelBuilder()\n        builder.replicate(world, world_count)\n        builder.add_ground_plane()\n        self.model = builder.finalize()\n        self.pipeline = newton.CollisionPipeline(self.model, broad_phase=broad_phase)\n        wp.synchronize_device(self.model.device)",
+        "code": "class CollisionPipelineSetup:\n    def time_construct(self, world_count, broad_phase):\n        self.pipeline = newton.CollisionPipeline(self.model, broad_phase=broad_phase)\n        wp.synchronize_device(self.model.device)\n\n    def setup(self, world_count, broad_phase):\n        world = newton.ModelBuilder()\n        for i in range(16):\n            body = world.add_body(xform=wp.transform((i * 0.4, 0.0, 0.5), wp.quat_identity()))\n            if i % 2:\n                world.add_shape_cylinder(body, radius=0.15, half_height=0.3)\n            else:\n                world.add_shape_box(body, hx=0.15, hy=0.15, hz=0.3)\n        builder = newton.ModelBuilder()\n        builder.replicate(world, world_count)\n        builder.add_ground_plane()\n        self.model = builder.finalize()\n        # Warm up without keeping the pipeline, so the timed call does not release it.\n        newton.CollisionPipeline(self.model, broad_phase=broad_phase)\n        gc.collect()\n        wp.synchronize_device(self.model.device)",
         "min_run_count": 2,
         "name": "setup.bench_collision.CollisionPipelineSetup.time_construct",
         "number": 1,
@@ -103,7 +103,7 @@
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
-        "version": "16ee480fa1b14f594369b50a77dce806290ced8db574f3f26acb1367f55672c8",
+        "version": "bab5baee7a9db4679b7e27d1713fd5465341ec6446e963bb0c35780b5d3005c1",
         "warmup_time": -1
     },
     "setup.bench_model.FastInitializeModel.peakmem_initialize_model_cpu": {
@@ -689,7 +689,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:77",
+        "setup_cache_key": "simulation.bench_anymal:58",
         "type": "track",
         "unit": "ms/world-step",
         "version": "97d7912a80b337ca7eceb85f53efc976b9158c2758a7c2ae8bbacf5e19107df5"
@@ -699,7 +699,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:77",
+        "setup_cache_key": "simulation.bench_anymal:58",
         "type": "track",
         "unit": "ms/frame",
         "version": "eaff561a3df5eaac0e75ba4d183b6fc37f9d4041c443b0c5c25127e13d442c88"
@@ -709,7 +709,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:77",
+        "setup_cache_key": "simulation.bench_anymal:58",
         "type": "track",
         "unit": "x",
         "version": "6a2947e1b751cb015d77a69404108b7dd6e72ceab4a1df60f9e84702fef9d01a"
@@ -719,7 +719,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:77",
+        "setup_cache_key": "simulation.bench_anymal:58",
         "type": "track",
         "unit": "s",
         "version": "abb58c1e28ce239245c34eac573298468a0df64665a3c9d5b94a78eb9bc9d44a"
@@ -729,7 +729,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:77",
+        "setup_cache_key": "simulation.bench_anymal:58",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "37de5baa51200191461a25b7d78af31bec734886173569d7e6ab4931e07b483b"
@@ -739,7 +739,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:77",
+        "setup_cache_key": "simulation.bench_anymal:58",
         "type": "track",
         "unit": "world-steps/s",
         "version": "c5c9a36ed31446a5c2ed927fff73783cf5a539eeb383593c8a71f7426b1c7a10"
@@ -749,7 +749,7 @@
         "name": "simulation.bench_anymal.FastMetricsExampleAnymalPretrained.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_anymal:77",
+        "setup_cache_key": "simulation.bench_anymal:58",
         "type": "track",
         "unit": "MiB",
         "version": "a647e19c3cac4bc80af10519045c328d4b4fc3f8367bf4e01615cd146342ee99"
@@ -1255,7 +1255,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:182",
+        "setup_cache_key": "simulation.bench_kamino:131",
         "type": "track",
         "unit": "ms/world-step",
         "version": "2"
@@ -1265,7 +1265,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:182",
+        "setup_cache_key": "simulation.bench_kamino:131",
         "type": "track",
         "unit": "ms/frame",
         "version": "2"
@@ -1275,7 +1275,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:182",
+        "setup_cache_key": "simulation.bench_kamino:131",
         "type": "track",
         "unit": "x",
         "version": "2"
@@ -1285,7 +1285,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:182",
+        "setup_cache_key": "simulation.bench_kamino:131",
         "type": "track",
         "unit": "s",
         "version": "2"
@@ -1295,7 +1295,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:182",
+        "setup_cache_key": "simulation.bench_kamino:131",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "2"
@@ -1305,7 +1305,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:182",
+        "setup_cache_key": "simulation.bench_kamino:131",
         "type": "track",
         "unit": "world-steps/s",
         "version": "2"
@@ -1315,7 +1315,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:182",
+        "setup_cache_key": "simulation.bench_kamino:131",
         "type": "track",
         "unit": "MiB",
         "version": "2"
@@ -1377,7 +1377,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:199",
+        "setup_cache_key": "simulation.bench_kamino:148",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "ms/frame",
@@ -1394,7 +1394,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:199",
+        "setup_cache_key": "simulation.bench_kamino:148",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "x",
@@ -1411,7 +1411,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:199",
+        "setup_cache_key": "simulation.bench_kamino:148",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "s",
@@ -1428,7 +1428,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:199",
+        "setup_cache_key": "simulation.bench_kamino:148",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1445,7 +1445,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:199",
+        "setup_cache_key": "simulation.bench_kamino:148",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "ms/world-step",
@@ -1462,7 +1462,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:199",
+        "setup_cache_key": "simulation.bench_kamino:148",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "world-steps/s",
@@ -1479,7 +1479,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:199",
+        "setup_cache_key": "simulation.bench_kamino:148",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "MiB",
@@ -2461,7 +2461,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:39",
         "type": "track",
         "unit": "ms/world-step",
         "version": "401e11476f9eb69ef2353591210ab0b988cf0ca552b6c22f8ebea6d091d04fdf"
@@ -2471,7 +2471,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:39",
         "type": "track",
         "unit": "ms/frame",
         "version": "333d04102bf8250627325af7a1b4a551d8e07a552b006d91b5342d91be18d577"
@@ -2481,7 +2481,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:39",
         "type": "track",
         "unit": "x",
         "version": "7240735f4ef325e89ebdaef5a68d02ee2383a774f1dfdb86e4239d6519c0c0a2"
@@ -2491,7 +2491,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:39",
         "type": "track",
         "unit": "s",
         "version": "235426366a7f706a3b9e889c5c183b1f9485d6525f30633b82ee28c98b4de5d1"
@@ -2501,7 +2501,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:39",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "aa3faf5a010d625b78a4f3ccc51be202c81e738620484cb4f85501894ef94375"
@@ -2511,7 +2511,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:39",
         "type": "track",
         "unit": "world-steps/s",
         "version": "b102b1c4013859d50eb926bc98e19cc1c59ac71dd6c0c2566e016c2e919e5674"
@@ -2521,7 +2521,7 @@
         "name": "simulation.bench_quadruped_xpbd.FastMetricsExampleQuadrupedXPBD.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_quadruped_xpbd:59",
+        "setup_cache_key": "simulation.bench_quadruped_xpbd:39",
         "type": "track",
         "unit": "MiB",
         "version": "d4d248a76866c8539e82ab296b14546e070a817081be07f954e6a6b24b6f6ca1"
