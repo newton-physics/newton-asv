@@ -1255,7 +1255,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_mean_world_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:131",
+        "setup_cache_key": "simulation.bench_kamino:136",
         "type": "track",
         "unit": "ms/world-step",
         "version": "2"
@@ -1265,7 +1265,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_p95_step_time",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:131",
+        "setup_cache_key": "simulation.bench_kamino:136",
         "type": "track",
         "unit": "ms/frame",
         "version": "2"
@@ -1275,7 +1275,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_real_time_factor",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:131",
+        "setup_cache_key": "simulation.bench_kamino:136",
         "type": "track",
         "unit": "x",
         "version": "2"
@@ -1285,7 +1285,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_sim_dt",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:131",
+        "setup_cache_key": "simulation.bench_kamino:136",
         "type": "track",
         "unit": "s",
         "version": "2"
@@ -1295,7 +1295,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_sim_substeps",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:131",
+        "setup_cache_key": "simulation.bench_kamino:136",
         "type": "track",
         "unit": "simulation-steps/frame",
         "version": "2"
@@ -1305,7 +1305,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_simulation_steps_per_second",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:131",
+        "setup_cache_key": "simulation.bench_kamino:136",
         "type": "track",
         "unit": "world-steps/s",
         "version": "2"
@@ -1315,7 +1315,7 @@
         "name": "simulation.bench_kamino.FastMetricsDRLegs.track_steady_state_gpu_memory",
         "param_names": [],
         "params": [],
-        "setup_cache_key": "simulation.bench_kamino:131",
+        "setup_cache_key": "simulation.bench_kamino:136",
         "type": "track",
         "unit": "MiB",
         "version": "2"
@@ -1344,7 +1344,7 @@
         "warmup_time": 0
     },
     "simulation.bench_kamino.G1SCC.time_simulate": {
-        "code": "class G1SCC:\n    def time_simulate(self, world_count):\n        for _ in range(200):\n            self.example.step()\n        wp.synchronize_device(self.example.model.device)\n\n    def setup(self, world_count):\n        if wp.get_cuda_device_count() == 0:\n            raise SkipNotImplemented\n    \n        # ASV calls setup before each sample; retain the settled simulation.\n        if getattr(self, \"_world_count\", None) == world_count:\n            return\n    \n        from newton.examples.robot.example_robot_g1 import Example  # noqa: PLC0415\n        from newton.viewer import ViewerNull  # noqa: PLC0415\n    \n        args = Example.create_parser().parse_args([\"--solver\", \"kamino\", \"--world-count\", str(world_count)])\n        with wp.ScopedDevice(\"cuda:0\"):\n            self.example = Example(ViewerNull(), args)\n            for _ in range(100):\n                self.example.step()\n        wp.synchronize_device(self.example.model.device)\n        self._world_count = world_count",
+        "code": "class G1SCC:\n    def time_simulate(self, world_count):\n        \"\"\"Measure 200 consecutive frames from the warmed simulation.\"\"\"\n        for _ in range(200):\n            self.example.step()\n        wp.synchronize_device(self.example.model.device)\n\n    def setup(self, world_count):\n        \"\"\"Prepare and settle a G1 SCC simulation with a pinned LLTBRCM backend.\"\"\"\n        if wp.get_cuda_device_count() == 0:\n            raise SkipNotImplemented\n    \n        # ASV calls setup before each sample; retain the settled simulation.\n        if getattr(self, \"_world_count\", None) == world_count:\n            return\n    \n        from newton.examples.robot.example_robot_g1 import Example  # noqa: PLC0415\n        from newton.viewer import ViewerNull  # noqa: PLC0415\n    \n        args = Example.create_parser().parse_args(\n            [\"--solver\", \"kamino\", \"--bilateral-solver-type\", \"LLTBRCM\", \"--world-count\", str(world_count)]\n        )\n        with wp.ScopedDevice(\"cuda:0\"):\n            self.example = Example(ViewerNull(), args)\n            for _ in range(100):\n                self.example.step()\n        wp.synchronize_device(self.example.model.device)\n        self._world_count = world_count",
         "min_run_count": 2,
         "name": "simulation.bench_kamino.G1SCC.time_simulate",
         "number": 1,
@@ -1363,7 +1363,7 @@
         "timeout": 600,
         "type": "time",
         "unit": "seconds",
-        "version": "2",
+        "version": "3",
         "warmup_time": 0
     },
     "simulation.bench_kamino.KpiDRLegs.track_p95_step_time": {
@@ -1377,7 +1377,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:148",
+        "setup_cache_key": "simulation.bench_kamino:153",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "ms/frame",
@@ -1394,7 +1394,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:148",
+        "setup_cache_key": "simulation.bench_kamino:153",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "x",
@@ -1411,7 +1411,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:148",
+        "setup_cache_key": "simulation.bench_kamino:153",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "s",
@@ -1428,7 +1428,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:148",
+        "setup_cache_key": "simulation.bench_kamino:153",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "simulation-steps/frame",
@@ -1445,7 +1445,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:148",
+        "setup_cache_key": "simulation.bench_kamino:153",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "ms/world-step",
@@ -1462,7 +1462,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:148",
+        "setup_cache_key": "simulation.bench_kamino:153",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "world-steps/s",
@@ -1479,7 +1479,7 @@
                 "4096"
             ]
         ],
-        "setup_cache_key": "simulation.bench_kamino:148",
+        "setup_cache_key": "simulation.bench_kamino:153",
         "setup_cache_timeout": 1200,
         "type": "track",
         "unit": "MiB",
