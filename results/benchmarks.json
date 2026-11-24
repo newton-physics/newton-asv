@@ -3395,6 +3395,114 @@
         "version": "4ef6f8207296221ae8efd404ddc4d6f17baecc740f662203086676539db22aa6",
         "warmup_time": -1
     },
+    "simulation.bench_steel.SteelContactTorsionPreparation.time_prepare": {
+        "code": "class SteelContactTorsionPreparation:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_prepare(self, contacts, patches):\n        wp.capture_launch(self.graph)\n        self._preparer.validate()\n\n    def setup(self, contacts, patches):\n        _require_cuda_graphs()\n        if getattr(self, \"_key\", None) != (contacts, patches):\n            from newton._src.solvers.steel.contact_torsion_device import DeviceTorsionPreparation  # noqa: PLC0415\n            from newton.tests.steel._fixtures import synthetic_fixture  # noqa: PLC0415\n    \n            solver, *self._inputs = synthetic_fixture(worlds=1, witnesses=contacts, patches=patches, device=\"cuda:0\")\n            names = (\n                \"_constraint_count\",\n                \"_slot_counter\",\n                \"_row_type\",\n                \"_row_parent\",\n                \"_row_mu\",\n                \"_phi\",\n                \"_target_velocity\",\n                \"_row_rebound_velocity\",\n                \"_contact_torsion_group\",\n            )\n            targets = [getattr(solver, name) for name in names] + list(solver._J_by_size.values())\n            self._saved = [(target, wp.clone(target)) for target in targets]\n            self._preparer = DeviceTorsionPreparation(solver, deferred_errors=True)\n            self._restore()\n            self._preparer.prepare(*self._inputs)\n            self._expected = [target.numpy() for target, _ in self._saved]\n            self._restore()\n            with wp.ScopedCapture(device=\"cuda:0\") as capture:\n                self._preparer.prepare(*self._inputs)\n            self.graph = capture.graph\n            wp.capture_launch(self.graph)\n            self._key = (contacts, patches)\n        self._restore()\n        wp.synchronize_device(\"cuda:0\")",
+        "min_run_count": 2,
+        "name": "simulation.bench_steel.SteelContactTorsionPreparation.time_prepare",
+        "number": 1,
+        "param_names": [
+            "contacts",
+            "patches"
+        ],
+        "params": [
+            [
+                "64",
+                "1024"
+            ],
+            [
+                "True",
+                "False"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "4e824fb80e1c3c56271b8ead9c0e5562f08f3818e3fed14b504b2bc82bffacbb",
+        "warmup_time": 0
+    },
+    "simulation.bench_steel.SteelFrictionPair.time_pair_update": {
+        "code": "class SteelFrictionPair:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_pair_update(self, case):\n        wp.capture_launch(self.graph)\n        wp.synchronize_device(\"cuda:0\")\n\n    def setup(self, case):\n        _require_cuda_graphs()\n        rng = np.random.default_rng(102)\n        n = self.pairs\n        angle = rng.uniform(-np.pi, np.pi, n)\n        cosine, sine = np.cos(angle), np.sin(angle)\n        eigenvalue = rng.uniform(1.0, 8.0, n)\n        blocks = np.column_stack(\n            (cosine**2 + eigenvalue * sine**2, (1 - eigenvalue) * cosine * sine, sine**2 + eigenvalue * cosine**2)\n        ).astype(np.float32)\n        old = rng.uniform(-0.15, 0.15, (n, 2)).astype(np.float32)\n        direction = rng.uniform(-np.pi, np.pi, n)\n        sliding = np.full(n, case == \"sliding\") if case != \"mixed\" else rng.random(n) < 0.5\n        target = np.column_stack((np.cos(direction), np.sin(direction))) * np.where(sliding, 2.0, 0.25)[:, None]\n        self.sliding, self.target = sliding, target\n        delta = old - target\n        residuals = np.column_stack(\n            (\n                blocks[:, 0] * delta[:, 0] + blocks[:, 1] * delta[:, 1],\n                blocks[:, 1] * delta[:, 0] + blocks[:, 2] * delta[:, 1],\n            )\n        ).astype(np.float32)\n        with wp.ScopedDevice(\"cuda:0\"):\n            # The graph reads these by address, so they live as long as it does.\n            self.inputs = [\n                wp.array(blocks, dtype=wp.vec3),\n                wp.array(residuals, dtype=wp.vec2),\n                wp.array(old, dtype=wp.vec2),\n            ]\n            self.out = wp.empty(2 * n, dtype=float)\n            wp.launch(_friction_pair_update, dim=n, inputs=self.inputs, outputs=[self.out])\n            with wp.ScopedCapture() as capture:\n                for _ in range(self.launches):\n                    wp.launch(_friction_pair_update, dim=n, inputs=self.inputs, outputs=[self.out])\n            self.graph = capture.graph\n            wp.capture_launch(self.graph)\n            wp.synchronize_device()",
+        "min_run_count": 2,
+        "name": "simulation.bench_steel.SteelFrictionPair.time_pair_update",
+        "number": 1,
+        "param_names": [
+            "case"
+        ],
+        "params": [
+            [
+                "'sticking'",
+                "'sliding'",
+                "'mixed'"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 300,
+        "type": "time",
+        "unit": "seconds",
+        "version": "bd53a12af025b5c2e1fa87249cc4e5de71a8f60232ca5cdb2534c64a821e45f8",
+        "warmup_time": 0
+    },
+    "simulation.bench_steel.SteelFrictionPatchBuild.time_build": {
+        "code": "class SteelFrictionPatchBuild:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_build(self, tiles, world_count):\n        wp.capture_launch(self.graph)\n        wp.synchronize_device(self.scene.model.device)\n\n    def setup(self, tiles, world_count):\n        _require_cuda_graphs()\n        if getattr(self, \"_key\", None) == (tiles, world_count):\n            return\n        scene = _TiledBodyScene(world_count, tiles)\n        for _ in range(10):\n            scene.step_pair()\n        solver = scene.solver\n        patches = solver._friction_patches\n    \n        def build():\n            patches.build(\n                scene.model,\n                scene.state_0,\n                scene.contacts,\n                shape_material_mu=solver._shape_mu,\n                contact_gap_limit=solver._contact_gap_limit,\n                friction_gap_limit=solver._friction_gap,\n                dt=scene.dt,\n            )\n    \n        build()\n        with wp.ScopedCapture(device=scene.model.device) as capture:\n            for _ in range(self.launches):\n                build()\n        self.graph = capture.graph\n        self.scene = scene\n        wp.capture_launch(self.graph)\n        wp.synchronize_device(scene.model.device)\n        self._key = (tiles, world_count)",
+        "min_run_count": 2,
+        "name": "simulation.bench_steel.SteelFrictionPatchBuild.time_build",
+        "number": 1,
+        "param_names": [
+            "tiles",
+            "world_count"
+        ],
+        "params": [
+            [
+                "4",
+                "13"
+            ],
+            [
+                "1",
+                "64"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "59dffa5367a2f1a04cbca55a563dd5f5c8bd278bc5e128faa972c89c9fd296a7",
+        "warmup_time": 0
+    },
+    "simulation.bench_steel.SteelFrictionPatches.time_simulate": {
+        "code": "class SteelFrictionPatches:\n    @skip_benchmark_if(wp.get_cuda_device_count() == 0)\n    def time_simulate(self, tiles, friction):\n        for _ in range(self.steps // 2):\n            wp.capture_launch(self.graph)\n        wp.synchronize_device(self.scene.model.device)\n\n    def setup(self, tiles, friction):\n        _require_cuda_graphs()\n        # ASV calls setup before each sample; keep the warmed scene and its graph.\n        if getattr(self, \"_key\", None) == (tiles, friction):\n            return\n        self.scene = _TiledBodyScene(self.world_count, tiles, None if friction == \"patch\" else 0.0)\n        for _ in range(10):\n            self.scene.step_pair()\n        with wp.ScopedCapture(device=self.scene.model.device) as capture:\n            self.scene.step_pair()\n        self.graph = capture.graph\n        # The first replay instantiates the graph; keep it out of the samples.\n        wp.capture_launch(self.graph)\n        wp.synchronize_device(self.scene.model.device)\n        self._key = (tiles, friction)",
+        "min_run_count": 2,
+        "name": "simulation.bench_steel.SteelFrictionPatches.time_simulate",
+        "number": 1,
+        "param_names": [
+            "tiles",
+            "friction"
+        ],
+        "params": [
+            [
+                "1",
+                "4"
+            ],
+            [
+                "'patch'",
+                "'point'"
+            ]
+        ],
+        "repeat": 5,
+        "rounds": 2,
+        "sample_time": 0.01,
+        "timeout": 600,
+        "type": "time",
+        "unit": "seconds",
+        "version": "067aca56710a7b9ea7d31d353e02d5fe02190cbfb2c47f60f07f438fb8da38b2",
+        "warmup_time": 0
+    },
     "simulation.bench_teleop_mujoco.FastTeleopMuJoCo.time_teleop_loop": {
         "code": "class _TeleopMuJoCoBenchmark:\n    def time_teleop_loop(self, mode: str) -> None:\n        self._step_frames(self.num_frames)\n\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
         "min_run_count": 2,
