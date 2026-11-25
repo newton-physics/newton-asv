@@ -3627,7 +3627,7 @@
         "timeout": 600,
         "type": "track",
         "unit": "%",
-        "version": "5e3fb2bc271305be53da0d4744332109b9db46e02215dff349e05f5cdabaa386"
+        "version": "2"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_loop_time_cv_pct": {
         "code": "class TeleopMuJoCo:\n    def track_loop_time_cv_pct(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.coefficient_of_variation_pct(\"local_loop_ms\")\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
@@ -3684,7 +3684,7 @@
         "timeout": 600,
         "type": "track",
         "unit": "m",
-        "version": "0f9b9b3209a522dd15fb31804edb9aba8d9e691d45a2af045b4a6c85f0d0d754"
+        "version": "2"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_mean_target_rotation_error_rad": {
         "code": "class TeleopMuJoCo:\n    def track_mean_target_rotation_error_rad(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        return self.loop.stats.summary(\"target_rotation_error_rad\")[0]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
@@ -3703,7 +3703,7 @@
         "timeout": 600,
         "type": "track",
         "unit": "rad",
-        "version": "4db9658bc8ab2e676e669c9080d341e865aa4c5bb4ca4b621941dca254b22e22"
+        "version": "2"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_object_displacement_m": {
         "code": "class TeleopMuJoCo:\n    def track_object_displacement_m(self, mode: str) -> float:\n        self._measure_frames(collect_workload_state=True)\n        self._validate_workload()\n        return self.loop.stats.summary(\"object_displacement_m\")[2]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
@@ -3722,7 +3722,7 @@
         "timeout": 600,
         "type": "track",
         "unit": "m",
-        "version": "373d1080550cd8fb26952f23f26081615501ced1d2882c6ffe3c50cfc11551fd"
+        "version": "2"
     },
     "simulation.bench_teleop_mujoco.TeleopMuJoCo.track_p95_loop_ms": {
         "code": "class TeleopMuJoCo:\n    def track_p95_loop_ms(self, mode: str) -> float:\n        self._measure_frames()\n        return self.loop.stats.summary(\"local_loop_ms\")[1]\n\nclass _TeleopMuJoCoBenchmark:\n    def setup(self, mode: str) -> None:\n        self.mode = _TELEOP_MODES[mode]\n        _skip_unavailable_mode(self.mode)\n        with wp.ScopedDevice(self.mode.device):\n            self.loop = _TeleopLoop(self.mode, self.num_frames)\n    \n        self._step_frames(self.warmup_frames)\n        self.loop.clear_metrics()",
