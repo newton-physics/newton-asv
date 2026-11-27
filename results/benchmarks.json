@@ -176,8 +176,8 @@
                 "256"
             ]
         ],
-        "repeat": 3,
-        "rounds": 1,
+        "repeat": 2,
+        "rounds": 2,
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
@@ -202,8 +202,8 @@
                 "256"
             ]
         ],
-        "repeat": 3,
-        "rounds": 1,
+        "repeat": 2,
+        "rounds": 2,
         "sample_time": 0.01,
         "type": "time",
         "unit": "seconds",
@@ -222,7 +222,7 @@
                 "'replicate'"
             ]
         ],
-        "setup_cache_key": "setup.bench_model:417",
+        "setup_cache_key": "setup.bench_model:420",
         "type": "peakmemory",
         "unit": "bytes",
         "version": "32cd0d49b0809c8cdd061d41caaf61b3ee7e98b4d8f154877c14f6ae15ff6eae"
@@ -244,7 +244,7 @@
         "repeat": 3,
         "rounds": 1,
         "sample_time": 0.01,
-        "setup_cache_key": "setup.bench_model:417",
+        "setup_cache_key": "setup.bench_model:420",
         "type": "time",
         "unit": "seconds",
         "version": "133b4b98a0a1cb2315560d73de2261d78f244cac33e38eacb05b758cb711f5c8",
